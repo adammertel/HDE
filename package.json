@@ -1,0 +1,43 @@
+{
+  "name": "hde",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "restart-server": "http-server",
+    "onchange-src": "onchange src/**/*.* -- npm run restart-server",
+    "live-server": "reload -b -e jsx,js,css",
+    "start": "parallelshell \"live-server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adammertel/hde.git"
+  },
+  "author": "Adam Mertel, Jan Škvrňák",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adammertel/hde/issues"
+  },
+  "homepage": "https://github.com/adammertel/hde#readme",
+  "jspm": {
+    "dependencies": {
+      "d3": "npm:d3@^3.5.17",
+      "jquery": "github:components/jquery@^2.1.4",
+      "jsx": "github:floatdrop/plugin-jsx@^1.1.0",
+      "lodash": "npm:lodash@^3.10.0",
+      "react": "npm:react@^0.14.0-beta3",
+      "react-dom": "npm:react-dom@^0.14.0-beta3"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.1.13",
+      "babel-runtime": "npm:babel-runtime@^5.1.13",
+      "core-js": "npm:core-js@^0.9.4"
+    }
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "livereload": "^0.4.1",
+    "react-hot-loader": "^1.3.0"
+  }
+}
