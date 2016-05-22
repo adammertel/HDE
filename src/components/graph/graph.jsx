@@ -8,10 +8,10 @@ class Graph extends React.Component {
       'height': this.props.height,
     }
   }
-  
+
   render() {
     return (
-      <div className="component-graph" style={this.style()}>
+      <div className="component component-graph" style={this.style()}>
         GRAPH
       </div>
     );

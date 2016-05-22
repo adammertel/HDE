@@ -13,7 +13,7 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      components: [
+      'components': [
         {
           id: 1,
           type: 'GRAPH',
@@ -21,11 +21,19 @@ class App extends React.Component {
           height: 500,
           x: 200,
           y: 300
+        },
+        {
+          id: 2,
+          type: 'MAP',
+          width: 500,
+          height: 500,
+          x: 600,
+          y: 300
         }
       ],
-      window: {
-        width: 0,
-        height: 0
+      'window': {
+        width: window.innerWidth,
+        height: window.innerHeight
       }
     }
   }
@@ -52,6 +60,16 @@ class App extends React.Component {
     }
   }
 
+  resizeComponent (componentId, dX, dY) {
+    let component = this.findComponent(componentId)
+
+    if (component){
+      component.width += dX
+      component.height += dY
+      this.setState({'components': this.state.components})
+    }
+  }
+
   render () {
     let that = this
     return (
@@ -59,16 +77,19 @@ class App extends React.Component {
         <Menu />
         {
           this.state.components.map(function(component){
+            let componentType = Components[component.type]
+
             let componentState = {
               width: component.width,
               height: component.height,
               x: component.x,
               y: component.y,
               id: component.id,
+              label: componentType.label,
               app: that
             }
 
-            let componentEl = React.createElement(Components[component.type].component)
+            let componentEl = React.createElement(componentType.component)
             let panel = React.createElement(Panel, componentState, componentEl)
             return panel;
           })

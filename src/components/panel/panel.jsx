@@ -4,40 +4,44 @@ class Panel extends React.Component {
   constructor (props) {
     super(props)
     this.dragging = false
+    this.resizing = false
   }
 
-  style() {
+  styleWrapper() {
     return {
       position: 'absolute',
       width: this.props.width,
-      height: this.props.height,
       top: this.props.y,
-      left: this.props.x,
+      left: this.props.x
     }
   }
 
-  handleMouseDown (self, e) {
+  styleBody() {
+    return {
+      height: this.props.height
+    }
+  }
+
+
+  // DRAGGING EVENTS
+  handleHeaderMouseDown (self, e) {
     self.dragging = true
     self.originDraggingX = e.pageX
     self.originDraggingY = e.pageY
   }
-
-  handleMouseUp (self, e) {
+  handleHeaderMouseUp (self, e) {
     self.dragging = false
   }
-
-  handleMouseOut (self, e) {
+  handleHeaderMouseOut (self, e) {
     if (self.dragging){
       self.dragComponent(self, e)
     }
   }
-
-  handleMouseMove (self, e) {
+  handleHeaderMouseMove (self, e) {
     if (self.dragging) {
       self.dragComponent(self, e)
     }
   }
-
   dragComponent (self, e) {
     let deltaX = e.pageX - self.originDraggingX
     let deltaY = e.pageY - self.originDraggingY
@@ -46,24 +50,55 @@ class Panel extends React.Component {
     self.originDraggingY = e.pageY
   }
 
+  // RESIZING EVENTS
+  handleResizerMouseDown (self, e) {
+    self.resizing = true
+    self.originResizingX = e.pageX
+    self.originResizingY = e.pageY
+  }
+  handleResizerMouseUp (self, e) {
+    self.resizing = false
+  }
+  handleResizerMouseOut (self, e) {
+    self.resizing = false
+  }
+  handleResizerMouseMove (self, e) {
+    if (self.resizing) {
+      console.log('resizing')
+      let deltaX = e.pageX - self.originResizingX
+      let deltaY = e.pageY - self.originResizingY
+      self.props.app.resizeComponent(self.props.id, deltaX, deltaY)
+      self.originResizingX = e.pageX
+      self.originResizingY = e.pageY
+    }
+  }
+
   render() {
     var that = this
     return (
-      <div style={this.style()}>
+      <div style={this.styleWrapper()}>
         <div
-          className="panel panel-success"
-          onMouseDown={this.handleMouseDown.bind(this, that)}
-          onMouseMove={this.handleMouseMove.bind(this, that)}
-          onMouseUp={this.handleMouseUp.bind(this, that)}
-          onMouseOut={this.handleMouseOut.bind(this, that)}
-          >
-          <div className="panel-heading">
-            <h3 className="panel-title">{this.props.x}</h3>
+          className="panel panel-success">
+          <div
+            className="panel-heading"
+            onMouseDown={this.handleHeaderMouseDown.bind(this, that)}
+            onMouseMove={this.handleHeaderMouseMove.bind(this, that)}
+            onMouseUp={this.handleHeaderMouseUp.bind(this, that)}
+            onMouseOut={this.handleHeaderMouseOut.bind(this, that)}
+            >
+            <h3 className="panel-title">{this.props.label}</h3>
           </div>
-          <div className="panel-body">
-          {
-            this.props.children
-          }
+          <div className="panel-body" style={this.styleBody()}>
+            {
+              this.props.children
+            }
+            <i
+              className="panel-resizer fa fa-expand"
+              onMouseDown={this.handleResizerMouseDown.bind(this, that)}
+              onMouseUp={this.handleResizerMouseUp.bind(this, that)}
+              onMouseOut={this.handleResizerMouseOut.bind(this, that)}
+              onMouseMove={this.handleResizerMouseMove.bind(this, that)}
+            />
           </div>
         </div>
       </div>
