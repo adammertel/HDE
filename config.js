@@ -22,169 +22,182 @@ System.config({
       "github:fezVrasta/bootstrap-material-design@0.5.9/scripts/material.js",
       "npm:jquery@2.2.4.js",
       "npm:jquery@2.2.4/dist/jquery.js",
-      "npm:react@0.14.0-beta3.js",
-      "npm:react@0.14.0-beta3/react.js",
+      "npm:react@15.1.0.js",
+      "npm:react@15.1.0/react.js",
+      "npm:react@15.1.0/lib/React.js",
       "github:jspm/nodelibs-process@0.1.2.js",
       "github:jspm/nodelibs-process@0.1.2/index.js",
-      "npm:process@0.11.3.js",
-      "npm:process@0.11.3/browser.js",
-      "npm:react@0.14.0-beta3/lib/deprecated.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/warning.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/emptyFunction.js",
-      "npm:react@0.14.0-beta3/lib/Object.assign.js",
-      "npm:react@0.14.0-beta3/lib/React.js",
-      "npm:react@0.14.0-beta3/lib/ReactIsomorphic.js",
-      "npm:react@0.14.0-beta3/lib/onlyChild.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/invariant.js",
-      "npm:react@0.14.0-beta3/lib/ReactElement.js",
-      "npm:react@0.14.0-beta3/lib/ReactCurrentOwner.js",
-      "npm:react@0.14.0-beta3/lib/ReactPropTypes.js",
-      "npm:react@0.14.0-beta3/lib/getIteratorFn.js",
-      "npm:react@0.14.0-beta3/lib/ReactPropTypeLocationNames.js",
-      "npm:react@0.14.0-beta3/lib/ReactFragment.js",
-      "npm:react@0.14.0-beta3/lib/ReactElementValidator.js",
-      "npm:react@0.14.0-beta3/lib/ReactPropTypeLocations.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/keyMirror.js",
-      "npm:react@0.14.0-beta3/lib/ReactDOMFactories.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/mapObject.js",
-      "npm:react@0.14.0-beta3/lib/ReactClass.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/keyOf.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/emptyObject.js",
-      "npm:react@0.14.0-beta3/lib/ReactNoopUpdateQueue.js",
-      "npm:react@0.14.0-beta3/lib/ReactErrorUtils.js",
-      "npm:react@0.14.0-beta3/lib/ReactComponent.js",
-      "npm:react@0.14.0-beta3/lib/ReactChildren.js",
-      "npm:react@0.14.0-beta3/lib/traverseAllChildren.js",
-      "npm:react@0.14.0-beta3/lib/ReactInstanceHandles.js",
-      "npm:react@0.14.0-beta3/lib/ReactRootIndex.js",
-      "npm:react@0.14.0-beta3/lib/PooledClass.js",
-      "npm:react@0.14.0-beta3/lib/ReactDOMServer.js",
-      "npm:react@0.14.0-beta3/lib/ReactServerRendering.js",
-      "npm:react@0.14.0-beta3/lib/instantiateReactComponent.js",
-      "npm:react@0.14.0-beta3/lib/ReactNativeComponent.js",
-      "npm:react@0.14.0-beta3/lib/ReactEmptyComponent.js",
-      "npm:react@0.14.0-beta3/lib/ReactInstanceMap.js",
-      "npm:react@0.14.0-beta3/lib/ReactCompositeComponent.js",
-      "npm:react@0.14.0-beta3/lib/shouldUpdateReactComponent.js",
-      "npm:react@0.14.0-beta3/lib/ReactUpdateQueue.js",
-      "npm:react@0.14.0-beta3/lib/ReactUpdates.js",
-      "npm:react@0.14.0-beta3/lib/Transaction.js",
-      "npm:react@0.14.0-beta3/lib/ReactReconciler.js",
-      "npm:react@0.14.0-beta3/lib/ReactRef.js",
-      "npm:react@0.14.0-beta3/lib/ReactOwner.js",
-      "npm:react@0.14.0-beta3/lib/ReactPerf.js",
-      "npm:react@0.14.0-beta3/lib/CallbackQueue.js",
-      "npm:react@0.14.0-beta3/lib/ReactComponentEnvironment.js",
-      "npm:react@0.14.0-beta3/lib/ReactServerRenderingTransaction.js",
-      "npm:react@0.14.0-beta3/lib/ReactServerBatchingStrategy.js",
-      "npm:react@0.14.0-beta3/lib/ReactMarkupChecksum.js",
-      "npm:react@0.14.0-beta3/lib/adler32.js",
-      "npm:react@0.14.0-beta3/lib/ReactDefaultBatchingStrategy.js",
-      "npm:react@0.14.0-beta3/lib/ReactDefaultInjection.js",
-      "npm:react@0.14.0-beta3/lib/ReactDefaultPerf.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/performanceNow.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/performance.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/ExecutionEnvironment.js",
-      "npm:react@0.14.0-beta3/lib/ReactMount.js",
-      "npm:react@0.14.0-beta3/lib/validateDOMNesting.js",
-      "npm:react@0.14.0-beta3/lib/setInnerHTML.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/containsNode.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/isTextNode.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/isNode.js",
-      "npm:react@0.14.0-beta3/lib/ReactBrowserEventEmitter.js",
-      "npm:react@0.14.0-beta3/lib/isEventSupported.js",
-      "npm:react@0.14.0-beta3/lib/ViewportMetrics.js",
-      "npm:react@0.14.0-beta3/lib/ReactEventEmitterMixin.js",
-      "npm:react@0.14.0-beta3/lib/EventPluginHub.js",
-      "npm:react@0.14.0-beta3/lib/forEachAccumulated.js",
-      "npm:react@0.14.0-beta3/lib/accumulateInto.js",
-      "npm:react@0.14.0-beta3/lib/EventPluginUtils.js",
-      "npm:react@0.14.0-beta3/lib/EventConstants.js",
-      "npm:react@0.14.0-beta3/lib/EventPluginRegistry.js",
-      "npm:react@0.14.0-beta3/lib/DOMProperty.js",
-      "npm:react@0.14.0-beta3/lib/ReactDefaultPerfAnalysis.js",
-      "npm:react@0.14.0-beta3/lib/SVGDOMPropertyConfig.js",
-      "npm:react@0.14.0-beta3/lib/SimpleEventPlugin.js",
-      "npm:react@0.14.0-beta3/lib/getEventCharCode.js",
-      "npm:react@0.14.0-beta3/lib/SyntheticWheelEvent.js",
-      "npm:react@0.14.0-beta3/lib/SyntheticMouseEvent.js",
-      "npm:react@0.14.0-beta3/lib/getEventModifierState.js",
-      "npm:react@0.14.0-beta3/lib/SyntheticUIEvent.js",
-      "npm:react@0.14.0-beta3/lib/getEventTarget.js",
-      "npm:react@0.14.0-beta3/lib/SyntheticEvent.js",
-      "npm:react@0.14.0-beta3/lib/SyntheticTouchEvent.js",
-      "npm:react@0.14.0-beta3/lib/SyntheticDragEvent.js",
-      "npm:react@0.14.0-beta3/lib/SyntheticKeyboardEvent.js",
-      "npm:react@0.14.0-beta3/lib/getEventKey.js",
-      "npm:react@0.14.0-beta3/lib/SyntheticFocusEvent.js",
-      "npm:react@0.14.0-beta3/lib/SyntheticClipboardEvent.js",
-      "npm:react@0.14.0-beta3/lib/EventPropagators.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/EventListener.js",
-      "npm:react@0.14.0-beta3/lib/ServerReactRootIndex.js",
-      "npm:react@0.14.0-beta3/lib/SelectEventPlugin.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/shallowEqual.js",
-      "npm:react@0.14.0-beta3/lib/isTextInputElement.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/getActiveElement.js",
-      "npm:react@0.14.0-beta3/lib/ReactInputSelection.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/focusNode.js",
-      "npm:react@0.14.0-beta3/lib/ReactDOMSelection.js",
-      "npm:react@0.14.0-beta3/lib/getTextContentAccessor.js",
-      "npm:react@0.14.0-beta3/lib/getNodeForCharacterOffset.js",
-      "npm:react@0.14.0-beta3/lib/ReactReconcileTransaction.js",
-      "npm:react@0.14.0-beta3/lib/ReactInjection.js",
-      "npm:react@0.14.0-beta3/lib/ReactDOMComponent.js",
-      "npm:react@0.14.0-beta3/lib/escapeTextContentForBrowser.js",
-      "npm:react@0.14.0-beta3/lib/ReactMultiChild.js",
-      "npm:react@0.14.0-beta3/lib/ReactChildReconciler.js",
-      "npm:react@0.14.0-beta3/lib/flattenChildren.js",
-      "npm:react@0.14.0-beta3/lib/ReactMultiChildUpdateTypes.js",
-      "npm:react@0.14.0-beta3/lib/ReactDOMTextarea.js",
-      "npm:react@0.14.0-beta3/lib/ReactDOMIDOperations.js",
-      "npm:react@0.14.0-beta3/lib/DOMPropertyOperations.js",
-      "npm:react@0.14.0-beta3/lib/quoteAttributeValueForBrowser.js",
-      "npm:react@0.14.0-beta3/lib/DOMChildrenOperations.js",
-      "npm:react@0.14.0-beta3/lib/setTextContent.js",
-      "npm:react@0.14.0-beta3/lib/Danger.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/getMarkupWrap.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/createNodesFromMarkup.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/createArrayFromMixed.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/toArray.js",
-      "npm:react@0.14.0-beta3/lib/CSSPropertyOperations.js",
-      "npm:react@0.14.0-beta3/lib/memoizeStringOnly.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/hyphenateStyleName.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/hyphenate.js",
-      "npm:react@0.14.0-beta3/lib/dangerousStyleValue.js",
-      "npm:react@0.14.0-beta3/lib/CSSProperty.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/camelizeStyleName.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/camelize.js",
-      "npm:react@0.14.0-beta3/lib/LinkedValueUtils.js",
-      "npm:react@0.14.0-beta3/lib/ReactDOMSelect.js",
-      "npm:react@0.14.0-beta3/lib/ReactDOMOption.js",
-      "npm:react@0.14.0-beta3/lib/ReactDOMInput.js",
-      "npm:react@0.14.0-beta3/lib/ReactDOMButton.js",
-      "npm:react@0.14.0-beta3/lib/ReactComponentBrowserEnvironment.js",
-      "npm:react@0.14.0-beta3/lib/AutoFocusUtils.js",
-      "npm:react@0.14.0-beta3/lib/findDOMNode.js",
-      "npm:react@0.14.0-beta3/lib/ReactEventListener.js",
-      "npm:fbjs@0.1.0-alpha.4/lib/getUnboundedScrollPosition.js",
-      "npm:react@0.14.0-beta3/lib/ReactDOMTextComponent.js",
-      "npm:react@0.14.0-beta3/lib/ReactBrowserComponentMixin.js",
-      "npm:react@0.14.0-beta3/lib/HTMLDOMPropertyConfig.js",
-      "npm:react@0.14.0-beta3/lib/EnterLeaveEventPlugin.js",
-      "npm:react@0.14.0-beta3/lib/DefaultEventPluginOrder.js",
-      "npm:react@0.14.0-beta3/lib/ClientReactRootIndex.js",
-      "npm:react@0.14.0-beta3/lib/ChangeEventPlugin.js",
-      "npm:react@0.14.0-beta3/lib/BeforeInputEventPlugin.js",
-      "npm:react@0.14.0-beta3/lib/SyntheticInputEvent.js",
-      "npm:react@0.14.0-beta3/lib/SyntheticCompositionEvent.js",
-      "npm:react@0.14.0-beta3/lib/FallbackCompositionState.js",
-      "npm:react@0.14.0-beta3/lib/ReactDOM.js",
-      "npm:react@0.14.0-beta3/lib/renderSubtreeIntoContainer.js",
-      "npm:react-dom@0.14.0-beta3.js",
-      "npm:react-dom@0.14.0-beta3/index.js",
+      "npm:process@0.11.5.js",
+      "npm:process@0.11.5/browser.js",
+      "npm:fbjs@0.8.3/lib/warning.js",
+      "npm:fbjs@0.8.3/lib/emptyFunction.js",
+      "npm:react@15.1.0/lib/onlyChild.js",
+      "npm:fbjs@0.8.3/lib/invariant.js",
+      "npm:react@15.1.0/lib/ReactElement.js",
+      "npm:react@15.1.0/lib/canDefineProperty.js",
+      "npm:react@15.1.0/lib/ReactCurrentOwner.js",
+      "npm:object-assign@4.1.0.js",
+      "npm:object-assign@4.1.0/index.js",
+      "npm:react@15.1.0/lib/ReactVersion.js",
+      "npm:react@15.1.0/lib/ReactPropTypes.js",
+      "npm:react@15.1.0/lib/getIteratorFn.js",
+      "npm:react@15.1.0/lib/ReactPropTypeLocationNames.js",
+      "npm:react@15.1.0/lib/ReactElementValidator.js",
+      "npm:react@15.1.0/lib/ReactPropTypeLocations.js",
+      "npm:fbjs@0.8.3/lib/keyMirror.js",
+      "npm:react@15.1.0/lib/ReactDOMFactories.js",
+      "npm:fbjs@0.8.3/lib/mapObject.js",
+      "npm:react@15.1.0/lib/ReactClass.js",
+      "npm:fbjs@0.8.3/lib/keyOf.js",
+      "npm:fbjs@0.8.3/lib/emptyObject.js",
+      "npm:react@15.1.0/lib/ReactNoopUpdateQueue.js",
+      "npm:react@15.1.0/lib/ReactComponent.js",
+      "npm:react@15.1.0/lib/ReactInstrumentation.js",
+      "npm:react@15.1.0/lib/ReactDebugTool.js",
+      "npm:react@15.1.0/lib/ReactComponentTreeDevtool.js",
+      "npm:react@15.1.0/lib/ReactNativeOperationHistoryDevtool.js",
+      "npm:react@15.1.0/lib/ReactInvalidSetStateWarningDevTool.js",
+      "npm:fbjs@0.8.3/lib/performanceNow.js",
+      "npm:fbjs@0.8.3/lib/performance.js",
+      "npm:fbjs@0.8.3/lib/ExecutionEnvironment.js",
+      "npm:react@15.1.0/lib/ReactChildren.js",
+      "npm:react@15.1.0/lib/traverseAllChildren.js",
+      "npm:react@15.1.0/lib/KeyEscapeUtils.js",
+      "npm:react@15.1.0/lib/PooledClass.js",
+      "npm:react-dom@15.1.0.js",
+      "npm:react-dom@15.1.0/index.js",
+      "npm:react@15.1.0/lib/ReactDOM.js",
+      "npm:react@15.1.0/lib/renderSubtreeIntoContainer.js",
+      "npm:react@15.1.0/lib/ReactMount.js",
+      "npm:react@15.1.0/lib/shouldUpdateReactComponent.js",
+      "npm:react@15.1.0/lib/setInnerHTML.js",
+      "npm:react@15.1.0/lib/createMicrosoftUnsafeLocalFunction.js",
+      "npm:react@15.1.0/lib/instantiateReactComponent.js",
+      "npm:react@15.1.0/lib/ReactNativeComponent.js",
+      "npm:react@15.1.0/lib/ReactEmptyComponent.js",
+      "npm:react@15.1.0/lib/ReactCompositeComponent.js",
+      "npm:react@15.1.0/lib/ReactUpdateQueue.js",
+      "npm:react@15.1.0/lib/ReactUpdates.js",
+      "npm:react@15.1.0/lib/Transaction.js",
+      "npm:react@15.1.0/lib/ReactReconciler.js",
+      "npm:react@15.1.0/lib/ReactRef.js",
+      "npm:react@15.1.0/lib/ReactOwner.js",
+      "npm:react@15.1.0/lib/ReactFeatureFlags.js",
+      "npm:react@15.1.0/lib/CallbackQueue.js",
+      "npm:react@15.1.0/lib/ReactInstanceMap.js",
+      "npm:react@15.1.0/lib/ReactNodeTypes.js",
+      "npm:react@15.1.0/lib/ReactErrorUtils.js",
+      "npm:react@15.1.0/lib/ReactComponentEnvironment.js",
+      "npm:react@15.1.0/lib/ReactMarkupChecksum.js",
+      "npm:react@15.1.0/lib/adler32.js",
+      "npm:react@15.1.0/lib/ReactDOMFeatureFlags.js",
+      "npm:react@15.1.0/lib/ReactDOMContainerInfo.js",
+      "npm:react@15.1.0/lib/validateDOMNesting.js",
+      "npm:react@15.1.0/lib/ReactDOMComponentTree.js",
+      "npm:react@15.1.0/lib/ReactDOMComponentFlags.js",
+      "npm:react@15.1.0/lib/DOMProperty.js",
+      "npm:react@15.1.0/lib/ReactBrowserEventEmitter.js",
+      "npm:react@15.1.0/lib/isEventSupported.js",
+      "npm:react@15.1.0/lib/getVendorPrefixedEventName.js",
+      "npm:react@15.1.0/lib/ViewportMetrics.js",
+      "npm:react@15.1.0/lib/ReactEventEmitterMixin.js",
+      "npm:react@15.1.0/lib/EventPluginHub.js",
+      "npm:react@15.1.0/lib/forEachAccumulated.js",
+      "npm:react@15.1.0/lib/accumulateInto.js",
+      "npm:react@15.1.0/lib/EventPluginUtils.js",
+      "npm:react@15.1.0/lib/EventConstants.js",
+      "npm:react@15.1.0/lib/EventPluginRegistry.js",
+      "npm:react@15.1.0/lib/DOMLazyTree.js",
+      "npm:react@15.1.0/lib/setTextContent.js",
+      "npm:react@15.1.0/lib/escapeTextContentForBrowser.js",
+      "npm:react@15.1.0/lib/DOMNamespaces.js",
+      "npm:react@15.1.0/lib/getNativeComponentFromComposite.js",
+      "npm:react@15.1.0/lib/findDOMNode.js",
+      "npm:react@15.1.0/lib/ReactDefaultInjection.js",
+      "npm:react@15.1.0/lib/SimpleEventPlugin.js",
+      "npm:react@15.1.0/lib/getEventCharCode.js",
+      "npm:react@15.1.0/lib/SyntheticWheelEvent.js",
+      "npm:react@15.1.0/lib/SyntheticMouseEvent.js",
+      "npm:react@15.1.0/lib/getEventModifierState.js",
+      "npm:react@15.1.0/lib/SyntheticUIEvent.js",
+      "npm:react@15.1.0/lib/getEventTarget.js",
+      "npm:react@15.1.0/lib/SyntheticEvent.js",
+      "npm:react@15.1.0/lib/SyntheticTransitionEvent.js",
+      "npm:react@15.1.0/lib/SyntheticTouchEvent.js",
+      "npm:react@15.1.0/lib/SyntheticDragEvent.js",
+      "npm:react@15.1.0/lib/SyntheticKeyboardEvent.js",
+      "npm:react@15.1.0/lib/getEventKey.js",
+      "npm:react@15.1.0/lib/SyntheticFocusEvent.js",
+      "npm:react@15.1.0/lib/SyntheticClipboardEvent.js",
+      "npm:react@15.1.0/lib/SyntheticAnimationEvent.js",
+      "npm:react@15.1.0/lib/EventPropagators.js",
+      "npm:fbjs@0.8.3/lib/EventListener.js",
+      "npm:react@15.1.0/lib/SelectEventPlugin.js",
+      "npm:fbjs@0.8.3/lib/shallowEqual.js",
+      "npm:react@15.1.0/lib/isTextInputElement.js",
+      "npm:fbjs@0.8.3/lib/getActiveElement.js",
+      "npm:react@15.1.0/lib/ReactInputSelection.js",
+      "npm:fbjs@0.8.3/lib/focusNode.js",
+      "npm:fbjs@0.8.3/lib/containsNode.js",
+      "npm:fbjs@0.8.3/lib/isTextNode.js",
+      "npm:fbjs@0.8.3/lib/isNode.js",
+      "npm:react@15.1.0/lib/ReactDOMSelection.js",
+      "npm:react@15.1.0/lib/getTextContentAccessor.js",
+      "npm:react@15.1.0/lib/getNodeForCharacterOffset.js",
+      "npm:react@15.1.0/lib/SVGDOMPropertyConfig.js",
+      "npm:react@15.1.0/lib/ReactReconcileTransaction.js",
+      "npm:react@15.1.0/lib/ReactInjection.js",
+      "npm:react@15.1.0/lib/ReactEventListener.js",
+      "npm:fbjs@0.8.3/lib/getUnboundedScrollPosition.js",
+      "npm:react@15.1.0/lib/ReactDefaultBatchingStrategy.js",
+      "npm:react@15.1.0/lib/ReactDOMTextComponent.js",
+      "npm:react@15.1.0/lib/DOMChildrenOperations.js",
+      "npm:react@15.1.0/lib/ReactMultiChildUpdateTypes.js",
+      "npm:react@15.1.0/lib/Danger.js",
+      "npm:fbjs@0.8.3/lib/getMarkupWrap.js",
+      "npm:fbjs@0.8.3/lib/createNodesFromMarkup.js",
+      "npm:fbjs@0.8.3/lib/createArrayFromMixed.js",
+      "npm:react@15.1.0/lib/ReactDOMTreeTraversal.js",
+      "npm:react@15.1.0/lib/ReactDOMEmptyComponent.js",
+      "npm:react@15.1.0/lib/ReactDOMComponent.js",
+      "npm:react@15.1.0/lib/ReactServerRenderingTransaction.js",
+      "npm:react@15.1.0/lib/ReactMultiChild.js",
+      "npm:react@15.1.0/lib/flattenChildren.js",
+      "npm:react@15.1.0/lib/ReactChildReconciler.js",
+      "npm:react@15.1.0/lib/ReactDOMTextarea.js",
+      "npm:react@15.1.0/lib/LinkedValueUtils.js",
+      "npm:react@15.1.0/lib/DOMPropertyOperations.js",
+      "npm:react@15.1.0/lib/quoteAttributeValueForBrowser.js",
+      "npm:react@15.1.0/lib/ReactDOMInstrumentation.js",
+      "npm:react@15.1.0/lib/ReactDOMDebugTool.js",
+      "npm:react@15.1.0/lib/ReactDOMUnknownPropertyDevtool.js",
+      "npm:react@15.1.0/lib/DisabledInputUtils.js",
+      "npm:react@15.1.0/lib/ReactDOMSelect.js",
+      "npm:react@15.1.0/lib/ReactDOMOption.js",
+      "npm:react@15.1.0/lib/ReactDOMInput.js",
+      "npm:react@15.1.0/lib/ReactDOMButton.js",
+      "npm:react@15.1.0/lib/ReactComponentBrowserEnvironment.js",
+      "npm:react@15.1.0/lib/ReactDOMIDOperations.js",
+      "npm:react@15.1.0/lib/CSSPropertyOperations.js",
+      "npm:fbjs@0.8.3/lib/memoizeStringOnly.js",
+      "npm:fbjs@0.8.3/lib/hyphenateStyleName.js",
+      "npm:fbjs@0.8.3/lib/hyphenate.js",
+      "npm:react@15.1.0/lib/dangerousStyleValue.js",
+      "npm:react@15.1.0/lib/CSSProperty.js",
+      "npm:fbjs@0.8.3/lib/camelizeStyleName.js",
+      "npm:fbjs@0.8.3/lib/camelize.js",
+      "npm:react@15.1.0/lib/AutoFocusUtils.js",
+      "npm:react@15.1.0/lib/HTMLDOMPropertyConfig.js",
+      "npm:react@15.1.0/lib/EnterLeaveEventPlugin.js",
+      "npm:react@15.1.0/lib/DefaultEventPluginOrder.js",
+      "npm:react@15.1.0/lib/ChangeEventPlugin.js",
+      "npm:react@15.1.0/lib/BeforeInputEventPlugin.js",
+      "npm:react@15.1.0/lib/SyntheticInputEvent.js",
+      "npm:react@15.1.0/lib/SyntheticCompositionEvent.js",
+      "npm:react@15.1.0/lib/FallbackCompositionState.js",
       "src/components/app.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
       "src/enums/components.js",
-      "src/components/map/map.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
+      "src/components/detail/detail.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
       "npm:babel-runtime@5.7.0/helpers/class-call-check.js",
       "npm:babel-runtime@5.7.0/helpers/create-class.js",
       "npm:babel-runtime@5.7.0/core-js/object/define-property.js",
@@ -200,10 +213,40 @@ System.config({
       "npm:core-js@0.9.18/library/modules/es6.object.statics-accept-primitives.js",
       "npm:core-js@0.9.18/library/modules/$.get-names.js",
       "npm:core-js@0.9.18/library/modules/$.def.js",
-      "src/components/graph/graph.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
-      "src/components/panel/panel.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
-      "src/components/timeline/timeline.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
       "src/components/menu/menu.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
+      "src/components/timeline/timeline.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
+      "src/components/map/map.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
+      "npm:lodash@3.10.0.js",
+      "npm:lodash@3.10.0/index.js",
+      "github:Leaflet/Leaflet@0.7.7.js",
+      "github:Leaflet/Leaflet@0.7.7/dist/leaflet-src.js",
+      "src/components/graph/graph.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
+      "src/components/graph/link.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
+      "src/components/graph/node.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
+      "npm:d3@3.5.17.js",
+      "npm:d3@3.5.17/d3.js",
+      "src/components/panel/panel.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
+      "npm:react-grid-layout@0.12.6.js",
+      "npm:react-grid-layout@0.12.6/index.js",
+      "npm:react-grid-layout@0.12.6/build/components/WidthProvider.js",
+      "npm:react-grid-layout@0.12.6/build/responsiveUtils.js",
+      "npm:react-grid-layout@0.12.6/build/utils.js",
+      "npm:react-grid-layout@0.12.6/build/ResponsiveReactGridLayout.js",
+      "npm:react-grid-layout@0.12.6/build/ReactGridLayout.js",
+      "npm:react-grid-layout@0.12.6/build/GridItem.js",
+      "npm:react-resizable@1.4.1.js",
+      "npm:react-resizable@1.4.1/index.js",
+      "npm:react-resizable@1.4.1/build/ResizableBox.js",
+      "npm:react-resizable@1.4.1/build/Resizable.js",
+      "npm:react-resizable@1.4.1/build/cloneElement.js",
+      "npm:react-draggable@2.1.2.js",
+      "npm:react-draggable@2.1.2/dist/react-draggable.js",
+      "npm:lodash.isequal@4.2.0.js",
+      "npm:lodash.isequal@4.2.0/index.js",
+      "npm:lodash._root@3.0.1.js",
+      "npm:lodash._root@3.0.1/index.js",
+      "npm:lodash.keys@4.0.7.js",
+      "npm:lodash.keys@4.0.7/index.js",
       "npm:font-awesome@4.6.1/css/font-awesome.min.css!github:systemjs/plugin-css@0.1.21.js"
     ]
   },
@@ -220,14 +263,17 @@ System.config({
     "font-awesome": "npm:font-awesome@4.6.1",
     "jquery": "npm:jquery@2.2.4",
     "jsx": "github:floatdrop/plugin-jsx@1.1.0",
+    "leaflet": "github:Leaflet/Leaflet@0.7.7",
     "lodash": "npm:lodash@3.10.0",
-    "react": "npm:react@0.14.0-beta3",
-    "react-dom": "npm:react-dom@0.14.0-beta3",
+    "react": "npm:react@15.1.0",
+    "react-dom": "npm:react-dom@15.1.0",
+    "react-grid-layout": "npm:react-grid-layout@0.12.6",
+    "strml/react-grid-layout": "github:strml/react-grid-layout@0.12.6",
     "github:floatdrop/plugin-jsx@1.1.0": {
       "react-tools": "npm:react-tools@0.13.3"
     },
     "github:jspm/nodelibs-assert@0.1.0": {
-      "assert": "npm:assert@1.4.0"
+      "assert": "npm:assert@1.4.1"
     },
     "github:jspm/nodelibs-buffer@0.1.0": {
       "buffer": "npm:buffer@3.6.0"
@@ -239,7 +285,7 @@ System.config({
       "crypto-browserify": "npm:crypto-browserify@3.9.14"
     },
     "github:jspm/nodelibs-domain@0.1.0": {
-      "domain-browser": "npm:domain-browser@1.1.4"
+      "domain-browser": "npm:domain-browser@1.1.7"
     },
     "github:jspm/nodelibs-events@0.1.1": {
       "events": "npm:events@1.0.2"
@@ -262,7 +308,7 @@ System.config({
       "path-browserify": "npm:path-browserify@0.0.0"
     },
     "github:jspm/nodelibs-process@0.1.2": {
-      "process": "npm:process@0.11.3"
+      "process": "npm:process@0.11.5"
     },
     "github:jspm/nodelibs-stream@0.1.0": {
       "stream-browserify": "npm:stream-browserify@1.0.0"
@@ -279,13 +325,16 @@ System.config({
     "github:jspm/nodelibs-vm@0.1.0": {
       "vm-browserify": "npm:vm-browserify@0.0.4"
     },
+    "github:jspm/nodelibs-zlib@0.1.0": {
+      "browserify-zlib": "npm:browserify-zlib@0.1.4"
+    },
     "npm:amdefine@1.0.0": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "module": "github:jspm/nodelibs-module@0.1.0",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:asap@2.0.3": {
+    "npm:asap@2.0.4": {
       "domain": "github:jspm/nodelibs-domain@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
@@ -297,10 +346,9 @@ System.config({
       "minimalistic-assert": "npm:minimalistic-assert@1.0.0",
       "vm": "github:jspm/nodelibs-vm@0.1.0"
     },
-    "npm:assert@1.4.0": {
+    "npm:assert@1.4.1": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "buffer-shims": "npm:buffer-shims@1.0.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
       "util": "npm:util@0.10.3"
     },
@@ -319,7 +367,7 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "inherits": "npm:inherits@2.0.1",
       "stream": "github:jspm/nodelibs-stream@0.1.0",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:browserify-rsa@2.0.1": {
       "bn.js": "npm:bn.js@2.2.0",
@@ -339,14 +387,22 @@ System.config({
       "inherits": "npm:inherits@2.0.1",
       "parse-asn1": "npm:parse-asn1@3.0.1",
       "stream": "github:jspm/nodelibs-stream@0.1.0",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+    },
+    "npm:browserify-zlib@0.1.4": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0",
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "pako": "npm:pako@0.2.8",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "readable-stream": "npm:readable-stream@2.1.4",
+      "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:buffer-shims@1.0.0": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
     "npm:buffer-xor@1.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:buffer@3.6.0": {
       "base64-js": "npm:base64-js@0.0.8",
@@ -401,20 +457,21 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "q": "npm:q@1.1.2",
       "recast": "npm:recast@0.10.26",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:constants-browserify@0.0.1": {
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:core-js@0.9.18": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:core-js@1.0.1": {
+    "npm:core-js@1.2.6": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:core-util-is@1.0.2": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
@@ -459,9 +516,9 @@ System.config({
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "miller-rabin": "npm:miller-rabin@2.1.0",
       "randombytes": "npm:randombytes@2.0.1",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:domain-browser@1.1.4": {
+    "npm:domain-browser@1.1.7": {
       "events": "github:jspm/nodelibs-events@0.1.1"
     },
     "npm:elliptic@3.1.0": {
@@ -469,12 +526,11 @@ System.config({
       "brorand": "npm:brorand@1.0.5",
       "hash.js": "npm:hash.js@1.0.3",
       "inherits": "npm:inherits@2.0.1",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:envify@3.4.0": {
-      "jstransform": "npm:jstransform@10.1.0",
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "through": "npm:through@2.3.8"
+    "npm:encoding@0.1.12": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "iconv-lite": "npm:iconv-lite@0.4.13"
     },
     "npm:esprima-fb@13001.1001.0-dev-harmony-fb": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
@@ -484,13 +540,15 @@ System.config({
       "fs": "github:jspm/nodelibs-fs@0.1.2",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:fbjs@0.1.0-alpha.4": {
-      "core-js": "npm:core-js@1.0.1",
-      "fs": "github:jspm/nodelibs-fs@0.1.2",
-      "path": "github:jspm/nodelibs-path@0.1.0",
+    "npm:fbjs@0.8.3": {
+      "core-js": "npm:core-js@1.2.6",
+      "immutable": "npm:immutable@3.8.1",
+      "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
+      "loose-envify": "npm:loose-envify@1.2.0",
+      "object-assign": "npm:object-assign@4.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "promise": "npm:promise@7.0.4",
-      "whatwg-fetch": "npm:whatwg-fetch@0.9.0"
+      "promise": "npm:promise@7.1.1",
+      "ua-parser-js": "npm:ua-parser-js@0.7.10"
     },
     "npm:font-awesome@4.6.1": {
       "css": "github:systemjs/plugin-css@0.1.21"
@@ -529,7 +587,14 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "stream": "github:jspm/nodelibs-stream@0.1.0",
       "string_decoder": "github:jspm/nodelibs-string_decoder@0.1.0",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
+    },
+    "npm:iconv-lite@0.4.13": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "stream": "github:jspm/nodelibs-stream@0.1.0",
+      "string_decoder": "github:jspm/nodelibs-string_decoder@0.1.0",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:inflight@1.0.4": {
       "once": "npm:once@1.3.2",
@@ -545,6 +610,10 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:isomorphic-fetch@2.2.1": {
+      "node-fetch": "npm:node-fetch@1.5.3",
+      "whatwg-fetch": "npm:whatwg-fetch@1.0.0"
+    },
     "npm:jstransform@10.1.0": {
       "base62": "npm:base62@0.1.1",
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -553,8 +622,20 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "source-map": "npm:source-map@0.1.31"
     },
+    "npm:lodash.isequal@4.2.0": {
+      "lodash._root": "npm:lodash._root@3.0.1",
+      "lodash.keys": "npm:lodash.keys@4.0.7",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
     "npm:lodash@3.10.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:loose-envify@1.2.0": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "js-tokens": "npm:js-tokens@1.0.3",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "stream": "github:jspm/nodelibs-stream@0.1.0",
+      "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:miller-rabin@2.1.0": {
       "bn.js": "npm:bn.js@3.1.1",
@@ -572,11 +653,26 @@ System.config({
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:node-fetch@1.5.3": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "encoding": "npm:encoding@0.1.12",
+      "http": "github:jspm/nodelibs-http@1.7.1",
+      "https": "github:jspm/nodelibs-https@0.1.0",
+      "is-stream": "npm:is-stream@1.1.0",
+      "stream": "github:jspm/nodelibs-stream@0.1.0",
+      "url": "github:jspm/nodelibs-url@0.1.0",
+      "util": "github:jspm/nodelibs-util@0.1.0",
+      "zlib": "github:jspm/nodelibs-zlib@0.1.0"
+    },
     "npm:once@1.3.2": {
       "wrappy": "npm:wrappy@1.0.1"
     },
     "npm:os-browserify@0.1.2": {
       "os": "github:jspm/nodelibs-os@0.1.0"
+    },
+    "npm:pako@0.2.8": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:parse-asn1@3.0.1": {
       "asn1.js": "npm:asn1.js@2.1.3",
@@ -584,7 +680,7 @@ System.config({
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
       "create-hash": "npm:create-hash@1.1.1",
       "pbkdf2": "npm:pbkdf2@3.0.4",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:path-browserify@0.0.0": {
       "process": "github:jspm/nodelibs-process@0.1.2"
@@ -596,13 +692,18 @@ System.config({
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2",
-      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
-    "npm:process@0.11.3": {
-      "assert": "github:jspm/nodelibs-assert@0.1.0"
+    "npm:process-nextick-args@1.0.7": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:promise@7.0.4": {
-      "asap": "npm:asap@2.0.3",
+    "npm:process@0.11.5": {
+      "assert": "github:jspm/nodelibs-assert@0.1.0",
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "vm": "github:jspm/nodelibs-vm@0.1.0"
+    },
+    "npm:promise@7.1.1": {
+      "asap": "npm:asap@2.0.4",
       "fs": "github:jspm/nodelibs-fs@0.1.2"
     },
     "npm:public-encrypt@2.0.1": {
@@ -625,9 +726,26 @@ System.config({
       "crypto": "github:jspm/nodelibs-crypto@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:react-dom@0.14.0-beta3": {
-      "fbjs": "npm:fbjs@0.1.0-alpha.4",
-      "react": "npm:react@0.14.0-beta3"
+    "npm:react-dom@15.1.0": {
+      "react": "npm:react@15.1.0"
+    },
+    "npm:react-draggable@2.1.2": {
+      "classnames": "npm:classnames@2.2.5",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:react-grid-layout@0.12.6": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "lodash.isequal": "npm:lodash.isequal@4.2.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "react": "npm:react@15.1.0",
+      "react-dom": "npm:react-dom@15.1.0",
+      "react-draggable": "npm:react-draggable@2.1.2",
+      "react-resizable": "npm:react-resizable@1.4.1"
+    },
+    "npm:react-resizable@1.4.1": {
+      "react": "npm:react@15.1.0",
+      "react-dom": "npm:react-dom@15.1.0",
+      "react-draggable": "npm:react-draggable@2.1.2"
     },
     "npm:react-tools@0.13.3": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0",
@@ -635,10 +753,10 @@ System.config({
       "jstransform": "npm:jstransform@10.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
-    "npm:react@0.14.0-beta3": {
-      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
-      "envify": "npm:envify@3.4.0",
-      "fbjs": "npm:fbjs@0.1.0-alpha.4",
+    "npm:react@15.1.0": {
+      "fbjs": "npm:fbjs@0.8.3",
+      "loose-envify": "npm:loose-envify@1.2.0",
+      "object-assign": "npm:object-assign@4.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:readable-stream@1.1.14": {
@@ -650,6 +768,18 @@ System.config({
       "process": "github:jspm/nodelibs-process@0.1.2",
       "stream-browserify": "npm:stream-browserify@1.0.0",
       "string_decoder": "npm:string_decoder@0.10.31"
+    },
+    "npm:readable-stream@2.1.4": {
+      "buffer": "github:jspm/nodelibs-buffer@0.1.0",
+      "buffer-shims": "npm:buffer-shims@1.0.0",
+      "core-util-is": "npm:core-util-is@1.0.2",
+      "events": "github:jspm/nodelibs-events@0.1.1",
+      "inherits": "npm:inherits@2.0.1",
+      "isarray": "npm:isarray@1.0.0",
+      "process": "github:jspm/nodelibs-process@0.1.2",
+      "process-nextick-args": "npm:process-nextick-args@1.0.7",
+      "string_decoder": "npm:string_decoder@0.10.31",
+      "util-deprecate": "npm:util-deprecate@1.0.2"
     },
     "npm:recast@0.10.26": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
@@ -692,14 +822,16 @@ System.config({
     "npm:string_decoder@0.10.31": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
     },
-    "npm:through@2.3.8": {
-      "process": "github:jspm/nodelibs-process@0.1.2",
-      "stream": "github:jspm/nodelibs-stream@0.1.0"
+    "npm:ua-parser-js@0.7.10": {
+      "systemjs-json": "github:systemjs/plugin-json@0.1.2"
     },
     "npm:url@0.10.3": {
       "assert": "github:jspm/nodelibs-assert@0.1.0",
       "punycode": "npm:punycode@1.3.2",
       "querystring": "npm:querystring@0.2.0",
+      "util": "github:jspm/nodelibs-util@0.1.0"
+    },
+    "npm:util-deprecate@1.0.2": {
       "util": "github:jspm/nodelibs-util@0.1.0"
     },
     "npm:util@0.10.3": {
