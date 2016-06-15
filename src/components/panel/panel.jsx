@@ -9,6 +9,15 @@ class Panel extends React.Component {
     }
   }
 
+  width () {
+    return this.props.w
+  }
+
+  height () {
+    return this.props.h
+  }
+
+
   render() {
     var that = this
     return (
@@ -19,7 +28,11 @@ class Panel extends React.Component {
         </div>
         <div className="panel-body" style={this.styleBody()}>
           {
-            React.cloneElement(this.props.children, {app: that.props.app})
+            React.cloneElement(this.props.children, {
+              app: that.props.app,
+              w: that.width.bind(that),
+              h: that.height.bind(that)
+            })
           }
         </div>
       </div>

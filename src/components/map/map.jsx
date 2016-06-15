@@ -6,12 +6,6 @@ class Map extends React.Component {
 
   constructor (props) {
     super(props)
-    this.state = {
-      nodes: [],
-      links: [],
-      width: 300,
-      height: 300
-    }
 
     this.markers = []
 
@@ -32,6 +26,7 @@ class Map extends React.Component {
 
   componentWillReceiveProps () {
     this.loadData()
+    this.map.invalidateSize(true)
   }
 
   componentDidMount () {
@@ -89,7 +84,7 @@ class Map extends React.Component {
       color: 'black',
       fillColor: this.props.app.getGroupColor(node.group),
       opacity: 0.5,
-      fillOpacity: 0.5,
+      fillOpacity: 0.3,
       weight: 1
     }
   }

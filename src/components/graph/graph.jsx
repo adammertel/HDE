@@ -8,13 +8,6 @@ import Link from './link.jsx!'
 class Graph extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      nodes: [],
-      links: [],
-      width: 300,
-      height: 300
-    }
-
     this.overStyle = {
       opacity: 1
     }
@@ -31,17 +24,22 @@ class Graph extends React.Component {
 
   componentWillReceiveProps () {
     this.loadData()
+    if (this.props.h() != this.lastH){
+      this.setForce()
+    }
   }
 
   setForce () {
     var self = this
+    this.lastH = this.props.h()
+    this.lastW = this.props.w()
 
     let nodesData = this.props.app.getData().nodes
     let linksData = this.props.app.getData().links
     this.force = d3.layout.force()
-      .charge(-120)
-      .linkDistance(15)
-      .size([this.state.width, this.state.height])
+      .charge(-50)
+      .linkDistance(25)
+      .size([this.lastH, this.lastW])
       .nodes(nodesData)
       .links(linksData)
       .start()
@@ -127,8 +125,8 @@ class Graph extends React.Component {
     return (
       <div className="component component-graph" style={this.style()}>
         <svg
-          width={this.state.width}
-          height={this.state.height}>
+          width={this.props.w()}
+          height={this.props.h()}>
           {this.getLinks()}
           {this.getNodes()}
         </svg>
