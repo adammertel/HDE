@@ -163,19 +163,33 @@ class App extends React.Component {
     return _.find(this.getData().links, function(o) { return o.id == id })
   }
 
+  getLinksForNodeId (id) {
+    return _.filter(this.getData().links, function(o) { return o.source.id == id || o.target.id == id})
+  }
+
+  deOver () {
+    this.deOverNodes()
+    this.deOverLinks()
+    this.refreshData()
+  }
+
+  setOver (id) {
+    this.deOverNodes()
+    this.deOverLinks()
+
+    this.getNodeById(id).over = true
+    this.overLinks(this.getLinksForNodeId(id))
+    
+    this.refreshData()
+  }
+
+  // NODES
   deOverNodes () {
     _.forEach(this.getData().nodes, function(n){n.over = false})
-    this.refreshData()
   }
 
   deSelectNodes () {
     _.forEach(this.getData().nodes, function(n){n.selected = false})
-    this.refreshData()
-  }
-
-  setOverNode (id) {
-    this.deOverNodes()
-    this.getNodeById(id).over = true
     this.refreshData()
   }
 
@@ -193,6 +207,24 @@ class App extends React.Component {
     this.getNodeById(id).selected = false
     this.refreshData()
   }
+
+  // LINKS
+  overLinks (links) {
+    links.map(function(link){
+      link.over = true
+    })
+  }
+
+
+  deOverLinks () {
+    _.forEach(this.getData().links, function(l){l.over = false})
+  }
+
+  deSelectLinks () {
+    _.forEach(this.getData().links, function(l){l.selected = false})
+  }
+
+
 
   getData () {
     return this.state.data

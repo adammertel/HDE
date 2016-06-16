@@ -54,6 +54,30 @@ class Map extends React.Component {
 
     var map = this.map = L.map(mapEl, {layers: osm}).setView([49, 17], 8);
     L.control.layers(baseMaps, null, {position: 'topleft'}).addTo(this.map);
+
+
+    var controlSelect = L.Control.extend({
+      options: {
+        position: 'topleft'
+      },
+      onAdd: function (map) {
+        var container = L.DomUtil.create('div', 'fa fa-hand-o-down fa-2x leaflet-bar leaflet-control leaflet-control-custom');
+
+        container.style.backgroundColor = 'white';
+        container.style.width = '30px';
+        container.style.height = '30px';
+        container.style.cursor = 'pointer';
+        container.style.padding = '3px';
+
+        container.onclick = function(){
+          console.log('buttonClicked');
+        }
+        return container;
+      },
+
+    });
+
+    this.map.addControl(new controlSelect());
   }
 
   onMorkerOver (marker, e) {

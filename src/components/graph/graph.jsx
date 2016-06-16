@@ -8,12 +8,20 @@ import Link from './link.jsx!'
 class Graph extends React.Component {
   constructor (props) {
     super(props)
-    this.overStyle = {
+    this.overNodeStyle = {
       opacity: 1
     }
 
-    this.selectedStyle = {
+    this.selectedNodeStyle = {
       strokeWidth: 3
+    }
+
+    this.overLinkStyle = {
+      opacity: 1
+    }
+
+    this.selectedLinkStyle = {
+      strokeWidth: 4
     }
   }
 
@@ -72,17 +80,17 @@ class Graph extends React.Component {
       opacity: 0.5
     }
 
-    if (node.over){ style = _.assign(style, this.overStyle)}
-    if (node.selected){ style = _.assign(style, this.selectedStyle)}
+    if (node.over){ style = _.assign(style, this.overNodeStyle)}
+    if (node.selected){ style = _.assign(style, this.selectedNodeStyle)}
     return style
   }
 
   onNodeOver(e) {
-    this.props.app.setOverNode(e.target.id)
+    this.props.app.setOver(e.target.id)
   }
 
   onNodeOut(e) {
-    this.props.app.deOverNodes()
+    this.props.app.deOver()
   }
 
   getNodes() {
@@ -102,6 +110,19 @@ class Graph extends React.Component {
     return nodes;
   }
 
+  linkStyle(link) {
+    var style = {
+      stroke: this.props.app.getTypeColor(link.type),
+      strokeWidth: 2,
+      opacity: 0.4
+    }
+
+    if (link.over){ style = _.assign(style, this.overLinkStyle)}
+    if (link.selected){ style = _.assign(style, this.selectedLinkStyle)}
+
+    return style
+  }
+
   getLinks () {
     var that = this
     var links = this.props.app.getData().links.map(function (link, index) {
@@ -110,7 +131,7 @@ class Graph extends React.Component {
         target={link.target}
         value={link.value}
         key={index}
-        color={that.props.app.getTypeColor(link.type)}
+        style={that.linkStyle(link)}
       />)
     })
 
