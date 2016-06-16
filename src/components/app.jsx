@@ -155,6 +155,10 @@ class App extends React.Component {
     this.setState({data: this.state.data})
   }
 
+  getOverNode () {
+    return _.find(this.getData().nodes, function(o) { return o.over == true })
+  }
+
   getNodeById (id) {
     return _.find(this.getData().nodes, function(o) { return o.id == id })
   }
@@ -179,7 +183,7 @@ class App extends React.Component {
 
     this.getNodeById(id).over = true
     this.overLinks(this.getLinksForNodeId(id))
-    
+
     this.refreshData()
   }
 
@@ -209,6 +213,16 @@ class App extends React.Component {
   }
 
   // LINKS
+
+  getOverLinks () {
+    var overNode = this.getOverNode()
+    if (overNode){
+      return this.getLinksForNodeId(overNode.id)
+    } else {
+      return []
+    }
+  }
+
   overLinks (links) {
     links.map(function(link){
       link.over = true

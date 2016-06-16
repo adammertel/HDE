@@ -215,6 +215,7 @@ System.config({
       "npm:core-js@0.9.18/library/modules/$.def.js",
       "src/components/menu/menu.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
       "src/components/timeline/timeline.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
+      "src/components/timeline/bar.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
       "npm:lodash@3.10.0.js",
       "npm:lodash@3.10.0/index.js",
       "npm:d3@3.5.17.js",

@@ -34,8 +34,6 @@ class Map extends React.Component {
     this.loadData()
   }
 
-
-
   setMap() {
 
     var wms = function(url, layer) {
@@ -80,13 +78,13 @@ class Map extends React.Component {
     this.map.addControl(new controlSelect());
   }
 
-  onMorkerOver (marker, e) {
-    this.props.app.setOverNode(marker.options.id)
+  onMarkerOver (marker, e) {
+    this.props.app.setOver(marker.options.id)
   }
 
-
   onMarkerOut (marker, e) {
-    this.props.app.deOverNodes()
+    console.log('map out')
+    this.props.app.deOver()
   }
 
   onMarkerClick (marker, e) {
@@ -132,18 +130,19 @@ class Map extends React.Component {
 
       var marker = L.circleMarker(node.coords, style).addTo(that.map)
 
-      that.markers.push(marker)
       marker.on('mouseover', function (e) {
-        that.onMorkerOver(this, e)
+        that.onMarkerOver(this, e)
       })
 
       marker.on('mouseout', function (e) {
+        console.log('markerout')
         that.onMarkerOut(this, e)
       })
 
       marker.on('mouseclick', function (e) {
         that.onMarkerClick(this, e)
       })
+      that.markers.push(marker)
     })
 
   }
