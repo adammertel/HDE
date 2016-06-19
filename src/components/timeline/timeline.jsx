@@ -29,7 +29,7 @@ class Timeline extends React.Component {
     }
   }
 
-  barStyle(bar) {
+  barStyle (barOpts) {
     var style = {
       stroke: '#fff',
       strokeWidth: '3px',
@@ -37,10 +37,22 @@ class Timeline extends React.Component {
       opacity: 0.5
     }
 
-    if (bar.over){ style = _.assign(style, this.overNodeStyle)}
-    if (bar.selected){ style = _.assign(style, this.selectedNodeStyle)}
+    if (barOpts.over){ style = _.assign(style, this.overStyle)}
+    if (barOpts.selected){ style = _.assign(style, this.selectedStyle)}
     return style
   }
+
+  onBarOut (e) {
+    this.props.app.deOver(true)
+  }
+
+  onBarOver (time, e) {
+    var linksData = this.props.app.getData().links
+    var filteredLinks = _.filter(linksData, function(l) { return l.timeInterval == time})
+    var timeIds = _.map(filteredLinks, 'id')
+    this.props.app.setOver(timeIds, false)
+  }
+
 
   getBars () {
     var that = this
@@ -55,39 +67,33 @@ class Timeline extends React.Component {
     var g = this.props.app.state.config.timeGranularity
     var bw = w/g
 
-    var linksGroups = _.groupBy(this.props.app.getData().links, 'timeInterval')
+    var linksData = this.props.app.getData().links
+    var linksGroups = _.groupBy(linksData, 'timeInterval')
     var timeValues = _.map(_.keys(linksGroups), function(g){return parseInt(g)})
     var x = d3.scale.linear().domain([0, g]).range([0, w]);
     var y = d3.scale.linear().domain([0, _.max(timeValues)]).range([h, 0]);
 
     var bars = []
+
     _.forOwn(linksGroups, function(links, tgroup) {
+      var barOpts = {}
+      if (links[0].over){
+        barOpts = {over: true}
+      }
+
       var freq = links.length
-      var bar = {}
-      bars.push(<rect
+      bars.push(<Bar
+        time={tgroup}
         x={x(tgroup) + lm}
         width={bw}
         y={y(freq) + um}
         height={h - y(freq)}
-        style={that.barStyle(bar)}
+        onmouseover={that.onBarOver.bind(that, tgroup)}
+        onmouseout={that.onBarOut.bind(that)}
+        style={that.barStyle(barOpts)}
       />)
     })
 
-    // get over links
-
-    var overLinkGroups = _.groupBy(this.props.app.getOverLinks(), 'timeInterval')
-
-    _.forOwn(overLinkGroups, function(links, tgroup) {
-      var freq = linksGroups[tgroup].length
-      var bar = {over: true}
-      bars.push(<rect
-        x={x(tgroup) + lm}
-        width={bw}
-        y={y(freq) + um}
-        height={h - y(freq)}
-        style={that.barStyle(bar)}
-      />)
-    })
 
     return bars
   }

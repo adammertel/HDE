@@ -10,7 +10,10 @@ class Bar extends React.Component {
         width={this.props.width}
         y={this.props.y}
         height={this.props.height}
+        onMouseOver={this.props.onmouseover}
+        onMouseOut={this.props.onmouseout}
         style={this.props.style}
+        time={this.props.time}
       />
     )
   }

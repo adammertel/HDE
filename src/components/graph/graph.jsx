@@ -86,11 +86,11 @@ class Graph extends React.Component {
   }
 
   onNodeOver(e) {
-    this.props.app.setOver(e.target.id)
+    this.props.app.setOver([parseInt(e.target.id)], true)
   }
 
   onNodeOut(e) {
-    this.props.app.deOver()
+    this.props.app.deOver(true)
   }
 
   getNodes() {

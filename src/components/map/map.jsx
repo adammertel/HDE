@@ -6,8 +6,17 @@ class Map extends React.Component {
 
   constructor (props) {
     super(props)
+    var that = this
 
-    this.markers = []
+    this.markers = new L.featureGroup()
+
+    this.markers.on('mouseover', function (e) {
+      var markerId = e.layer.options.id
+      that.onMarkerOver(markerId)
+    })
+    this.markers.on('mouseclick', function (e) {
+      that.onMarkerClick(this, e)
+    })
 
     this.overStyle = {
       fillOpacity: 1
@@ -15,12 +24,6 @@ class Map extends React.Component {
 
     this.selectedStyle = {
       weight: 3
-    }
-  }
-
-  style() {
-    return {
-      'backgroundColor': 'lightgreen'
     }
   }
 
@@ -35,6 +38,7 @@ class Map extends React.Component {
   }
 
   setMap() {
+    var that = this
 
     var wms = function(url, layer) {
       return L.tileLayer.wms(url, {layers: layer, format: 'image/png', transparent: true, version: '1.3.0', opacity: 0.2})
@@ -52,7 +56,6 @@ class Map extends React.Component {
 
     var map = this.map = L.map(mapEl, {layers: osm}).setView([49, 17], 8);
     L.control.layers(baseMaps, null, {position: 'topleft'}).addTo(this.map);
-
 
     var controlSelect = L.Control.extend({
       options: {
@@ -76,18 +79,24 @@ class Map extends React.Component {
     });
 
     this.map.addControl(new controlSelect());
+
+    this.map.on('mouseover', function (e) {
+      that.onMarkerOut()
+    })
+
+    this.markers.addTo(this.map)
   }
 
-  onMarkerOver (marker, e) {
-    this.props.app.setOver(marker.options.id)
+  onMarkerOver (id) {
+    this.props.app.setOver([id], true)
   }
 
-  onMarkerOut (marker, e) {
-    console.log('map out')
-    this.props.app.deOver()
+  onMarkerOut () {
+    this.props.app.deOver(true)
   }
 
   onMarkerClick (marker, e) {
+    console.log('map click')
     console.log(e)
   }
 
@@ -111,49 +120,30 @@ class Map extends React.Component {
     }
   }
 
-  clearMap() {
-    var that = this
-    this.markers.map(function (marker, m) {
-      that.map.removeLayer(marker)
-    })
-    this.markers = []
-  }
 
-  loadData() {
+  loadData () {
+    this.markers.clearLayers()
     var that = this
-    this.clearMap()
     this.props.app.getData().nodes.map(function (node, index) {
 
       var style = that.defaultNodeStyle(node)
       if (node.over){ style = that.styleOverNode(style)}
       if (node.selected){ style = that.styleSelectedNode(style)}
 
-      var marker = L.circleMarker(node.coords, style).addTo(that.map)
+      var marker = L.circleMarker(node.coords, style)
+      that.markers.addLayer(marker)
 
-      marker.on('mouseover', function (e) {
-        that.onMarkerOver(this, e)
-      })
-
-      marker.on('mouseout', function (e) {
-        console.log('markerout')
-        that.onMarkerOut(this, e)
-      })
-
-      marker.on('mouseclick', function (e) {
-        that.onMarkerClick(this, e)
-      })
-      that.markers.push(marker)
     })
 
   }
 
   onMapClick() {
-      // Do some wonderful map things...
+
   }
 
   render() {
     return (
-      <div className="component component-map" style={this.style()}>
+      <div className="component component-map">
         <div ref="map" className="map"/>
       </div>
     );

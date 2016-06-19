@@ -171,56 +171,20 @@ class App extends React.Component {
     return _.filter(this.getData().links, function(o) { return o.source.id == id || o.target.id == id})
   }
 
-  deOver () {
+  deOver (refresh) {
     this.deOverNodes()
     this.deOverLinks()
-    this.refreshData()
+    if (refresh){
+      this.refreshData()
+    }
   }
 
-  setOver (id) {
-    this.deOverNodes()
-    this.deOverLinks()
-
-    this.getNodeById(id).over = true
-    this.overLinks(this.getLinksForNodeId(id))
-
-    this.refreshData()
-  }
-
-  // NODES
   deOverNodes () {
     _.forEach(this.getData().nodes, function(n){n.over = false})
   }
 
-  deSelectNodes () {
-    _.forEach(this.getData().nodes, function(n){n.selected = false})
-    this.refreshData()
-  }
-
-  toggleNode (id) {
-    this.getNodeById(id).selected = !this.getNodeById(id).selected
-    this.refreshData()
-  }
-
-  selectNode (id) {
-    this.getNodeById(id).selected = true
-    this.refreshData()
-  }
-
-  unselectNode (id) {
-    this.getNodeById(id).selected = false
-    this.refreshData()
-  }
-
-  // LINKS
-
-  getOverLinks () {
-    var overNode = this.getOverNode()
-    if (overNode){
-      return this.getLinksForNodeId(overNode.id)
-    } else {
-      return []
-    }
+  deOverLinks () {
+    _.forEach(this.getData().links, function(l){l.over = false})
   }
 
   overLinks (links) {
@@ -229,16 +193,41 @@ class App extends React.Component {
     })
   }
 
+  // nodesMod true -> setting nodes primary
+  // nodesMod false -> setting links primary
+  setOver (ids, nodesMode) {
+    var that = this
+    this.deOver(false)
 
-  deOverLinks () {
-    _.forEach(this.getData().links, function(l){l.over = false})
+    if (nodesMode){
+      _.forEach(this.getData().nodes, function(n){
+        if (_.includes(ids, n.id)){
+          n.over = true
+          that.overLinks(that.getLinksForNodeId(n.id))
+        }
+      })
+    }else{
+      _.forEach(this.getData().links, function(l){
+        if (_.includes(ids, l.id)){
+          l.over = true
+          that.getNodeById(l.source.id).over = true
+          that.getNodeById(l.target.id).over = true
+        }
+      })
+    }
+    this.refreshData()
   }
+
+  deSelectNodes () {
+    _.forEach(this.getData().nodes, function(n){n.selected = false})
+    this.refreshData()
+  }
+
+  // LINKS
 
   deSelectLinks () {
     _.forEach(this.getData().links, function(l){l.selected = false})
   }
-
-
 
   getData () {
     return this.state.data
