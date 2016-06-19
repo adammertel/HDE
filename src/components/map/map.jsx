@@ -9,6 +9,7 @@ class Map extends React.Component {
     var that = this
 
     this.markers = new L.featureGroup()
+    this.selecting = false
 
     this.markers.on('mouseover', function (e) {
       var markerId = e.layer.options.id
@@ -71,7 +72,9 @@ class Map extends React.Component {
         container.style.padding = '3px';
 
         container.onclick = function(){
-          console.log('buttonClicked');
+          setTimeout(function(){
+            that.startSelecting()
+          },1000)
         }
         return container;
       },
@@ -85,6 +88,66 @@ class Map extends React.Component {
     })
 
     this.markers.addTo(this.map)
+    this.selectingRectangle = L.rectangle([[0,0], [0,0]], {color: "#ff7800", weight: 1}).addTo(this.map);
+  }
+
+  startSelecting() {
+    var that = this
+    var bounds = [[],[]]
+    console.log('start selecting')
+    this.selecting = true
+
+    var changeSelectingRectangle = function (e) {
+      console.log('move')
+      bounds[1][0] = e.latlng.lat
+      bounds[1][1] = e.latlng.lng
+      that.selectingRectangle.setBounds(bounds)
+    }
+
+    this.map.once('click', function (e) {
+      bounds[0][0] = e.latlng.lat
+      bounds[0][1] = e.latlng.lng
+
+      that.map.on('mousemove', changeSelectingRectangle)
+
+      that.map.once('click', function (e) {
+        that.map.off('mousemove', changeSelectingRectangle)
+        that.selectNodes(that.getSelectedNodesByRectangle(bounds))
+
+        that.selectingRectangle.setBounds([[0,0], [0,0]])
+      })
+    })
+  }
+
+  getSelectedNodesByRectangle (bounds) {
+    var minX = bounds[0][0]
+    var maxX = bounds[1][0]
+    if (minX > maxX){
+      minX = bounds[1][0]
+      maxX = bounds[0][0]
+    }
+
+    var minY = bounds[0][1]
+    var maxY = bounds[1][1]
+    if (minY > maxY){
+      minY = bounds[1][1]
+      maxY = bounds[0][1]
+    }
+
+    console.log(minY, maxY)
+    var nodesInRectangle = []
+    this.props.app.getData().nodes.map(function (node, index) {
+      var x = node['coords'][0]
+      var y = node['coords'][1]
+      if (x > minX && x < maxX && y > minY && y < maxY) {
+        nodesInRectangle.push(node.id)
+      }
+    })
+    return nodesInRectangle
+  }
+
+  selectNodes (ids) {
+    this.props.app.setSelect(ids, true)
   }
 
   onMarkerOver (id) {
@@ -120,7 +183,6 @@ class Map extends React.Component {
     }
   }
 
-
   loadData () {
     this.markers.clearLayers()
     var that = this
@@ -134,11 +196,6 @@ class Map extends React.Component {
       that.markers.addLayer(marker)
 
     })
-
-  }
-
-  onMapClick() {
-
   }
 
   render() {

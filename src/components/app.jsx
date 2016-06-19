@@ -179,6 +179,14 @@ class App extends React.Component {
     }
   }
 
+  deSelect (refresh) {
+    this.deSelectNodes()
+    this.deSelectLinks()
+    if (refresh){
+      this.refreshData()
+    }
+  }
+
   deOverNodes () {
     _.forEach(this.getData().nodes, function(n){n.over = false})
   }
@@ -187,10 +195,12 @@ class App extends React.Component {
     _.forEach(this.getData().links, function(l){l.over = false})
   }
 
-  overLinks (links) {
-    links.map(function(link){
-      link.over = true
-    })
+  deSelectNodes () {
+    _.forEach(this.getData().nodes, function(n){n.selected = false})
+  }
+
+  deSelectLinks () {
+    _.forEach(this.getData().links, function(l){l.selected = false})
   }
 
   // nodesMod true -> setting nodes primary
@@ -203,7 +213,9 @@ class App extends React.Component {
       _.forEach(this.getData().nodes, function(n){
         if (_.includes(ids, n.id)){
           n.over = true
-          that.overLinks(that.getLinksForNodeId(n.id))
+          that.getLinksForNodeId(n.id).map(function(node){
+            node.over = true
+          })
         }
       })
     }else{
@@ -212,6 +224,31 @@ class App extends React.Component {
           l.over = true
           that.getNodeById(l.source.id).over = true
           that.getNodeById(l.target.id).over = true
+        }
+      })
+    }
+    this.refreshData()
+  }
+
+  setSelect (ids, nodesMode) {
+    var that = this
+    this.deSelect(false)
+
+    if (nodesMode){
+      _.forEach(this.getData().nodes, function(n){
+        if (_.includes(ids, n.id)){
+          n.selected = true
+          that.getLinksForNodeId(n.id).map(function(link){
+            link.selected = true
+          })
+        }
+      })
+    }else{
+      _.forEach(this.getData().links, function(l){
+        if (_.includes(ids, l.id)){
+          l.selected = true
+          that.getNodeById(l.source.id).selected = true
+          that.getNodeById(l.target.id).selected = true
         }
       })
     }
