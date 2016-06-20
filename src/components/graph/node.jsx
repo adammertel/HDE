@@ -5,7 +5,7 @@ class Node extends React.Component {
     var that = this
     return (
       <circle
-        r={5}
+        r={this.props.radius}
         id={this.props.id}
         cx={this.props.x}
         cy={this.props.y}

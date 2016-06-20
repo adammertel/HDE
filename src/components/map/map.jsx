@@ -20,11 +20,22 @@ class Map extends React.Component {
     })
 
     this.overStyle = {
-      fillOpacity: 1
+      fillOpacity: 0.4,
+      fillColor: 'orange',
+      weight: 0,
+      radius: 10,
     }
-
     this.selectedStyle = {
+      fillOpacity: 0.7,
+      opacity: 1,
       weight: 3
+    }
+    this.defaultStyle = {
+      radius: 5,
+      color: 'black',
+      opacity: 0.5,
+      fillOpacity: 0.3,
+      weight: 1
     }
   }
 
@@ -74,7 +85,7 @@ class Map extends React.Component {
         container.onclick = function(){
           setTimeout(function(){
             that.startSelecting()
-          },1000)
+          },300)
         }
         return container;
       },
@@ -134,7 +145,6 @@ class Map extends React.Component {
       maxY = bounds[0][1]
     }
 
-    console.log(minY, maxY)
     var nodesInRectangle = []
     this.props.app.getData().nodes.map(function (node, index) {
       var x = node['coords'][0]
@@ -163,35 +173,28 @@ class Map extends React.Component {
     console.log(e)
   }
 
-  styleOverNode (nodeStyle) {
-    return _.assign(nodeStyle, this.overStyle)
-  }
-
   styleSelectedNode (nodeStyle) {
     return _.assign(nodeStyle, this.selectedStyle)
   }
 
   defaultNodeStyle (node) {
-    return {
+    var that = this
+    return _.assign({
       id: node.id,
-      radius: 5,
-      color: 'black',
-      fillColor: this.props.app.getGroupColor(node.group),
-      opacity: 0.5,
-      fillOpacity: 0.3,
-      weight: 1
-    }
+      fillColor: that.props.app.getGroupColor(node.group)
+    }, this.defaultStyle)
   }
 
   loadData () {
     this.markers.clearLayers()
     var that = this
     this.props.app.getData().nodes.map(function (node, index) {
+      if (node.over){
+        that.markers.addLayer(L.circleMarker(node.coords, that.overStyle))
+      }
 
       var style = that.defaultNodeStyle(node)
-      if (node.over){ style = that.styleOverNode(style)}
       if (node.selected){ style = that.styleSelectedNode(style)}
-
       var marker = L.circleMarker(node.coords, style)
       that.markers.addLayer(marker)
 

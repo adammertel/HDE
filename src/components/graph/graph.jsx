@@ -8,21 +8,40 @@ import Link from './link.jsx!'
 class Graph extends React.Component {
   constructor (props) {
     super(props)
-    this.overNodeStyle = {
-      opacity: 1
-    }
 
-    this.selectedNodeStyle = {
-      strokeWidth: 3
+    this.defaultLinkStyle = {
+      "stroke": '#000',
+      "strokeWidth": '1px',
+      "opacity": 0.5
     }
+    this.overLinkStyle = _.assign(this.defaultNodeStyle, {
+      "opacity": 1
+    })
+    this.selectedLinkStyle = _.assign(this.defaultNodeStyle, {
+      "strokeWidth": 4,
+      "opacity": .7
+    })
 
-    this.overLinkStyle = {
-      opacity: 1
+    this.defaultNodeStyle = {
+      "stroke": '#000',
+      "stroke-width": '1px',
+      "fillOpacity": 0.5,
+      "strokeOpacity": 0.5
     }
+    var defaultNodeClone = _.clone(this.defaultNodeStyle)
+    this.overNodeStyle = _.clone(_.assign(defaultNodeClone, {
+      "fillOpacity": 0.3,
+      "strokeOpacity": 0,
+      "stroke-width": 0,
+      "fill": 'orange'
+    }))
+    this.selectedNodeStyle = _.clone(_.assign(defaultNodeClone, {
+      "stroke-width": '3px',
+      "fillOpacity": 1,
+      "strokeOpacity": 1
+    }))
+    console.log(this.overNodeStyle)
 
-    this.selectedLinkStyle = {
-      strokeWidth: 4
-    }
   }
 
   componentDidMount () {
@@ -55,13 +74,6 @@ class Graph extends React.Component {
     this.force.on("tick", function (tick, b, c) {
       self.forceUpdate()
     })
-
-  }
-
-  style() {
-    return {
-      'backgroundColor': 'white'
-    }
   }
 
   loadData() {
@@ -73,15 +85,13 @@ class Graph extends React.Component {
   }
 
   nodeStyle(node) {
-    var style = {
-      fill: this.props.app.getGroupColor(node.group),
-      stroke: '#000',
-      strokeWidth: '1px',
-      opacity: 0.5
+    var style = {}
+    if (node.selected){
+      style = _.clone(this.selectedNodeStyle)
+    }else{
+      style = _.clone(this.defaultNodeStyle)
     }
-
-    if (node.over){ style = _.assign(style, this.overNodeStyle)}
-    if (node.selected){ style = _.assign(style, this.selectedNodeStyle)}
+    style['fill'] = this.props.app.getGroupColor(node.group)
     return style
   }
 
@@ -95,19 +105,33 @@ class Graph extends React.Component {
 
   getNodes() {
     var that = this
-    var nodes = this.props.app.getData().nodes.map(function (node, index) {
-      return (<Node
+
+    return this.props.app.getData().nodes.map(function (node, index) {
+      return <Node
         id={node.id}
         key={node.id}
         x={node.x}
         y={node.y}
+        radius={5}
         onmouseover={that.onNodeOver.bind(that)}
         onmouseout={that.onNodeOut.bind(that)}
-        style={that.nodeStyle(node)}
-        />)
-      })
+        style={that.nodeStyle(node)} />
+    })
+  }
 
-    return nodes;
+  drawOverNode() {
+    var that = this
+    return this.props.app.getData().nodes.map(function (node, index) {
+      if (node.over){
+        return <Node
+          id={node.id}
+          key={node.id}
+          x={node.x}
+          y={node.y}
+          radius={10}
+          style={that.overNodeStyle} />
+      }
+    })
   }
 
   linkStyle(link) {
@@ -144,11 +168,12 @@ class Graph extends React.Component {
 
   render() {
     return (
-      <div className="component component-graph" style={this.style()}>
+      <div className="component component-graph" >
         <svg
           width={this.props.w()}
           height={this.props.h()}>
           {this.getLinks()}
+          {this.drawOverNode()}
           {this.getNodes()}
         </svg>
       </div>

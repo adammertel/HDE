@@ -19,6 +19,7 @@ class Timeline extends React.Component {
     }
 
     this.selectedStyle = {
+      opacity: 1,
       stroke: '#000'
     }
   }
