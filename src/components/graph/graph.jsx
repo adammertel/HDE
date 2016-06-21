@@ -10,38 +10,36 @@ class Graph extends React.Component {
     super(props)
 
     this.defaultLinkStyle = {
-      "stroke": '#000',
       "strokeWidth": '1px',
-      "opacity": 0.5
+      "strokeOpacity": .5
     }
-    this.overLinkStyle = _.assign(this.defaultNodeStyle, {
-      "opacity": 1
-    })
-    this.selectedLinkStyle = _.assign(this.defaultNodeStyle, {
-      "strokeWidth": 4,
-      "opacity": .7
-    })
+    var defaultLinkClone = _.clone(this.defaultLinkStyle)
+    this.overLinkStyle = _.clone(_.assign(defaultLinkClone, {
+      "strokeOpacity": .4,
+      "strokeWidth": '5px',
+      "stroke": 'orange'
+    }))
+    this.selectedLinkStyle = _.clone(_.assign(defaultLinkClone, {
+      "strokeWidth": '3px',
+      "strokeOpacity": .8
+    }))
 
     this.defaultNodeStyle = {
       "stroke": '#000',
       "stroke-width": '1px',
-      "fillOpacity": 0.5,
-      "strokeOpacity": 0.5
+      "fillOpacity": .5
     }
     var defaultNodeClone = _.clone(this.defaultNodeStyle)
     this.overNodeStyle = _.clone(_.assign(defaultNodeClone, {
-      "fillOpacity": 0.3,
-      "strokeOpacity": 0,
       "stroke-width": 0,
-      "fill": 'orange'
+      "fill": 'orange',
+      "fillOpacity": .3
     }))
     this.selectedNodeStyle = _.clone(_.assign(defaultNodeClone, {
-      "stroke-width": '3px',
-      "fillOpacity": 1,
-      "strokeOpacity": 1
+      "stroke-width": '2px',
+      "strokeOpacity": 1,
+      "fillOpacity": 1
     }))
-    console.log(this.overNodeStyle)
-
   }
 
   componentDidMount () {
@@ -85,12 +83,8 @@ class Graph extends React.Component {
   }
 
   nodeStyle(node) {
-    var style = {}
-    if (node.selected){
-      style = _.clone(this.selectedNodeStyle)
-    }else{
-      style = _.clone(this.defaultNodeStyle)
-    }
+    var style = _.clone(this.defaultNodeStyle)
+    if (node.selected){ style = _.clone(this.selectedNodeStyle) }
     style['fill'] = this.props.app.getGroupColor(node.group)
     return style
   }
@@ -119,7 +113,7 @@ class Graph extends React.Component {
     })
   }
 
-  drawOverNode() {
+  drawOverNodes() {
     var that = this
     return this.props.app.getData().nodes.map(function (node, index) {
       if (node.over){
@@ -134,16 +128,24 @@ class Graph extends React.Component {
     })
   }
 
+  drawOverLinks() {
+    var that = this
+    return this.props.app.getData().links.map(function (link, index) {
+      if (link.over){
+        return <Link
+          source={link.source}
+          target={link.target}
+          value={link.value}
+          key={index}
+          style={that.overLinkStyle} />
+      }
+    })
+  }
+
   linkStyle(link) {
-    var style = {
-      stroke: this.props.app.getTypeColor(link.type),
-      strokeWidth: 2,
-      opacity: 0.4
-    }
-
-    if (link.over){ style = _.assign(style, this.overLinkStyle)}
-    if (link.selected){ style = _.assign(style, this.selectedLinkStyle)}
-
+    var style = _.clone(this.defaultLinkStyle)
+    if (link.selected){ style = _.clone(this.selectedLinkStyle) }
+    style['stroke'] = this.props.app.getTypeColor(link.type)
     return style
   }
 
@@ -158,7 +160,6 @@ class Graph extends React.Component {
         style={that.linkStyle(link)}
       />)
     })
-
     return (
       <g>
         {links}
@@ -172,12 +173,13 @@ class Graph extends React.Component {
         <svg
           width={this.props.w()}
           height={this.props.h()}>
+          {this.drawOverLinks()}
           {this.getLinks()}
-          {this.drawOverNode()}
+          {this.drawOverNodes()}
           {this.getNodes()}
         </svg>
       </div>
-    );
+    )
   }
 }
 
