@@ -14,46 +14,45 @@ class Timeline extends React.Component {
       height: 100
     }
 
-    this.overStyle = {
-      opacity: 1
+    this.defaultStyle = {
+      "stroke": '#fff',
+      "strokeWidth": '0px',
+      "fill": '#15c',
+      "opacity": 0.5
     }
 
-    this.selectedStyle = {
-      opacity: 1,
-      stroke: '#000'
-    }
+    var defaultStyleClone = _.clone(this.defaultStyle)
+    this.overStyle = _.clone(_.assign(defaultStyleClone, {
+      "opacity": .3,
+      "strokeWidth": '10px',
+      "stroke": 'orange',
+    }))
+    this.selectedStyle = _.clone(_.assign(defaultStyleClone, {
+      "opacity": 1,
+      "stroke": '#000',
+      "strokeWidth": '0px',
+    }))
+
   }
 
-  style() {
-    return {
-      'backgroundColor': 'white'
-    }
-  }
-
-  barStyle (barOpts) {
-    var style = {
-      stroke: '#fff',
-      strokeWidth: '3px',
-      fill: '#15c',
-      opacity: 0.5
-    }
-
-    if (barOpts.over){ style = _.assign(style, this.overStyle)}
-    if (barOpts.selected){ style = _.assign(style, this.selectedStyle)}
+  barStyle(bar) {
+    var style = _.clone(this.defaultStyle)
+    if (bar.selected){ style = _.clone(this.selectedStyle)}
     return style
   }
 
   onBarOut (e) {
+    e.stopPropagation();
     this.props.app.deOver(true)
   }
 
   onBarOver (time, e) {
+    e.stopPropagation();
     var linksData = this.props.app.getData().links
     var filteredLinks = _.filter(linksData, function(l) { return l.timeInterval == time})
     var timeIds = _.map(filteredLinks, 'id')
     this.props.app.setOver(timeIds, false)
   }
-
 
   getBars () {
     var that = this
@@ -64,9 +63,9 @@ class Timeline extends React.Component {
     var bm = 50
     var um = 10
     var h = this.height - bm - um
-    var w = this.width - lm - rm
     var g = this.props.app.state.config.timeGranularity
-    var bw = w/g
+    var w = this.width - lm - rm
+    var bw = w/g - 15
 
     var linksData = this.props.app.getData().links
     var linksGroups = _.groupBy(linksData, 'timeInterval')
@@ -77,11 +76,25 @@ class Timeline extends React.Component {
     var bars = []
 
     _.forOwn(linksGroups, function(links, tgroup) {
-      var barOpts = {}
-      if (links[0].over){
-        barOpts = {over: true}
-      }
+      var overDriven = false
+      links.map(function(link){
+        if (link.over && !overDriven){
+          overDriven = true
+          var freq = links.length
+          var barOpts = {over: true}
+          bars.push(<Bar
+            time={tgroup}
+            x={x(tgroup) + lm}
+            width={bw}
+            y={y(freq) + um}
+            height={h - y(freq)}
+            style={that.overStyle}
+            />)
+          }
+      })
+    })
 
+    _.forOwn(linksGroups, function(links, tgroup) {
       var freq = links.length
       bars.push(<Bar
         time={tgroup}
@@ -90,16 +103,38 @@ class Timeline extends React.Component {
         y={y(freq) + um}
         height={h - y(freq)}
         onmouseover={that.onBarOver.bind(that, tgroup)}
-        onmouseout={that.onBarOut.bind(that)}
-        style={that.barStyle(barOpts)}
+        style={that.barStyle({})}
       />)
     })
 
+    _.forOwn(linksGroups, function(links, tgroup) {
+      var selectedFreq = 0
+      links.map(function(link){
+        if (link.selected){selectedFreq++}
+      })
+
+      bars.push(<Bar
+        time={tgroup}
+        x={x(tgroup) + lm}
+        width={bw}
+        y={y(selectedFreq) + um}
+        height={h - y(selectedFreq)}
+        onmouseover={that.onBarOver.bind(that, tgroup)}
+        style={that.selectedStyle}
+      />)
+    })
 
     return bars
   }
 
+  style() {
+    return {
+      'backgroundColor': 'white'
+    }
+  }
+
   render() {
+    var that = this
     this.width = this.props.w()
     this.height = this.props.h()
     return (
@@ -107,7 +142,9 @@ class Timeline extends React.Component {
         <svg
           width={this.width}
           height={this.height}>
-          {this.getBars()}
+          <g onMouseOver={that.onBarOut.bind(that)} >
+            {this.getBars()}
+          </g>
         </svg>
       </div>
     );

@@ -8,6 +8,14 @@ import Link from './link.jsx!'
 class Graph extends React.Component {
   constructor (props) {
     super(props)
+    this.state = {
+      draggedX: 0,
+      draggedY: 0,
+      zoom: 1
+    }
+    this.dragging = false
+    this.dragOriginX = 0
+    this.dragOriginY = 0
 
     this.defaultLinkStyle = {
       "strokeWidth": '1px',
@@ -55,12 +63,13 @@ class Graph extends React.Component {
   }
 
   setForce () {
-    var self = this
+    var that = this
     this.lastH = this.props.h()
     this.lastW = this.props.w()
 
     let nodesData = this.props.app.getData().nodes
     let linksData = this.props.app.getData().links
+
     this.force = d3.layout.force()
       .charge(-50)
       .linkDistance(25)
@@ -70,7 +79,7 @@ class Graph extends React.Component {
       .start()
 
     this.force.on("tick", function (tick, b, c) {
-      self.forceUpdate()
+      that.forceUpdate()
     })
   }
 
@@ -167,16 +176,78 @@ class Graph extends React.Component {
     )
   }
 
+  componentDidUpdate() {
+
+  }
+
+  handleMouseUp (e) {
+    this.dragging = false
+  }
+
+  handleMouseDown (e) {
+    this.dragOriginX = e.clientX
+    this.dragOriginY = e.clientY
+    this.dragging = true
+  }
+
+  handleMouseMove (e) {
+    var that = this
+
+    if (this.dragging) {
+      var x = e.clientX
+      var y = e.clientY
+      var newDragX = this.state.draggedX + (x - this.dragOriginX)
+      var newDragY = this.state.draggedY + (y - this.dragOriginY)
+
+      this.setState({
+        draggedX: newDragX,
+        draggedY: newDragY
+      }, function(){
+        that.dragOriginX = x
+        that.dragOriginY = y
+      })
+      console.log('dragging')
+    }
+  }
+
+  componentDidMount () {
+    var graphEl = this.refs.graphSvg
+    graphEl.addEventListener("mousewheel", this.handleScroll.bind(this), false);
+  }
+
+  handleScroll (e) {
+    var zoom = this.state.zoom
+    if (e.deltaY < 0) {
+      zoom += 0.1
+    }else{
+      zoom -= 0.1
+    }
+    console.log(zoom)
+    this.setState({zoom: zoom})
+  }
+
   render() {
+    var that = this
     return (
       <div className="component component-graph" >
         <svg
+          ref="graphSvg"
           width={this.props.w()}
-          height={this.props.h()}>
-          {this.drawOverLinks()}
-          {this.getLinks()}
-          {this.drawOverNodes()}
-          {this.getNodes()}
+          height={this.props.h()}
+          onMouseDown={that.handleMouseDown.bind(that)}
+          onMouseUp={that.handleMouseUp.bind(that)}
+          onMouseMove={that.handleMouseMove.bind(that)}
+          >
+          <g
+            pointer-events="all"
+            transform={"translate(" + that.state.draggedX + "," + that.state.draggedY + ")scale(" + that.state.zoom + ")"}
+
+          >
+            {this.drawOverLinks()}
+            {this.getLinks()}
+            {this.drawOverNodes()}
+            {this.getNodes()}
+          </g>
         </svg>
       </div>
     )
