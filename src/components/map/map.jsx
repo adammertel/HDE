@@ -49,6 +49,16 @@ class Map extends React.Component {
     this.loadData()
   }
 
+  selectedRectangleStyle () {
+    return {
+      'color': this.props.app.state.style.selected.strokeColor,
+      'weight': this.props.app.state.style.selected.strokeWidth,
+      'fillColor': this.props.app.state.style.selected.fillColor,
+      'fill-opacity': this.props.app.state.style.selected.fillOpacity,
+      'opacity': this.props.app.state.style.selected.strokeOpacity,
+    }
+  }
+
   setMap() {
     var that = this
 
@@ -99,7 +109,7 @@ class Map extends React.Component {
     })
 
     this.markers.addTo(this.map)
-    this.selectingRectangle = L.rectangle([[0,0], [0,0]], {color: "#ff7800", weight: 1}).addTo(this.map);
+    this.selectingRectangle = L.rectangle([[0,0], [0,0]], this.selectedRectangleStyle()).addTo(this.map);
   }
 
   startSelecting() {

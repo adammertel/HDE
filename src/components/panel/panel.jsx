@@ -2,13 +2,6 @@ import React from 'react'
 
 class Panel extends React.Component {
 
-  styleBody() {
-    return {
-      backgroundColor: 'white'
-
-    }
-  }
-
   width () {
     return this.props.w
   }
@@ -26,7 +19,7 @@ class Panel extends React.Component {
         <div className="panel-heading">
           <h3 className="panel-title">{this.props.label}</h3>
         </div>
-        <div className="panel-body" style={this.styleBody()}>
+        <div className="panel-body" >
           {
             React.cloneElement(this.props.children, {
               app: that.props.app,

@@ -11,11 +11,17 @@ class Graph extends React.Component {
     this.state = {
       draggedX: 0,
       draggedY: 0,
-      zoom: 1
+      zoom: 1,
+      selectionX1: 0,
+      selectionY1: 0,
+      selectionX2: 0,
+      selectionY2: 0,
     }
     this.dragging = false
     this.dragOriginX = 0
     this.dragOriginY = 0
+    this.selectionActivated = false
+    this.selectionOngoing = false
 
     this.defaultLinkStyle = {
       "strokeWidth": '1px',
@@ -51,8 +57,8 @@ class Graph extends React.Component {
   }
 
   componentDidMount () {
-    this.loadData()
     this.setForce()
+    this.loadData()
   }
 
   componentWillReceiveProps () {
@@ -60,6 +66,25 @@ class Graph extends React.Component {
     if (this.props.h() != this.lastH){
       this.setForce()
     }
+  }
+
+  doSelection () {
+    var minX = this.selectionX()
+    var minY = this.selectionY()
+    var maxX = minX + this.selectionW()
+    var maxY = minY + this.selectionH()
+
+    var nodesInRectangle = []
+    this.props.app.getData().nodes.map(function (node, index) {
+      var x = node.x
+      var y = node.y
+      if (x > minX && x < maxX && y > minY && y < maxY) {
+        nodesInRectangle.push(node.id)
+      }
+    })
+
+    this.props.app.setSelect(nodesInRectangle, true)
+
   }
 
   setForce () {
@@ -184,15 +209,75 @@ class Graph extends React.Component {
     this.dragging = false
   }
 
+  hideSelectingRectangle () {
+    this.setState({
+      selectionX1: 0,
+      selectionX2: 0,
+      selectionY1: 0,
+      selectionY2: 0.
+    })
+  }
+
+  svgOriginPosition () {
+    var graphElBounds = this.refs.graph.getBoundingClientRect()
+    return [graphElBounds.left, graphElBounds.top]
+  }
+
+  startSelection (e) {
+    var elPosition = this.svgOriginPosition()
+
+    console.log(e.clientY)
+    console.log(elPosition[1])
+
+    this.setState({
+      selectionX1: (e.clientX - elPosition[0]) - this.state.draggedX,
+      selectionY1: (e.clientY - elPosition[1]) - this.state.draggedY,
+      selectionX2: (e.clientX - elPosition[0]) - this.state.draggedX,
+      selectionY2: (e.clientY - elPosition[1]) - this.state.draggedY,
+    })
+  }
+
+  confirmSelection () {
+    console.log('selection confirmed')
+    this.doSelection()
+    this.hideSelectingRectangle()
+  }
+
+  updateSelection (e) {
+    console.log('selection updated')
+    var elPosition = this.svgOriginPosition()
+    this.setState({
+      selectionX2: (e.clientX - elPosition[0]) - this.state.draggedX,
+      selectionY2: (e.clientY - elPosition[1]) - this.state.draggedY
+    })
+  }
+
   handleMouseDown (e) {
-    this.dragOriginX = e.clientX
-    this.dragOriginY = e.clientY
-    this.dragging = true
+    var eClone = _.clone(e)
+    if (this.selectionOngoing) {
+      this.selectionOngoing = false
+      this.selectionActivated = false
+      this.confirmSelection()
+    }
+    if (this.selectionActivated){
+      var that = this
+      setTimeout(function(){
+        that.selectionOngoing = true
+        that.startSelection(eClone)
+      }, 300)
+    }else{
+      this.dragOriginX = e.clientX
+      this.dragOriginY = e.clientY
+      this.dragging = true
+    }
   }
 
   handleMouseMove (e) {
     var that = this
 
+    if (this.selectionOngoing) {
+      this.updateSelection(e)
+    }
     if (this.dragging) {
       var x = e.clientX
       var y = e.clientY
@@ -206,12 +291,11 @@ class Graph extends React.Component {
         that.dragOriginX = x
         that.dragOriginY = y
       })
-      console.log('dragging')
     }
   }
 
   componentDidMount () {
-    var graphEl = this.refs.graphSvg
+    var graphEl = this.refs.graph
     graphEl.addEventListener("mousewheel", this.handleScroll.bind(this), false);
   }
 
@@ -222,16 +306,69 @@ class Graph extends React.Component {
     }else{
       zoom -= 0.1
     }
-    console.log(zoom)
     this.setState({zoom: zoom})
   }
 
-  render() {
+  activateSelection () {
+    this.selectionActivated = !this.selecting
+  }
+
+  selectButtonStyle () {
+    return {
+      width: '30px',
+      height: '30px',
+      cursor: 'pointer',
+      padding: '3px',
+      backgroundColor: 'white',
+      top: '50px',
+      left: '10px',
+      position: 'absolute'
+    }
+  }
+
+  selectionRectStyle () {
+    return {
+      'stroke': this.props.app.state.style.selected.strokeColor,
+      'strokeOpacity': this.props.app.state.style.selected.strokeOpacity,
+      'strokeWidth': this.props.app.state.style.selected.strokeWidth,
+      'fill': this.props.app.state.style.selected.fillColor,
+      'fillOpacity': this.props.app.state.style.selected.fillOpacity
+    }
+  }
+
+  selectionY () {
+    if (this.state.selectionY1 < this.state.selectionY2){
+      return this.state.selectionY1
+    }else{
+      return this.state.selectionY2
+    }
+  }
+
+  selectionX () {
+    if (this.state.selectionX1 < this.state.selectionX2){
+      return this.state.selectionX1
+    }else{
+      return this.state.selectionX2
+    }
+  }
+
+  selectionW () {
+    return Math.abs(this.state.selectionX1 - this.state.selectionX2)
+  }
+
+  selectionH () {
+    return Math.abs(this.state.selectionY1 - this.state.selectionY2)
+  }
+
+  render () {
     var that = this
     return (
       <div className="component component-graph" >
+        <div
+          className="fa fa-hand-o-down fa-2x leaflet-bar leaflet-control leaflet-control-custom" style={this.selectButtonStyle()}
+          onClick={this.activateSelection.bind(that)}></div>
         <svg
-          ref="graphSvg"
+          ref="graph"
           width={this.props.w()}
           height={this.props.h()}
           onMouseDown={that.handleMouseDown.bind(that)}
@@ -241,8 +378,9 @@ class Graph extends React.Component {
           <g
             pointer-events="all"
             transform={"translate(" + that.state.draggedX + "," + that.state.draggedY + ")scale(" + that.state.zoom + ")"}
-
           >
+            <rect style={this.selectionRectStyle()}
+              x={this.selectionX()} y={this.selectionY()} width={this.selectionW()} height={this.selectionH()} />
             {this.drawOverLinks()}
             {this.getLinks()}
             {this.drawOverNodes()}

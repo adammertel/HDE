@@ -73,6 +73,16 @@ class App extends React.Component {
         timeGranularity: 10,
         timeUnit: 'year'
       },
+      'style': {
+        selected: {
+          fillOpacity: .3,
+          strokeOpacity: .7,
+          fillColor: 'red',
+          strokeColor: 'black',
+          strokeWidth: 1
+
+        }
+      },
       'window': {
         width: window.innerWidth,
         height: window.innerHeight
