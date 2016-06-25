@@ -23,40 +23,43 @@ class Graph extends React.Component {
     this.selectionActivated = false
     this.selectionOngoing = false
 
+    var appStyle = this.props.app.state.style
+
     this.defaultLinkStyle = {
-      "strokeWidth": '1px',
-      "strokeOpacity": .5
+      "strokeWidth": appStyle.defaultLinks.strokeWidth,
+      "strokeOpacity": appStyle.defaultLinks.strokeOpacity
     }
     var defaultLinkClone = _.clone(this.defaultLinkStyle)
     this.overLinkStyle = _.clone(_.assign(defaultLinkClone, {
-      "strokeOpacity": .4,
-      "strokeWidth": '5px',
-      "stroke": 'orange'
+      "strokeOpacity": appStyle.overLinks.strokeOpacity,
+      "strokeWidth": appStyle.overLinks.strokeWidth,
+      "stroke": appStyle.overLinks.strokeColor
     }))
     this.selectedLinkStyle = _.clone(_.assign(defaultLinkClone, {
-      "strokeWidth": '3px',
-      "strokeOpacity": .8
+      "strokeWidth": appStyle.selectedLinks.strokeWidth,
+      "strokeOpacity": appStyle.selectedLinks.strokeOpacity
     }))
 
     this.defaultNodeStyle = {
-      "stroke": '#000',
-      "stroke-width": '1px',
-      "fillOpacity": .5
+      "stroke": appStyle.defaultNodes.strokeColor,
+      "stroke-width": appStyle.defaultNodes.strokeWidth,
+      "strokeOpacity": appStyle.defaultNodes.strokeOpacity,
+      "fillOpacity": appStyle.defaultNodes.fillOpacity
     }
     var defaultNodeClone = _.clone(this.defaultNodeStyle)
     this.overNodeStyle = _.clone(_.assign(defaultNodeClone, {
-      "stroke-width": 0,
-      "fill": 'orange',
-      "fillOpacity": .3
+      "stroke-width": appStyle.overNodes.strokeWidth,
+      "fill": appStyle.overNodes.fillColor,
+      "fillOpacity": appStyle.overNodes.fillOpacity
     }))
     this.selectedNodeStyle = _.clone(_.assign(defaultNodeClone, {
-      "stroke-width": '2px',
-      "strokeOpacity": 1,
-      "fillOpacity": 1
+      "stroke-width": appStyle.selectedNodes.strokeWidth,
+      "strokeOpacity": appStyle.selectedNodes.strokeOpacity,
+      "fillOpacity": appStyle.selectedNodes.fillOpacity
     }))
   }
 
-  componentDidMount () {
+  componentWillMount () {
     this.setForce()
     this.loadData()
   }
@@ -313,26 +316,13 @@ class Graph extends React.Component {
     this.selectionActivated = !this.selecting
   }
 
-  selectButtonStyle () {
-    return {
-      width: '30px',
-      height: '30px',
-      cursor: 'pointer',
-      padding: '3px',
-      backgroundColor: 'white',
-      top: '50px',
-      left: '10px',
-      position: 'absolute'
-    }
-  }
-
   selectionRectStyle () {
     return {
-      'stroke': this.props.app.state.style.selected.strokeColor,
-      'strokeOpacity': this.props.app.state.style.selected.strokeOpacity,
-      'strokeWidth': this.props.app.state.style.selected.strokeWidth,
-      'fill': this.props.app.state.style.selected.fillColor,
-      'fillOpacity': this.props.app.state.style.selected.fillOpacity
+      'stroke': this.props.app.state.style.selectionRectangle.strokeColor,
+      'strokeOpacity': this.props.app.state.style.selectionRectangle.strokeOpacity,
+      'strokeWidth': this.props.app.state.style.selectionRectangle.strokeWidth,
+      'fill': this.props.app.state.style.selectionRectangle.fillColor,
+      'fillOpacity': this.props.app.state.style.selectionRectangle.fillOpacity
     }
   }
 
@@ -365,7 +355,7 @@ class Graph extends React.Component {
     return (
       <div className="component component-graph" >
         <div
-          className="fa fa-hand-o-down fa-2x leaflet-bar leaflet-control leaflet-control-custom" style={this.selectButtonStyle()}
+          className="selection-button-graph selection-button fa fa-hand-o-down fa-2x leaflet-bar leaflet-control leaflet-control-custom"
           onClick={this.activateSelection.bind(that)}></div>
         <svg
           ref="graph"

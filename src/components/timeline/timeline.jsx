@@ -14,6 +14,8 @@ class Timeline extends React.Component {
       height: 100
     }
 
+    var appStyle = this.props.app.state.style
+
     this.defaultStyle = {
       "stroke": '#fff',
       "strokeWidth": '0px',
@@ -24,8 +26,9 @@ class Timeline extends React.Component {
     var defaultStyleClone = _.clone(this.defaultStyle)
     this.overStyle = _.clone(_.assign(defaultStyleClone, {
       "opacity": .3,
-      "strokeWidth": '10px',
-      "stroke": 'orange',
+      "strokeWidth": '6px',
+      "stroke": appStyle.overLinks.fillColor,
+      "strokeLocation": 'outside'
     }))
     this.selectedStyle = _.clone(_.assign(defaultStyleClone, {
       "opacity": 1,
@@ -66,6 +69,7 @@ class Timeline extends React.Component {
     var g = this.props.app.state.config.timeGranularity
     var w = this.width - lm - rm
     var bw = w/g - 15
+    var border = 3
 
     var linksData = this.props.app.getData().links
     var linksGroups = _.groupBy(linksData, 'timeInterval')
@@ -84,10 +88,10 @@ class Timeline extends React.Component {
           var barOpts = {over: true}
           bars.push(<Bar
             time={tgroup}
-            x={x(tgroup) + lm}
-            width={bw}
-            y={y(freq) + um}
-            height={h - y(freq)}
+            x={x(tgroup) + lm - border}
+            width={bw + 2*border}
+            y={y(freq) + um - border}
+            height={h - y(freq) + 2*border}
             style={that.overStyle}
             />)
           }
@@ -127,18 +131,12 @@ class Timeline extends React.Component {
     return bars
   }
 
-  style() {
-    return {
-      'backgroundColor': 'white'
-    }
-  }
-
   render() {
     var that = this
     this.width = this.props.w()
     this.height = this.props.h()
     return (
-      <div className="component component-graph" style={this.style()}>
+      <div className="component component-graph">
         <svg
           width={this.width}
           height={this.height}>

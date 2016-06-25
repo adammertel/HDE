@@ -74,13 +74,46 @@ class App extends React.Component {
         timeUnit: 'year'
       },
       'style': {
-        selected: {
+        selectionRectangle: {
           fillOpacity: .3,
           strokeOpacity: .7,
           fillColor: 'red',
           strokeColor: 'black',
           strokeWidth: 1
+        },
 
+        defaultNodes: {
+          strokeColor: '#000',
+          strokeWidth: '1px',
+          strokeOpacity: .5,
+          fillOpacity: .5,
+          radius: 5
+        },
+        overNodes: {
+          strokeWidth: 0,
+          fillColor: 'orange',
+          fillOpacity: .3,
+          radius: 10
+        },
+        selectedNodes: {
+          strokeWidth: '2px',
+          strokeOpacity: 1,
+          fillOpacity: 1
+        },
+
+        defaultLinks: {
+          strokeWidth: '1px',
+          strokeOpacity: .5
+        },
+        overLinks: {
+          strokeWidth: '3px',
+          strokeOpacity: .4,
+          strokeColor: 'orange',
+          fillColor: 'orange',
+        },
+        selectedLinks: {
+          strokeWidth: '3px',
+          strokeOpacity: .8
         }
       },
       'window': {

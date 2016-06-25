@@ -19,23 +19,34 @@ class Map extends React.Component {
       that.onMarkerClick(this, e)
     })
 
+    var appStyle = this.props.app.state.style
+
+    this.defaultStyle = {
+      radius: appStyle.defaultNodes.radius,
+      color: appStyle.defaultNodes.strokeColor,
+      opacity: appStyle.defaultNodes.strokeOpacity,
+      fillOpacity: appStyle.defaultNodes.fillOpacity,
+      weight: appStyle.defaultNodes.strokeWidth
+    }
+
     this.overStyle = {
-      fillOpacity: 0.4,
-      fillColor: 'orange',
-      weight: 0,
-      radius: 10,
+      fillOpacity: appStyle.overNodes.fillOpacity,
+      fillColor: appStyle.overNodes.fillColor,
+      weight: appStyle.overNodes.fillOpacity,
+      radius: appStyle.overNodes.radius,
     }
     this.selectedStyle = {
-      fillOpacity: 0.7,
-      opacity: 1,
-      weight: 3
+      fillOpacity: appStyle.selectedNodes.fillOpacity,
+      opacity: appStyle.selectedNodes.strokeOpacity,
+      weight: appStyle.selectedNodes.strokeWidth
     }
-    this.defaultStyle = {
-      radius: 5,
-      color: 'black',
-      opacity: 0.5,
-      fillOpacity: 0.3,
-      weight: 1
+
+    this.selectedRectangleStyle = {
+      'color': this.props.app.state.style.selectionRectangle.strokeColor,
+      'weight': this.props.app.state.style.selectionRectangle.strokeWidth,
+      'fillColor': this.props.app.state.style.selectionRectangle.fillColor,
+      'fill-opacity': this.props.app.state.style.selectionRectangle.fillOpacity,
+      'opacity': this.props.app.state.style.selectionRectangle.strokeOpacity,
     }
   }
 
@@ -47,16 +58,6 @@ class Map extends React.Component {
   componentDidMount () {
     this.setMap()
     this.loadData()
-  }
-
-  selectedRectangleStyle () {
-    return {
-      'color': this.props.app.state.style.selected.strokeColor,
-      'weight': this.props.app.state.style.selected.strokeWidth,
-      'fillColor': this.props.app.state.style.selected.fillColor,
-      'fill-opacity': this.props.app.state.style.selected.fillOpacity,
-      'opacity': this.props.app.state.style.selected.strokeOpacity,
-    }
   }
 
   setMap() {
@@ -84,13 +85,7 @@ class Map extends React.Component {
         position: 'topleft'
       },
       onAdd: function (map) {
-        var container = L.DomUtil.create('div', 'fa fa-hand-o-down fa-2x leaflet-bar leaflet-control leaflet-control-custom');
-
-        container.style.backgroundColor = 'white';
-        container.style.width = '30px';
-        container.style.height = '30px';
-        container.style.cursor = 'pointer';
-        container.style.padding = '3px';
+        var container = L.DomUtil.create('div', 'selection-button fa fa-hand-o-down fa-2x leaflet-bar leaflet-control leaflet-control-custom');
 
         container.onclick = function(){
           setTimeout(function(){
@@ -99,7 +94,6 @@ class Map extends React.Component {
         }
         return container;
       },
-
     });
 
     this.map.addControl(new controlSelect());
@@ -109,7 +103,7 @@ class Map extends React.Component {
     })
 
     this.markers.addTo(this.map)
-    this.selectingRectangle = L.rectangle([[0,0], [0,0]], this.selectedRectangleStyle()).addTo(this.map);
+    this.selectingRectangle = L.rectangle([[0,0], [0,0]], this.selectedRectangleStyle).addTo(this.map);
   }
 
   startSelecting() {
@@ -207,7 +201,6 @@ class Map extends React.Component {
       if (node.selected){ style = that.styleSelectedNode(style)}
       var marker = L.circleMarker(node.coords, style)
       that.markers.addLayer(marker)
-
     })
   }
 
