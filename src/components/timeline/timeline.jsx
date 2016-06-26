@@ -91,7 +91,7 @@ class Timeline extends React.Component {
             x={x(tgroup) + lm - border}
             width={bw + 2*border}
             y={y(freq) + um - border}
-            height={h - y(freq) + 2*border}
+            height={h - y(freq) + border}
             style={that.overStyle}
             />)
           }
