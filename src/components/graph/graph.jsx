@@ -122,7 +122,7 @@ class Graph extends React.Component {
   nodeStyle(node) {
     var style = _.clone(this.defaultNodeStyle)
     if (node.selected){ style = _.clone(this.selectedNodeStyle) }
-    style['fill'] = this.props.app.getGroupColor(node.group)
+    style['fill'] = this.props.app.getGroupColor(node)
     return style
   }
 
@@ -172,7 +172,6 @@ class Graph extends React.Component {
         return <Link
           source={link.source}
           target={link.target}
-          value={link.value}
           key={index}
           style={that.overLinkStyle} />
       }
@@ -182,7 +181,7 @@ class Graph extends React.Component {
   linkStyle(link) {
     var style = _.clone(this.defaultLinkStyle)
     if (link.selected){ style = _.clone(this.selectedLinkStyle) }
-    style['stroke'] = this.props.app.getTypeColor(link.type)
+    style['stroke'] = this.props.app.getTypeColor(link)
     return style
   }
 
@@ -192,7 +191,6 @@ class Graph extends React.Component {
       return (<Link
         source={link.source}
         target={link.target}
-        value={link.value}
         key={index}
         style={that.linkStyle(link)}
       />)
@@ -370,7 +368,8 @@ class Graph extends React.Component {
             transform={"translate(" + that.state.draggedX + "," + that.state.draggedY + ")scale(" + that.state.zoom + ")"}
           >
             <rect style={this.selectionRectStyle()}
-              x={this.selectionX()} y={this.selectionY()} width={this.selectionW()} height={this.selectionH()} />
+              x={this.selectionX()} y={this.selectionY()} width={this.selectionW()} height={this.selectionH()}
+             />
             {this.drawOverLinks()}
             {this.getLinks()}
             {this.drawOverNodes()}

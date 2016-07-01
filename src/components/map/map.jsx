@@ -185,7 +185,7 @@ class Map extends React.Component {
     var that = this
     return _.assign({
       id: node.id,
-      fillColor: that.props.app.getGroupColor(node.group)
+      fillColor: that.props.app.getGroupColor(node)
     }, this.defaultStyle)
   }
 

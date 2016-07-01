@@ -136,6 +136,10 @@ class App extends React.Component {
         }
       })
 
+      this.setState({
+        'props': inputData.defaultProps
+      })
+
       this.setState(
         {
         'data': {
@@ -148,30 +152,57 @@ class App extends React.Component {
     })
   }
 
+  nodeName (node) {
+    return node.props[this.state.props.node.name]
+  }
+
+  nodeGroup (node) {
+    return node.props[this.state.props.node.group]
+  }
+
+  linkTime (link) {
+    return link.props[this.state.props.link.time]
+  }
+
+  linkType (link) {
+    return link.props[this.state.props.link.type]
+  }
+
   prepareNodes(nodes){
+    let that = this
+    nodes.map(function(node, n){
+      node.name = that.nodeName.bind(that, node)
+      node.group = that.nodeGroup.bind(that, node)
+    })
     return nodes
   }
 
   prepareLinks(links){
-    var timeValues = []
-    _.forEach(links, function(l){
-      timeValues.push(l.time)
+    let that = this
+    links.map(function(link, l){
+      link.time = that.linkTime.bind(that, link)
+      link.type = that.linkType.bind(that, link)
     })
 
-    var min = _.min(timeValues)
-    var max = _.max(timeValues)
-    var range = max - min
-    var cellValue = _.ceil(range/this.state.config.timeGranularity)
+    var timeValues = []
+    _.forEach(links, function(l) {
+      timeValues.push(l.time())
+    })
+
+    let min = _.min(timeValues)
+    let max = _.max(timeValues)
+    let range = max - min
+    let cellValue = _.ceil(range/this.state.config.timeGranularity)
 
     _.forEach(links, function(l){
-      l.timeInterval = (l.time - min)/cellValue
+      l.timeInterval = (l.time() - min)/cellValue
     })
     return links
   }
 
   getComponentById (id) {
     var foundComponent = false
-    this.state.components.map(function(comp, ci){
+    this.state.components.map( function(comp, ci){
       if (id == comp.id) {
         foundComponent = comp
       }
@@ -183,6 +214,7 @@ class App extends React.Component {
     var w = window.innerWidth - 40
     var breakpoints = this.layout.breakpoints
     var cols = this.layout.cols
+
     if (w > breakpoints['lg']){
       return w / cols['lg']
     }
@@ -319,12 +351,14 @@ class App extends React.Component {
     return this.state.data
   }
 
-  getGroupColor (groupNo) {
-    return this.state.config.groupColors[groupNo]
+  getGroupColor (node) {
+    let group = node.group()
+    return this.state.config.groupColors[group]
   }
 
-  getTypeColor (typeNo) {
-    return this.state.config.typeColors[typeNo]
+  getTypeColor (link) {
+    let type = link.type()
+    return this.state.config.typeColors[type]
   }
 
   findComponent (componentId) {

@@ -10,9 +10,14 @@ class Timeline extends React.Component {
     this.state = {
       nodes: [],
       links: [],
-      width: 300,
-      height: 100
+      selectionX1: 0,
+      selectionY1: 0,
+      selectionX2: 0,
+      selectionY2: 0,
     }
+
+    this.selectionActivated = false
+    this.selectionOngoing = false
 
     var appStyle = this.props.app.state.style
 
@@ -57,27 +62,29 @@ class Timeline extends React.Component {
     this.props.app.setOver(timeIds, false)
   }
 
-  getBars () {
-    var that = this
-    var th = this.props.h()
-    var tw = this.props.w()
-    var lm = 40
-    var rm = 40
-    var bm = 50
-    var um = 10
-    var h = this.height - bm - um
-    var g = this.props.app.state.config.timeGranularity
-    var w = this.width - lm - rm
-    var bw = w/g - 15
-    var border = 3
+  drawBars () {
+    let that = this
+    let th = this.props.h()
+    let tw = this.props.w()
+    let lm = 80
+    let rm = 40
+    let bm = 50
+    let um = 30
+    let h = th - bm - um
+    let g = this.props.app.state.config.timeGranularity
+    let w = tw - lm - rm
+    let bw = w/g - 15
+    let border = 3
 
-    var linksData = this.props.app.getData().links
-    var linksGroups = _.groupBy(linksData, 'timeInterval')
-    var timeValues = _.map(_.keys(linksGroups), function(g){return parseInt(g)})
-    var x = d3.scale.linear().domain([0, g]).range([0, w]);
-    var y = d3.scale.linear().domain([0, _.max(timeValues)]).range([h, 0]);
+    let linksData = this.props.app.getData().links
+    let linksGroups = _.groupBy(linksData, 'timeInterval')
+    let timeValues = _.map(_.keys(linksGroups), function(g){return linksGroups[g].length})
 
-    var bars = []
+    let x = d3.scale.linear().domain([0, g]).range([0, w]);
+    let y = d3.scale.linear().domain([0, _.max(timeValues)]).range([h, 0]);
+
+    let bars = []
+    this.barXs = []
 
     _.forOwn(linksGroups, function(links, tgroup) {
       var overDriven = false
@@ -99,10 +106,13 @@ class Timeline extends React.Component {
     })
 
     _.forOwn(linksGroups, function(links, tgroup) {
-      var freq = links.length
+      let bx = x(tgroup) + lm
+      that.barXs.push({x: [bx, bx + bw], group: parseInt(tgroup)})
+
+      let freq = links.length
       bars.push(<Bar
         time={tgroup}
-        x={x(tgroup) + lm}
+        x={bx}
         width={bw}
         y={y(freq) + um}
         height={h - y(freq)}
@@ -131,17 +141,148 @@ class Timeline extends React.Component {
     return bars
   }
 
+  activateSelection() {
+    this.selectionActivated = !this.selecting
+  }
+
+  handleMouseDown (e) {
+    var eClone = _.clone(e)
+    if (this.selectionOngoing) {
+      this.selectionOngoing = false
+      this.selectionActivated = false
+      this.confirmSelection()
+    }
+    if (this.selectionActivated){
+      var that = this
+      setTimeout(function(){
+        that.selectionOngoing = true
+        that.startSelection(eClone)
+      }, 300)
+    }
+  }
+
+  handleMouseMove (e) {
+    var that = this
+
+    if (this.selectionOngoing) {
+      this.updateSelection(e)
+    }
+  }
+
+  selectionY () {
+    if (this.state.selectionY1 < this.state.selectionY2){
+      return this.state.selectionY1
+    }else{
+      return this.state.selectionY2
+    }
+  }
+
+  selectionX () {
+    if (this.state.selectionX1 < this.state.selectionX2){
+      return this.state.selectionX1
+    }else{
+      return this.state.selectionX2
+    }
+  }
+
+  selectionW () {
+    return Math.abs(this.state.selectionX1 - this.state.selectionX2)
+  }
+
+  selectionH () {
+    return Math.abs(this.state.selectionY1 - this.state.selectionY2)
+  }
+
+
+  selectionRectStyle () {
+    return {
+      'stroke': this.props.app.state.style.selectionRectangle.strokeColor,
+      'strokeOpacity': this.props.app.state.style.selectionRectangle.strokeOpacity,
+      'strokeWidth': this.props.app.state.style.selectionRectangle.strokeWidth,
+      'fill': this.props.app.state.style.selectionRectangle.fillColor,
+      'fillOpacity': this.props.app.state.style.selectionRectangle.fillOpacity
+    }
+  }
+
+  svgOriginPosition () {
+    let graphElBounds = this.refs.timeline.getBoundingClientRect()
+    return [graphElBounds.left, graphElBounds.top]
+  }
+
+  startSelection (e) {
+    let elPosition = this.svgOriginPosition()
+
+    console.log(e.clientY)
+    console.log(elPosition[1])
+
+    this.setState({
+      selectionX1: e.clientX - elPosition[0],
+      selectionY1: e.clientY - elPosition[1],
+      selectionX2: e.clientX - elPosition[0],
+      selectionY2: e.clientY - elPosition[1],
+    })
+  }
+
+  confirmSelection () {
+    console.log('selection confirmed')
+    this.doSelection()
+    this.hideSelectingRectangle()
+  }
+
+  updateSelection (e) {
+    console.log('selection updated')
+    let elPosition = this.svgOriginPosition()
+    this.setState({
+      selectionX2: e.clientX - elPosition[0],
+      selectionY2: e.clientY - elPosition[1]
+    })
+  }
+
+  doSelection () {
+    let minX = this.selectionX()
+    let maxX = minX + this.selectionW()
+
+    let selectedTimeIntervals = []
+
+    this.barXs.map(function(bar, b){
+      if (bar.x[0] > minX && bar.x[1] < maxX){
+        selectedTimeIntervals.push(bar.group)
+      }
+    })
+
+    let linksInRectangle = []
+    this.props.app.getData().links.map(function (link, l) {
+      if (_.includes(selectedTimeIntervals, link.timeInterval)) {
+        linksInRectangle.push(link.id)
+      }
+    })
+
+    console.log(linksInRectangle)
+    this.props.app.setSelect(linksInRectangle, false)
+  }
+
   render() {
     var that = this
     this.width = this.props.w()
     this.height = this.props.h()
     return (
       <div className="component component-graph">
+        <div
+          className="selection-button-graph selection-button fa fa-hand-o-down fa-2x leaflet-bar leaflet-control leaflet-control-custom"
+          onClick={this.activateSelection.bind(that)}>
+        </div>
         <svg
+          ref="timeline"
           width={this.width}
-          height={this.height}>
+          height={this.height}
+          onMouseDown={that.handleMouseDown.bind(that)}
+          onMouseMove={that.handleMouseMove.bind(that)}
+          >
+          <rect style={this.selectionRectStyle()}
+            x={this.selectionX()} y={this.selectionY()} width={this.selectionW()} height={this.selectionH()}
+          />
           <g onMouseOver={that.onBarOut.bind(that)} >
-            {this.getBars()}
+            {this.drawBars()}
           </g>
         </svg>
       </div>
