@@ -2,6 +2,7 @@ import React from 'react';
 import d3 from 'd3'
 import _ from 'lodash'
 
+import SelectingRectangle from './../general/selectingrectangle.jsx!'
 import Bar from './bar.jsx!'
 
 class Timeline extends React.Component {
@@ -40,11 +41,10 @@ class Timeline extends React.Component {
       "stroke": '#000',
       "strokeWidth": '0px',
     }))
-
   }
 
   barStyle(bar) {
-    var style = _.clone(this.defaultStyle)
+    let style = _.clone(this.defaultStyle)
     if (bar.selected){ style = _.clone(this.selectedStyle)}
     return style
   }
@@ -56,9 +56,9 @@ class Timeline extends React.Component {
 
   onBarOver (time, e) {
     e.stopPropagation();
-    var linksData = this.props.app.getData().links
-    var filteredLinks = _.filter(linksData, function(l) { return l.timeInterval == time})
-    var timeIds = _.map(filteredLinks, 'id')
+    let linksData = this.props.app.getData().links
+    let filteredLinks = _.filter(linksData, function(l) { return l.timeInterval == time})
+    let timeIds = _.map(filteredLinks, 'id')
     this.props.app.setOver(timeIds, false)
   }
 
@@ -169,41 +169,6 @@ class Timeline extends React.Component {
     }
   }
 
-  selectionY () {
-    if (this.state.selectionY1 < this.state.selectionY2){
-      return this.state.selectionY1
-    }else{
-      return this.state.selectionY2
-    }
-  }
-
-  selectionX () {
-    if (this.state.selectionX1 < this.state.selectionX2){
-      return this.state.selectionX1
-    }else{
-      return this.state.selectionX2
-    }
-  }
-
-  selectionW () {
-    return Math.abs(this.state.selectionX1 - this.state.selectionX2)
-  }
-
-  selectionH () {
-    return Math.abs(this.state.selectionY1 - this.state.selectionY2)
-  }
-
-
-  selectionRectStyle () {
-    return {
-      'stroke': this.props.app.state.style.selectionRectangle.strokeColor,
-      'strokeOpacity': this.props.app.state.style.selectionRectangle.strokeOpacity,
-      'strokeWidth': this.props.app.state.style.selectionRectangle.strokeWidth,
-      'fill': this.props.app.state.style.selectionRectangle.fillColor,
-      'fillOpacity': this.props.app.state.style.selectionRectangle.fillOpacity
-    }
-  }
-
   svgOriginPosition () {
     let graphElBounds = this.refs.timeline.getBoundingClientRect()
     return [graphElBounds.left, graphElBounds.top]
@@ -211,9 +176,6 @@ class Timeline extends React.Component {
 
   startSelection (e) {
     let elPosition = this.svgOriginPosition()
-
-    console.log(e.clientY)
-    console.log(elPosition[1])
 
     this.setState({
       selectionX1: e.clientX - elPosition[0],
@@ -224,13 +186,11 @@ class Timeline extends React.Component {
   }
 
   confirmSelection () {
-    console.log('selection confirmed')
     this.doSelection()
     this.hideSelectingRectangle()
   }
 
   updateSelection (e) {
-    console.log('selection updated')
     let elPosition = this.svgOriginPosition()
     this.setState({
       selectionX2: e.clientX - elPosition[0],
@@ -239,8 +199,8 @@ class Timeline extends React.Component {
   }
 
   doSelection () {
-    let minX = this.selectionX()
-    let maxX = minX + this.selectionW()
+    let minX = _.min([this.state.selectionX1, this.state.selectionX2])
+    let maxX = _.max([this.state.selectionX1, this.state.selectionX2])
 
     let selectedTimeIntervals = []
 
@@ -257,14 +217,23 @@ class Timeline extends React.Component {
       }
     })
 
-    console.log(linksInRectangle)
     this.props.app.setSelect(linksInRectangle, false)
+  }
+
+  hideSelectingRectangle () {
+    this.setState({
+      selectionX1: 0,
+      selectionX2: 0,
+      selectionY1: 0,
+      selectionY2: 0.
+    })
   }
 
   render() {
     var that = this
     this.width = this.props.w()
     this.height = this.props.h()
+
     return (
       <div className="component component-graph">
         <div
@@ -278,8 +247,12 @@ class Timeline extends React.Component {
           onMouseDown={that.handleMouseDown.bind(that)}
           onMouseMove={that.handleMouseMove.bind(that)}
           >
-          <rect style={this.selectionRectStyle()}
-            x={this.selectionX()} y={this.selectionY()} width={this.selectionW()} height={this.selectionH()}
+          <SelectingRectangle
+            app={this.props.app}
+            x1={this.state.selectionX1}
+            x2={this.state.selectionX2}
+            y1={this.state.selectionY1}
+            y2={this.state.selectionY2}
           />
           <g onMouseOver={that.onBarOut.bind(that)} >
             {this.drawBars()}

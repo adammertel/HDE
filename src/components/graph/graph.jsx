@@ -2,6 +2,7 @@ import React from 'react';
 import d3 from 'd3'
 import _ from 'lodash'
 
+import SelectingRectangle from './../general/selectingrectangle.jsx!'
 import Node from './node.jsx!'
 import Link from './link.jsx!'
 
@@ -72,15 +73,15 @@ class Graph extends React.Component {
   }
 
   doSelection () {
-    var minX = this.selectionX()
-    var minY = this.selectionY()
-    var maxX = minX + this.selectionW()
-    var maxY = minY + this.selectionH()
+    let minX = _.min([this.state.selectionX1, this.state.selectionX2])
+    let minY = _.min([this.state.selectionY1, this.state.selectionY2])
+    let maxX = _.max([this.state.selectionX1, this.state.selectionX2])
+    let maxY = _.max([this.state.selectionY1, this.state.selectionY2])
 
-    var nodesInRectangle = []
+    let nodesInRectangle = []
     this.props.app.getData().nodes.map(function (node, index) {
-      var x = node.x
-      var y = node.y
+      let x = node.x
+      let y = node.y
       if (x > minX && x < maxX && y > minY && y < maxY) {
         nodesInRectangle.push(node.id)
       }
@@ -91,7 +92,7 @@ class Graph extends React.Component {
   }
 
   setForce () {
-    var that = this
+    let that = this
     this.lastH = this.props.h()
     this.lastW = this.props.w()
 
@@ -112,15 +113,15 @@ class Graph extends React.Component {
   }
 
   loadData() {
-    var that = this
-    var nodes = this.getNodes()
-    var links = this.getLinks()
+    let that = this
+    let nodes = this.getNodes()
+    let links = this.getLinks()
 
     this.setState({nodes: nodes, links: links})
   }
 
   nodeStyle(node) {
-    var style = _.clone(this.defaultNodeStyle)
+    let style = _.clone(this.defaultNodeStyle)
     if (node.selected){ style = _.clone(this.selectedNodeStyle) }
     style['fill'] = this.props.app.getGroupColor(node)
     return style
@@ -135,7 +136,7 @@ class Graph extends React.Component {
   }
 
   getNodes() {
-    var that = this
+    let that = this
 
     return this.props.app.getData().nodes.map(function (node, index) {
       return <Node
@@ -166,7 +167,7 @@ class Graph extends React.Component {
   }
 
   drawOverLinks() {
-    var that = this
+    let that = this
     return this.props.app.getData().links.map(function (link, index) {
       if (link.over){
         return <Link
@@ -179,15 +180,15 @@ class Graph extends React.Component {
   }
 
   linkStyle(link) {
-    var style = _.clone(this.defaultLinkStyle)
+    let style = _.clone(this.defaultLinkStyle)
     if (link.selected){ style = _.clone(this.selectedLinkStyle) }
     style['stroke'] = this.props.app.getTypeColor(link)
     return style
   }
 
   getLinks () {
-    var that = this
-    var links = this.props.app.getData().links.map(function (link, index) {
+    let that = this
+    let links = this.props.app.getData().links.map(function (link, index) {
       return (<Link
         source={link.source}
         target={link.target}
@@ -220,15 +221,12 @@ class Graph extends React.Component {
   }
 
   svgOriginPosition () {
-    var graphElBounds = this.refs.graph.getBoundingClientRect()
+    let graphElBounds = this.refs.graph.getBoundingClientRect()
     return [graphElBounds.left, graphElBounds.top]
   }
 
   startSelection (e) {
-    var elPosition = this.svgOriginPosition()
-
-    console.log(e.clientY)
-    console.log(elPosition[1])
+    let elPosition = this.svgOriginPosition()
 
     this.setState({
       selectionX1: (e.clientX - elPosition[0]) - this.state.draggedX,
@@ -239,13 +237,11 @@ class Graph extends React.Component {
   }
 
   confirmSelection () {
-    console.log('selection confirmed')
     this.doSelection()
     this.hideSelectingRectangle()
   }
 
   updateSelection (e) {
-    console.log('selection updated')
     var elPosition = this.svgOriginPosition()
     this.setState({
       selectionX2: (e.clientX - elPosition[0]) - this.state.draggedX,
@@ -274,11 +270,12 @@ class Graph extends React.Component {
   }
 
   handleMouseMove (e) {
-    var that = this
+    let that = this
 
     if (this.selectionOngoing) {
       this.updateSelection(e)
     }
+
     if (this.dragging) {
       var x = e.clientX
       var y = e.clientY
@@ -296,7 +293,7 @@ class Graph extends React.Component {
   }
 
   componentDidMount () {
-    var graphEl = this.refs.graph
+    let graphEl = this.refs.graph
     graphEl.addEventListener("mousewheel", this.handleScroll.bind(this), false);
   }
 
@@ -314,42 +311,11 @@ class Graph extends React.Component {
     this.selectionActivated = !this.selecting
   }
 
-  selectionRectStyle () {
-    return {
-      'stroke': this.props.app.state.style.selectionRectangle.strokeColor,
-      'strokeOpacity': this.props.app.state.style.selectionRectangle.strokeOpacity,
-      'strokeWidth': this.props.app.state.style.selectionRectangle.strokeWidth,
-      'fill': this.props.app.state.style.selectionRectangle.fillColor,
-      'fillOpacity': this.props.app.state.style.selectionRectangle.fillOpacity
-    }
-  }
-
-  selectionY () {
-    if (this.state.selectionY1 < this.state.selectionY2){
-      return this.state.selectionY1
-    }else{
-      return this.state.selectionY2
-    }
-  }
-
-  selectionX () {
-    if (this.state.selectionX1 < this.state.selectionX2){
-      return this.state.selectionX1
-    }else{
-      return this.state.selectionX2
-    }
-  }
-
-  selectionW () {
-    return Math.abs(this.state.selectionX1 - this.state.selectionX2)
-  }
-
-  selectionH () {
-    return Math.abs(this.state.selectionY1 - this.state.selectionY2)
-  }
-
   render () {
     var that = this
+    this.width = this.props.w()
+    this.height = this.props.h()
+
     return (
       <div className="component component-graph" >
         <div
@@ -357,19 +323,24 @@ class Graph extends React.Component {
           onClick={this.activateSelection.bind(that)}></div>
         <svg
           ref="graph"
-          width={this.props.w()}
-          height={this.props.h()}
+          width={this.width}
+          height={this.height}
           onMouseDown={that.handleMouseDown.bind(that)}
           onMouseUp={that.handleMouseUp.bind(that)}
           onMouseMove={that.handleMouseMove.bind(that)}
           >
+          <SelectingRectangle
+            app={this.props.app}
+            x1={this.state.selectionX1 + this.state.draggedX}
+            x2={this.state.selectionX2 + this.state.draggedX}
+            y1={this.state.selectionY1 + this.state.draggedY}
+            y2={this.state.selectionY2 + this.state.draggedY}
+          />
           <g
             pointer-events="all"
             transform={"translate(" + that.state.draggedX + "," + that.state.draggedY + ")scale(" + that.state.zoom + ")"}
           >
-            <rect style={this.selectionRectStyle()}
-              x={this.selectionX()} y={this.selectionY()} width={this.selectionW()} height={this.selectionH()}
-             />
+
             {this.drawOverLinks()}
             {this.getLinks()}
             {this.drawOverNodes()}
