@@ -43,23 +43,20 @@ class Timeline extends React.Component {
     }))
   }
 
-  barStyle(bar) {
-    let style = _.clone(this.defaultStyle)
-    if (bar.selected){ style = _.clone(this.selectedStyle)}
-    return style
+  onBarOut (active, e) {
+    if (active) {
+      this.props.app.deOver(true)
+    }
   }
 
-  onBarOut (e) {
-    e.stopPropagation();
-    this.props.app.deOver(true)
-  }
-
-  onBarOver (time, e) {
-    e.stopPropagation();
-    let linksData = this.props.app.getData().links
-    let filteredLinks = _.filter(linksData, function(l) { return l.timeInterval == time})
-    let timeIds = _.map(filteredLinks, 'id')
-    this.props.app.setOver(timeIds, false)
+  onBarOver (time, active, e) {
+    if (active) {
+      e.stopPropagation();
+      let linksData = this.props.app.getData().links
+      let filteredLinks = _.filter(linksData, function(l) { return l.timeInterval == time})
+      let timeIds = _.map(filteredLinks, 'id')
+      this.props.app.setOver(timeIds, false)
+    }
   }
 
   drawBars () {
@@ -86,21 +83,25 @@ class Timeline extends React.Component {
     let bars = []
     this.barXs = []
 
+    const buildBar = function(style = _.clone(this.defaultStyle), usedBorder = 0, freq = 0, tgroup = 0, mouseEvents = false) {
+      return (<Bar
+        time={tgroup}
+        x={x(tgroup) + lm - usedBorder}
+        width={bw + 2*usedBorder}
+        y={y(freq) + um - usedBorder}
+        height={h - y(freq) + usedBorder}
+        onmouseover={that.onBarOver.bind(that, tgroup, mouseEvents)}
+        onmouseout={that.onBarOut.bind(that, false)}
+        style={_.clone(style)}
+      />)
+    }
+
     _.forOwn(linksGroups, function(links, tgroup) {
       var overDriven = false
       links.map(function(link){
         if (link.over && !overDriven){
           overDriven = true
-          var freq = links.length
-          var barOpts = {over: true}
-          bars.push(<Bar
-            time={tgroup}
-            x={x(tgroup) + lm - border}
-            width={bw + 2*border}
-            y={y(freq) + um - border}
-            height={h - y(freq) + border}
-            style={that.overStyle}
-            />)
+          bars.push(buildBar(that.overStyle, border, links.length, tgroup, false))
           }
       })
     })
@@ -108,17 +109,7 @@ class Timeline extends React.Component {
     _.forOwn(linksGroups, function(links, tgroup) {
       let bx = x(tgroup) + lm
       that.barXs.push({x: [bx, bx + bw], group: parseInt(tgroup)})
-
-      let freq = links.length
-      bars.push(<Bar
-        time={tgroup}
-        x={bx}
-        width={bw}
-        y={y(freq) + um}
-        height={h - y(freq)}
-        onmouseover={that.onBarOver.bind(that, tgroup)}
-        style={that.barStyle({})}
-      />)
+      bars.push(buildBar(that.defaultStyle, 0, links.length, tgroup, true))
     })
 
     _.forOwn(linksGroups, function(links, tgroup) {
@@ -126,16 +117,7 @@ class Timeline extends React.Component {
       links.map(function(link){
         if (link.selected){selectedFreq++}
       })
-
-      bars.push(<Bar
-        time={tgroup}
-        x={x(tgroup) + lm}
-        width={bw}
-        y={y(selectedFreq) + um}
-        height={h - y(selectedFreq)}
-        onmouseover={that.onBarOver.bind(that, tgroup)}
-        style={that.selectedStyle}
-      />)
+      bars.push(buildBar(that.selectedStyle, 0, selectedFreq, tgroup, false))
     })
 
     return bars
