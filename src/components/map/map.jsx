@@ -1,6 +1,7 @@
 import React from 'react';
 import L from 'leaflet';
 import _ from 'lodash'
+import Styles from '../../enums/styles'
 
 class Map extends React.Component {
 
@@ -13,40 +14,20 @@ class Map extends React.Component {
 
     this.markers.on('mouseover', function (e) {
       var markerId = e.layer.options.id
-      that.onMarkerOver(markerId)
+        that.onMarkerOver(markerId)
     })
     this.markers.on('mouseclick', function (e) {
       that.onMarkerClick(this, e)
     })
 
-    var appStyle = this.props.app.state.style
-
-    this.defaultStyle = {
-      radius: appStyle.defaultNodes.radius,
-      color: appStyle.defaultNodes.strokeColor,
-      opacity: appStyle.defaultNodes.strokeOpacity,
-      fillOpacity: appStyle.defaultNodes.fillOpacity,
-      weight: appStyle.defaultNodes.strokeWidth
-    }
-
-    this.overStyle = {
-      fillOpacity: appStyle.overNodes.fillOpacity,
-      fillColor: appStyle.overNodes.fillColor,
-      weight: appStyle.overNodes.fillOpacity,
-      radius: appStyle.overNodes.radius,
-    }
-    this.selectedStyle = {
-      fillOpacity: appStyle.selectedNodes.fillOpacity,
-      opacity: appStyle.selectedNodes.strokeOpacity,
-      weight: appStyle.selectedNodes.strokeWidth
-    }
+    this.appStyle = this.props.app.state.style
 
     this.selectedRectangleStyle = {
-      'color': this.props.app.state.style.selectionRectangle.strokeColor,
-      'weight': this.props.app.state.style.selectionRectangle.strokeWidth,
-      'fillColor': this.props.app.state.style.selectionRectangle.fillColor,
-      'fill-opacity': this.props.app.state.style.selectionRectangle.fillOpacity,
-      'opacity': this.props.app.state.style.selectionRectangle.strokeOpacity,
+      'color': this.appStyle.selectionRectangle.strokeColor,
+      'weight': this.appStyle.selectionRectangle.strokeWidth,
+      'fillColor': this.appStyle.selectionRectangle.fillColor,
+      'fill-opacity': this.appStyle.selectionRectangle.fillOpacity,
+      'opacity': this.appStyle.selectionRectangle.strokeOpacity,
     }
   }
 
@@ -81,9 +62,7 @@ class Map extends React.Component {
     L.control.layers(baseMaps, null, {position: 'topleft'}).addTo(this.map);
 
     var controlSelect = L.Control.extend({
-      options: {
-        position: 'topleft'
-      },
+      options: { position: 'topleft' },
       onAdd: function (map) {
         var container = L.DomUtil.create('div', 'selection-button fa fa-hand-o-down fa-2x leaflet-bar leaflet-control leaflet-control-custom');
 
@@ -109,11 +88,9 @@ class Map extends React.Component {
   startSelecting() {
     var that = this
     var bounds = [[],[]]
-    console.log('start selecting')
     this.selecting = true
 
     var changeSelectingRectangle = function (e) {
-      console.log('move')
       bounds[1][0] = e.latlng.lat
       bounds[1][1] = e.latlng.lng
       that.selectingRectangle.setBounds(bounds)
@@ -177,28 +154,19 @@ class Map extends React.Component {
     console.log(e)
   }
 
-  styleSelectedNode (nodeStyle) {
-    return _.assign(nodeStyle, this.selectedStyle)
-  }
-
-  defaultNodeStyle (node) {
-    var that = this
-    return _.assign({
-      id: node.id,
-      fillColor: that.props.app.getGroupColor(node)
-    }, this.defaultStyle)
-  }
-
   loadData () {
     this.markers.clearLayers()
     var that = this
-    this.props.app.getData().nodes.map(function (node, index) {
+    this.props.app.getData().nodes.map(function (node) {
       if (node.over){
-        that.markers.addLayer(L.circleMarker(node.coords, that.overStyle))
+        that.markers.addLayer(L.circleMarker(node.coords, Styles.map.over(that.appStyle)))
       }
 
-      var style = that.defaultNodeStyle(node)
-      if (node.selected){ style = that.styleSelectedNode(style)}
+      var style = Styles.map.default(that.appStyle)
+      if (node.selected){ style = Styles.map.selected(that.appStyle)}
+      style.fillColor = that.props.app.getGroupColor(node)
+      style.id = node.id
+
       var marker = L.circleMarker(node.coords, style)
       that.markers.addLayer(marker)
     })

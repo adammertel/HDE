@@ -1,6 +1,7 @@
 import React from 'react';
 import d3 from 'd3'
 import _ from 'lodash'
+import Styles from '../../enums/styles'
 
 import SelectingRectangle from './../general/selectingrectangle.jsx!'
 import Node from './node.jsx!'
@@ -24,71 +25,25 @@ class Graph extends React.Component {
     this.selectionActivated = false
     this.selectionOngoing = false
 
-    var appStyle = this.props.app.state.style
-
-    this.defaultLinkStyle = {
-      "strokeWidth": appStyle.defaultLinks.strokeWidth,
-      "strokeOpacity": appStyle.defaultLinks.strokeOpacity
-    }
-    var defaultLinkClone = _.clone(this.defaultLinkStyle)
-    this.overLinkStyle = _.clone(_.assign(defaultLinkClone, {
-      "strokeOpacity": appStyle.overLinks.strokeOpacity,
-      "strokeWidth": appStyle.overLinks.strokeWidth,
-      "stroke": appStyle.overLinks.strokeColor
-    }))
-    this.selectedLinkStyle = _.clone(_.assign(defaultLinkClone, {
-      "strokeWidth": appStyle.selectedLinks.strokeWidth,
-      "strokeOpacity": appStyle.selectedLinks.strokeOpacity
-    }))
-
-    this.defaultNodeStyle = {
-      "stroke": appStyle.defaultNodes.strokeColor,
-      "stroke-width": appStyle.defaultNodes.strokeWidth,
-      "strokeOpacity": appStyle.defaultNodes.strokeOpacity,
-      "fillOpacity": appStyle.defaultNodes.fillOpacity
-    }
-    var defaultNodeClone = _.clone(this.defaultNodeStyle)
-    this.overNodeStyle = _.clone(_.assign(defaultNodeClone, {
-      "stroke-width": appStyle.overNodes.strokeWidth,
-      "fill": appStyle.overNodes.fillColor,
-      "fillOpacity": appStyle.overNodes.fillOpacity
-    }))
-    this.selectedNodeStyle = _.clone(_.assign(defaultNodeClone, {
-      "stroke-width": appStyle.selectedNodes.strokeWidth,
-      "strokeOpacity": appStyle.selectedNodes.strokeOpacity,
-      "fillOpacity": appStyle.selectedNodes.fillOpacity
-    }))
+    this.appStyle = this.props.app.state.style
   }
 
   componentWillMount () {
     this.setForce()
-    this.loadData()
   }
 
   componentWillReceiveProps () {
-    this.loadData()
     if (this.props.h() != this.lastH){
       this.setForce()
     }
   }
 
-  doSelection () {
-    let minX = _.min([this.state.selectionX1, this.state.selectionX2])
-    let minY = _.min([this.state.selectionY1, this.state.selectionY2])
-    let maxX = _.max([this.state.selectionX1, this.state.selectionX2])
-    let maxY = _.max([this.state.selectionY1, this.state.selectionY2])
+  componentDidMount () {
+    let graphEl = this.refs.graph
+    graphEl.addEventListener("mousewheel", this.handleScroll.bind(this), false);
+  }
 
-    let nodesInRectangle = []
-    this.props.app.getData().nodes.map(function (node, index) {
-      let x = node.x
-      let y = node.y
-      if (x > minX && x < maxX && y > minY && y < maxY) {
-        nodesInRectangle.push(node.id)
-      }
-    })
-
-    this.props.app.setSelect(nodesInRectangle, true)
-
+  componentDidUpdate() {
   }
 
   setForce () {
@@ -112,21 +67,38 @@ class Graph extends React.Component {
     })
   }
 
-  loadData() {
-    let that = this
-    let nodes = this.getNodes()
-    let links = this.getLinks()
+  drawNodes() {
+    var that = this
+    var nodesOut = []
 
-    this.setState({nodes: nodes, links: links})
+    const buildNode = function(node, id, style, radius, overEvent=false, outEvent=false) {
+      return (<Node
+        id={node.id}
+        key={id}
+        x={node.x}
+        y={node.y}
+        radius={radius}
+        onmouseover={overEvent}
+        onmouseout={outEvent}
+        style={style} />
+      )
+    }
+
+    this.props.app.getData().nodes.map(function (node, index) {
+      if (node.over){
+        nodesOut.push(buildNode(node, 999, Styles.graph.nodes.over(that.appStyle), '10', false, false))
+      }
+
+      let style = Styles.graph.nodes.default(that.appStyle)
+      if (node.selected) { style = Styles.graph.nodes.selected(that.appStyle) }
+      style['fill'] = that.props.app.getGroupColor(node)
+      nodesOut.push(buildNode(node, node.id, style, '5', that.onNodeOver.bind(that), that.onNodeOut.bind(that)))
+    })
+
+    return nodesOut
   }
 
-  nodeStyle(node) {
-    let style = _.clone(this.defaultNodeStyle)
-    if (node.selected){ style = _.clone(this.selectedNodeStyle) }
-    style['fill'] = this.props.app.getGroupColor(node)
-    return style
-  }
-
+  // Node events
   onNodeOver(e) {
     this.props.app.setOver([parseInt(e.target.id)], true)
   }
@@ -135,78 +107,34 @@ class Graph extends React.Component {
     this.props.app.deOver(true)
   }
 
-  getNodes() {
-    let that = this
-
-    return this.props.app.getData().nodes.map(function (node, index) {
-      return <Node
-        id={node.id}
-        key={node.id}
-        x={node.x}
-        y={node.y}
-        radius={5}
-        onmouseover={that.onNodeOver.bind(that)}
-        onmouseout={that.onNodeOut.bind(that)}
-        style={that.nodeStyle(node)} />
-    })
-  }
-
-  drawOverNodes() {
+  drawLinks () {
     var that = this
-    return this.props.app.getData().nodes.map(function (node, index) {
-      if (node.over){
-        return <Node
-          id={node.id}
-          key={node.id}
-          x={node.x}
-          y={node.y}
-          radius={10}
-          style={that.overNodeStyle} />
-      }
-    })
-  }
+    var linksOut = []
 
-  drawOverLinks() {
-    let that = this
-    return this.props.app.getData().links.map(function (link, index) {
-      if (link.over){
-        return <Link
-          source={link.source}
-          target={link.target}
-          key={index}
-          style={that.overLinkStyle} />
-      }
-    })
-  }
-
-  linkStyle(link) {
-    let style = _.clone(this.defaultLinkStyle)
-    if (link.selected){ style = _.clone(this.selectedLinkStyle) }
-    style['stroke'] = this.props.app.getTypeColor(link)
-    return style
-  }
-
-  getLinks () {
-    let that = this
-    let links = this.props.app.getData().links.map(function (link, index) {
+    const buildLink = function(link, id, style) {
       return (<Link
         source={link.source}
         target={link.target}
-        key={index}
-        style={that.linkStyle(link)}
-      />)
+        key={link.id}
+        style={style} />
+      )
+    }
+
+    this.props.app.getData().links.map(function (link) {
+      if (link.over){
+        linksOut.push(buildLink(link, link.id + 999, Styles.graph.links.over(that.appStyle) ))
+      }
+
+      let style = Styles.graph.links.default(that.appStyle)
+      if (link.selected) { style = Styles.graph.links.selected(that.appStyle) }
+      style['stroke'] = that.props.app.getTypeColor(link)
+      linksOut.push(buildLink(link, link.id, style))
     })
-    return (
-      <g>
-        {links}
-      </g>
-    )
+    return linksOut
   }
 
-  componentDidUpdate() {
 
-  }
-
+  // Mouse events
   handleMouseUp (e) {
     this.dragging = false
   }
@@ -218,6 +146,24 @@ class Graph extends React.Component {
       selectionY1: 0,
       selectionY2: 0.
     })
+  }
+
+  doSelection () {
+    let minX = _.min([this.state.selectionX1, this.state.selectionX2])
+    let minY = _.min([this.state.selectionY1, this.state.selectionY2])
+    let maxX = _.max([this.state.selectionX1, this.state.selectionX2])
+    let maxY = _.max([this.state.selectionY1, this.state.selectionY2])
+
+    let nodesInRectangle = []
+    this.props.app.getData().nodes.map(function (node, index) {
+      let x = node.x
+      let y = node.y
+      if (x > minX && x < maxX && y > minY && y < maxY) {
+        nodesInRectangle.push(node.id)
+      }
+    })
+
+    this.props.app.setSelect(nodesInRectangle, true)
   }
 
   svgOriginPosition () {
@@ -292,11 +238,6 @@ class Graph extends React.Component {
     }
   }
 
-  componentDidMount () {
-    let graphEl = this.refs.graph
-    graphEl.addEventListener("mousewheel", this.handleScroll.bind(this), false);
-  }
-
   handleScroll (e) {
     var zoom = this.state.zoom
     if (e.deltaY < 0) {
@@ -340,11 +281,10 @@ class Graph extends React.Component {
             pointer-events="all"
             transform={"translate(" + that.state.draggedX + "," + that.state.draggedY + ")scale(" + that.state.zoom + ")"}
           >
-
-            {this.drawOverLinks()}
-            {this.getLinks()}
-            {this.drawOverNodes()}
-            {this.getNodes()}
+            <g>
+              {this.drawLinks()}
+            </g>
+            {this.drawNodes()}
           </g>
         </svg>
       </div>

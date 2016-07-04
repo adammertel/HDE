@@ -219,6 +219,7 @@ System.config({
       "src/components/general/selectingrectangle.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
       "npm:lodash@3.10.0.js",
       "npm:lodash@3.10.0/index.js",
+      "src/enums/styles.js",
       "npm:d3@3.5.17.js",
       "npm:d3@3.5.17/d3.js",
       "src/components/map/map.jsx!github:floatdrop/plugin-jsx@1.1.0.js",

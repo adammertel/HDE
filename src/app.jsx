@@ -88,6 +88,13 @@ class App extends React.Component {
           timeUnit: 'year'
         },
         'style': {
+          overColor: 'orange',
+          timeline: {
+            fillColor: '#19e',
+            overStrokeWidth: '6px',
+            strokeLocation: 'outside'
+          },
+
           selectionRectangle: {
             fillOpacity: .3,
             strokeOpacity: .7,
@@ -105,7 +112,6 @@ class App extends React.Component {
           },
           overNodes: {
             strokeWidth: 0,
-            fillColor: 'orange',
             fillOpacity: .3,
             radius: 10
           },
@@ -122,8 +128,6 @@ class App extends React.Component {
           overLinks: {
             strokeWidth: '3px',
             strokeOpacity: .4,
-            strokeColor: 'orange',
-            fillColor: 'orange',
           },
           selectedLinks: {
             strokeWidth: '3px',

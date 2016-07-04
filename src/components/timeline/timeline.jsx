@@ -1,6 +1,7 @@
 import React from 'react';
 import d3 from 'd3'
 import _ from 'lodash'
+import Styles from '../../enums/styles'
 
 import SelectingRectangle from './../general/selectingrectangle.jsx!'
 import Bar from './bar.jsx!'
@@ -20,27 +21,7 @@ class Timeline extends React.Component {
     this.selectionActivated = false
     this.selectionOngoing = false
 
-    var appStyle = this.props.app.state.style
-
-    this.defaultStyle = {
-      "stroke": '#fff',
-      "strokeWidth": '0px',
-      "fill": '#15c',
-      "opacity": 0.5
-    }
-
-    var defaultStyleClone = _.clone(this.defaultStyle)
-    this.overStyle = _.clone(_.assign(defaultStyleClone, {
-      "opacity": .3,
-      "strokeWidth": '6px',
-      "stroke": appStyle.overLinks.fillColor,
-      "strokeLocation": 'outside'
-    }))
-    this.selectedStyle = _.clone(_.assign(defaultStyleClone, {
-      "opacity": 1,
-      "stroke": '#000',
-      "strokeWidth": '0px',
-    }))
+    this.appStyle = this.props.app.state.style
   }
 
   onBarOut (active, e) {
@@ -83,7 +64,7 @@ class Timeline extends React.Component {
     let bars = []
     this.barXs = []
 
-    const buildBar = function(style = _.clone(this.defaultStyle), usedBorder = 0, freq = 0, tgroup = 0, mouseEvents = false) {
+    const buildBar = function(style, usedBorder = 0, freq = 0, tgroup = 0, mouseEvents = false) {
       return (<Bar
         time={tgroup}
         x={x(tgroup) + lm - usedBorder}
@@ -92,24 +73,22 @@ class Timeline extends React.Component {
         height={h - y(freq) + usedBorder}
         onmouseover={that.onBarOver.bind(that, tgroup, mouseEvents)}
         onmouseout={that.onBarOut.bind(that, false)}
-        style={_.clone(style)}
+        style={style}
       />)
     }
 
     _.forOwn(linksGroups, function(links, tgroup) {
       var overDriven = false
+      let bx = x(tgroup) + lm
+      that.barXs.push({x: [bx, bx + bw], group: parseInt(tgroup)})
+
       links.map(function(link){
         if (link.over && !overDriven){
           overDriven = true
-          bars.push(buildBar(that.overStyle, border, links.length, tgroup, false))
+          bars.push(buildBar(Styles.timeline.over(that.appStyle), border, links.length, tgroup, false))
           }
       })
-    })
-
-    _.forOwn(linksGroups, function(links, tgroup) {
-      let bx = x(tgroup) + lm
-      that.barXs.push({x: [bx, bx + bw], group: parseInt(tgroup)})
-      bars.push(buildBar(that.defaultStyle, 0, links.length, tgroup, true))
+      bars.push(buildBar(Styles.timeline.default(that.appStyle), 0, links.length, tgroup, true))
     })
 
     _.forOwn(linksGroups, function(links, tgroup) {
@@ -117,7 +96,7 @@ class Timeline extends React.Component {
       links.map(function(link){
         if (link.selected){selectedFreq++}
       })
-      bars.push(buildBar(that.selectedStyle, 0, selectedFreq, tgroup, false))
+      bars.push(buildBar(Styles.timeline.selected(that.appStyle), 0, selectedFreq, tgroup, true))
     })
 
     return bars
