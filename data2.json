@@ -1,0 +1,30 @@
+{
+  "nodes":[
+    {"id": 0, "coords": [49.1, 17.2], "props": {"name": "A", "group": 1} },
+    {"id": 1, "coords": [49.2, 17.3], "props": {"name": "A", "group": 2} },
+    {"id": 2, "coords": [49.3, 17.8], "props": {"name": "B", "group": 3} },
+    {"id": 3, "coords": [49.7, 17.3], "props": {"name": "C", "group": 2} },
+    {"id": 4, "coords": [49.3, 17.5], "props": {"name": "D", "group": 1} },
+    {"id": 5, "coords": [49.5, 17.1], "props": {"name": "E", "group": 3} },
+    {"id": 6, "coords": [49.1, 17.4], "props": {"name": "F", "group": 1} }
+  ],
+  "links":[
+    {"id": 0, "source":1, "target":0, "props": {"time": 1451, "type": 0} },
+    {"id": 1, "source":1, "target":3, "props": {"time": 1452, "type": 0} },
+    {"id": 2, "source":2, "target":4, "props": {"time": 1453, "type": 0} },
+    {"id": 3, "source":5, "target":4, "props": {"time": 1451, "type": 0} },
+    {"id": 4, "source":2, "target":6, "props": {"time": 1452, "type": 0} },
+    {"id": 5, "source":0, "target":6, "props": {"time": 1451, "type": 0} },
+    {"id": 6, "source":0, "target":5, "props": {"time": 1451, "type": 0} }
+  ],
+  "defaultProps": {
+    "nodes": {
+      "name": "name",
+      "group": "group"
+    },
+    "links": {
+      "time": "time",
+      "type": "type"
+    }
+  }
+}

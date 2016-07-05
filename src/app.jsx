@@ -157,22 +157,23 @@ class App extends React.Component {
   }
 
   nodeName (node) {
-    return node.props[this.state.props.node.name]
+    return node.props[this.state.props.nodes.name]
   }
 
   nodeGroup (node) {
-    return node.props[this.state.props.node.group]
+    return node.props[this.state.props.nodes.group]
   }
 
   linkTime (link) {
-    return link.props[this.state.props.link.time]
+    return link.props[this.state.props.links.time]
   }
 
   linkType (link) {
-    return link.props[this.state.props.link.type]
+    return link.props[this.state.props.links.type]
   }
 
   prepareNodes(nodes){
+    console.log(nodes)
     let that = this
     nodes.map(function(node, n){
       node.name = that.nodeName.bind(that, node)

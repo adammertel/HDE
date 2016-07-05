@@ -14,7 +14,7 @@ class Map extends React.Component {
 
     this.markers.on('mouseover', function (e) {
       var markerId = e.layer.options.id
-        that.onMarkerOver(markerId)
+      that.onMarkerOver(markerId)
     })
     this.markers.on('mouseclick', function (e) {
       that.onMarkerClick(this, e)
