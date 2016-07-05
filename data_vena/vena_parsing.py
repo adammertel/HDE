@@ -1,7 +1,35 @@
 import csv
 import json
 
-out = {'nodes':[], 'links': [], 'defaultProps': {'nodes': {'name': 'name', 'group': 'gender'}, 'links': {'time': 'time', 'type': 'type'}}}
+out = {
+    'nodes':[],
+    'links': [], 
+    'defaultProps': {
+        'nodes': 
+            {'name': 'name', 'group': 'gender'}, 
+        'links': 
+            {'time': 'time', 'type': 'type'}
+    }, 
+    'legend': {
+        'nodes': {
+            'gender': {
+                'values': [
+                    {1: 'male'},
+                    {2: 'female'},
+                    {3: 'others/unknown'}
+                ]
+            }
+        },
+        'links': {
+            'type' :{
+                'values': [
+                    {1: 'obveneni'},
+                    {2: 'veno'}
+                ]
+            }
+        }
+    }
+}
 
         
         
@@ -14,6 +42,8 @@ with open("people.csv", "r", encoding="utf8") as people_file:
         else:
             coords = [0,0]
             
+        gender = 1 if row['gender'] == 'm' else 2
+            
         out['nodes'].append({
             'id': int(row['id']),
             'coords': coords,
@@ -21,7 +51,7 @@ with open("people.csv", "r", encoding="utf8") as people_file:
                 'name': row['Label'],
                 'group': row['group'],
                 'condition': row['condition'],
-                'gender': row['gender']
+                'gender': gender
             },
         })
             
@@ -32,6 +62,8 @@ with open("interactions.csv", "r", encoding="utf8") as links_file:
     rows = list(reader)
     for i, row in enumerate(rows):
         
+        type = 1 if row['type'] == 'obveneni' else 2
+        
         # test people
         if (row['Source'] != '0' and row['Target'] != '0'):
             
@@ -41,8 +73,9 @@ with open("interactions.csv", "r", encoding="utf8") as links_file:
                 'source': int(row['Source']) - 1,
                 'target': int(row['Target']) - 1,
                 'props': {
-                    'time': row['year'],
-                    'type': row['type'],
+                    # temporal solution
+                    'time': int(''.join(i for i in row['year'] if i.isdigit())[:4]),
+                    'type': type,
                     'quantity': row['quantity']
                 },
             })

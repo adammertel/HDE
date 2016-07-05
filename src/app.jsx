@@ -85,14 +85,18 @@ class App extends React.Component {
           groupColors: ['#8dd3c7','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#d9d9d9','#bc80bd','#ccebc5','#ffed6f'],
           typeColors: ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf'],
           timeGranularity: 10,
-          timeUnit: 'year'
+          timeUnit: 'year',
         },
         'style': {
           overColor: 'orange',
           timeline: {
             fillColor: '#19e',
             overStrokeWidth: '6px',
-            strokeLocation: 'outside'
+            strokeLocation: 'outside',
+            labelSize: '9px',
+            labelAnchor: 'middle',
+            labelColor: 'black',
+            labelFamily: 'arial'
           },
 
           selectionRectangle: {
@@ -173,7 +177,6 @@ class App extends React.Component {
   }
 
   prepareNodes(nodes){
-    console.log(nodes)
     let that = this
     nodes.map(function(node, n){
       node.name = that.nodeName.bind(that, node)
@@ -194,13 +197,18 @@ class App extends React.Component {
       timeValues.push(l.time())
     })
 
-    let min = _.min(timeValues)
-    let max = _.max(timeValues)
-    let range = max - min
-    let cellValue = _.ceil(range/this.state.config.timeGranularity)
+    const min = _.min(timeValues)
+    const max = _.max(timeValues)
+    const range = max - min
+
+    const cellValue = _.ceil(range/this.state.config.timeGranularity)
+
+    this.timeIntervals = {}
 
     _.forEach(links, function(l){
-      l.timeInterval = (l.time() - min)/cellValue
+      let value = _.floor((l.time() - min)/cellValue)
+      l.timeInterval = value
+      that.timeIntervals[value] = [min + value * cellValue, min + value * (cellValue + 1)]
     })
     return links
   }
@@ -347,7 +355,6 @@ class App extends React.Component {
   }
 
   // LINKS
-
   deSelectLinks () {
     _.forEach(this.getData().links, function(l){l.selected = false})
   }
@@ -358,6 +365,7 @@ class App extends React.Component {
 
   getGroupColor (node) {
     let group = node.group()
+
     return this.state.config.groupColors[group]
   }
 

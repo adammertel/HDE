@@ -101,6 +101,14 @@ var Styles = {
       return _.clone(_.assign(defaultStyle, {
         "opacity": appStyle.selectedNodes.strokeOpacity
       }))
+    },
+    text: function(appStyle) {
+      return _.clone({
+        "fontSize": appStyle.timeline.labelSize,
+        "textAnchor": appStyle.timeline.labelAnchor,
+        "fill": appStyle.timeline.labelColor,
+        "fontFamily": appStyle.timeline.labelFamily
+      })
     }
   }
 }

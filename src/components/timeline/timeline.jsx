@@ -17,6 +17,7 @@ class Timeline extends React.Component {
       selectionX2: 0,
       selectionY2: 0,
     }
+    this.bm = 50
 
     this.selectionActivated = false
     this.selectionOngoing = false
@@ -34,7 +35,7 @@ class Timeline extends React.Component {
     if (active) {
       e.stopPropagation();
       let linksData = this.props.app.getData().links
-      let filteredLinks = _.filter(linksData, function(l) { return l.timeInterval == time})
+      let filteredLinks = _.filter(linksData, function(l) { return l.timeInterval.value == time})
       let timeIds = _.map(filteredLinks, 'id')
       this.props.app.setOver(timeIds, false)
     }
@@ -46,9 +47,9 @@ class Timeline extends React.Component {
     let tw = this.props.w()
     let lm = 80
     let rm = 40
-    let bm = 50
+
     let um = 30
-    let h = th - bm - um
+    let h = th - this.bm - um
     let g = this.props.app.state.config.timeGranularity
     let w = tw - lm - rm
     let bw = w/g - 15
@@ -100,6 +101,29 @@ class Timeline extends React.Component {
     })
 
     return bars
+  }
+
+  drawLabels() {
+    var that = this
+    var labels = []
+
+    let timeIntervals = this.props.app.timeIntervals
+
+    this.barXs.map(function(barX){
+      let interval = timeIntervals[barX.group]
+      let label = interval.join('-')
+      let labelX = (barX.x[1] + barX.x[0])/2
+      labels.push(
+        <text
+          y={that.props.h() - that.bm}
+          style={Styles.timeline.text(that.appStyle)}
+          >
+          <tspan x={labelX} dy='1em' >{interval[0] + '-'}</tspan>
+          <tspan x={labelX} dy='1em' >{interval[1]}</tspan>
+        </text>
+      )
+    })
+    return labels
   }
 
   activateSelection() {
@@ -173,7 +197,7 @@ class Timeline extends React.Component {
 
     let linksInRectangle = []
     this.props.app.getData().links.map(function (link, l) {
-      if (_.includes(selectedTimeIntervals, link.timeInterval)) {
+      if (_.includes(selectedTimeIntervals, link.timeInterval.value)) {
         linksInRectangle.push(link.id)
       }
     })
@@ -217,6 +241,7 @@ class Timeline extends React.Component {
           />
           <g onMouseOver={that.onBarOut.bind(that)} >
             {this.drawBars()}
+            {this.drawLabels()}
           </g>
         </svg>
       </div>
