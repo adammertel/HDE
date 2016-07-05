@@ -63,9 +63,10 @@ with open("interactions.csv", "r", encoding="utf8") as links_file:
     for i, row in enumerate(rows):
         
         type = 1 if row['type'] == 'obveneni' else 2
+        time = int(''.join(i for i in row['year'] if i.isdigit())[:4])
         
         # test people
-        if (row['Source'] != '0' and row['Target'] != '0'):
+        if (row['Source'] != '0' and row['Target'] != '0' and time > 1320):
             
                 
             out['links'].append({
@@ -74,7 +75,7 @@ with open("interactions.csv", "r", encoding="utf8") as links_file:
                 'target': int(row['Target']) - 1,
                 'props': {
                     # temporal solution
-                    'time': int(''.join(i for i in row['year'] if i.isdigit())[:4]),
+                    'time': time,
                     'type': type,
                     'quantity': row['quantity']
                 },

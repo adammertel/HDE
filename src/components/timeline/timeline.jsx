@@ -35,7 +35,7 @@ class Timeline extends React.Component {
     if (active) {
       e.stopPropagation();
       let linksData = this.props.app.getData().links
-      let filteredLinks = _.filter(linksData, function(l) { return l.timeInterval.value == time})
+      let filteredLinks = _.filter(linksData, function(l) { return l.timeInterval  == time})
       let timeIds = _.map(filteredLinks, 'id')
       this.props.app.setOver(timeIds, false)
     }
