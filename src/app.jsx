@@ -11,6 +11,7 @@ import Detail from './components/detail/detail.jsx!'
 
 import Base from './base'
 import Panel from './components/panel/panel.jsx!'
+import AppHeader from './appheader.jsx!'
 
 import Components from './enums/components'
 
@@ -26,6 +27,14 @@ class App extends React.Component {
     super(props)
     this.state = {
       loading: true
+    }
+
+    this.colors = {
+      1: '#2B3A42',
+      2: '#3F5765',
+      3: '#BDD4DE',
+      4: '#EFEFEF',
+      5: '#FF530D',
     }
 
     this.loadData((inputData) => {
@@ -88,7 +97,7 @@ class App extends React.Component {
           timeUnit: 'year',
         },
         'style': {
-          overColor: 'orange',
+          overColor: that.colors['5'],
           timeline: {
             fillColor: '#19e',
             overStrokeWidth: '6px',
@@ -438,39 +447,42 @@ class App extends React.Component {
       this.layout.colw = this.colWidth()
 
       return (
-        <ResponsiveReactGridLayout
-        onResizeStop={this.handleLayoutResize.bind(this)}
-        className="layout"
-        cols={12} rowHeight={this.layout.colh}
-        draggableHandle={'div.panel-heading'}
-        breakpoints={this.layout.breakpoints}
-        cols={this.layout.cols}
-        >
-        {
-          this.state.components.map(function(component){
-            let componentType = Components[component.type]
-            let grid = {
-              x: component.x,
-              y: component.y,
-              w: component.w,
-              h: component.h,
-              i: component.id
-            }
-            let componentState = {
-              id: component.id,
-              label: componentType.label,
-              app: that,
-              w: grid.w * that.layout.colw,
-              h: grid.h * that.layout.colh
-            }
+        <div>
+          <AppHeader />
+          <ResponsiveReactGridLayout
+          onResizeStop={this.handleLayoutResize.bind(this)}
+          className="layout"
+          cols={12} rowHeight={this.layout.colh}
+          draggableHandle={'div.panel-heading'}
+          breakpoints={this.layout.breakpoints}
+          cols={this.layout.cols}
+          >
+          {
+            this.state.components.map(function(component){
+              let componentType = Components[component.type]
+              let grid = {
+                x: component.x,
+                y: component.y,
+                w: component.w,
+                h: component.h,
+                i: component.id
+              }
+              let componentState = {
+                id: component.id,
+                label: componentType.label,
+                app: that,
+                w: grid.w * that.layout.colw,
+                h: grid.h * that.layout.colh
+              }
 
-            let componentEl = React.createElement(componentType.component)
-            let panel = React.createElement(Panel, componentState, componentEl)
+              let componentEl = React.createElement(componentType.component)
+              let panel = React.createElement(Panel, componentState, componentEl)
 
-            return <div className="panel-wrapper" key={component.id} _grid={grid} >{panel}</div>
-          })
-        }
-        </ResponsiveReactGridLayout>
+              return <div className="panel-wrapper" key={component.id} _grid={grid} >{panel}</div>
+            })
+          }
+          </ResponsiveReactGridLayout>
+        </div>
       )
     }else{
       return (<div />)

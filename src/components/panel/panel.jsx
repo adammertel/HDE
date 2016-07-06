@@ -10,13 +10,21 @@ class Panel extends React.Component {
     return this.props.h
   }
 
+  headerStyle() {
+    return {
+      backgroundColor: this.props.app.colors[2],
+      borderRadius: '0px',
+      color: this.props.app.colors[4],
+    }
+  }
+
 
   render() {
     var that = this
     return (
       <div
         className="panel panel-success">
-        <div className="panel-heading">
+        <div className="panel-heading" style={this.headerStyle()}>
           <h3 className="panel-title">{this.props.label}</h3>
         </div>
         <div className="panel-body" >

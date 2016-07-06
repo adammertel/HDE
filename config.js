@@ -228,6 +228,7 @@ System.config({
       "src/components/graph/graph.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
       "src/components/graph/link.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
       "src/components/graph/node.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
+      "src/appheader.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
       "src/components/panel/panel.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
       "src/base.js",
       "npm:react-grid-layout@0.12.6.js",
