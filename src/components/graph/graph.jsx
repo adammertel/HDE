@@ -44,6 +44,7 @@ class Graph extends React.Component {
   }
 
   componentDidUpdate() {
+
   }
 
   setForce () {
@@ -85,14 +86,16 @@ class Graph extends React.Component {
     }
 
     this.props.app.getData().nodes.map(function (node, index) {
+
       if (node.over){
-        nodesOut.push(buildNode(node, 999, Styles.graph.nodes.over(that.appStyle), '10', false, false))
+        nodesOut.push(buildNode(node, node.id + 999, Styles.graph.nodes.over(that.appStyle), '10'))
       }
 
       let style = Styles.graph.nodes.default(that.appStyle)
       if (node.selected) { style = Styles.graph.nodes.selected(that.appStyle) }
       style['fill'] = that.props.app.getGroupColor(node)
       nodesOut.push(buildNode(node, node.id, style, '5', that.onNodeOver.bind(that), that.onNodeOut.bind(that)))
+
     })
 
     return nodesOut
@@ -111,28 +114,43 @@ class Graph extends React.Component {
     var that = this
     var linksOut = []
 
-    const buildLink = function(link, id, style) {
+    const buildLink = function(link, id, style, isOver = false) {
       return (<Link
         source={link.source}
         target={link.target}
-        key={link.id}
-        style={style} />
+        key={id}
+        style={style}
+        isOver={isOver}
+        />
       )
     }
 
+    let linkGroups = {}
+
     this.props.app.getData().links.map(function (link) {
-      if (link.over){
-        linksOut.push(buildLink(link, link.id + 999, Styles.graph.links.over(that.appStyle) ))
+      let linkLabel = link.target.id + '-' + link.source.id
+      if (!linkGroups[linkLabel]){
+        linkGroups[linkLabel] = []
+      }
+      linkGroups[linkLabel].push(link)
+    })
+
+    _.forOwn(linkGroups, function(linkGroup, label) {
+      let firstLink = linkGroup[0]
+      if (_.filter(linkGroup, function(link){ return link.over}).length > 0){
+        linksOut.push(buildLink(firstLink, firstLink.id + 999, Styles.graph.links.over(that.appStyle), true ))
       }
 
       let style = Styles.graph.links.default(that.appStyle)
-      if (link.selected) { style = Styles.graph.links.selected(that.appStyle) }
-      style['stroke'] = that.props.app.getTypeColor(link)
-      linksOut.push(buildLink(link, link.id, style))
+      if (_.filter(linkGroup, function(link){ return link.selected}).length > 0){
+        style = Styles.graph.links.selected(that.appStyle)
+      }
+      style['stroke'] = that.props.app.getTypeColor(linkGroup)
+      linksOut.push(buildLink(firstLink, firstLink.id, style))
     })
+
     return linksOut
   }
-
 
   // Mouse events
   handleMouseUp (e) {
@@ -270,6 +288,11 @@ class Graph extends React.Component {
           onMouseUp={that.handleMouseUp.bind(that)}
           onMouseMove={that.handleMouseMove.bind(that)}
           >
+          <defs>
+            <marker id='head' orient='auto' markerWidth='2' markerHeight='4' refX='5' refY='2'>
+              <path d='M0,0 V4 L2,2 Z' />
+            </marker>
+        </defs>
           <SelectingRectangle
             app={this.props.app}
             x1={this.state.selectionX1 + this.state.draggedX}
@@ -281,9 +304,7 @@ class Graph extends React.Component {
             pointer-events="all"
             transform={"translate(" + that.state.draggedX + "," + that.state.draggedY + ")scale(" + that.state.zoom + ")"}
           >
-            <g>
-              {this.drawLinks()}
-            </g>
+            {this.drawLinks()}
             {this.drawNodes()}
           </g>
         </svg>

@@ -13,9 +13,12 @@ class Map extends React.Component {
     this.selecting = false
 
     this.markers.on('mouseover', function (e) {
-      var markerId = e.layer.options.id
-      that.onMarkerOver(markerId)
+      const overNodes = that.groupNodes()[e.layer.options.id]
+
+      let ids = _.map(overNodes, 'id')
+      that.props.app.setOver(ids, true)
     })
+
     this.markers.on('mouseclick', function (e) {
       that.onMarkerClick(this, e)
     })
@@ -39,6 +42,10 @@ class Map extends React.Component {
   componentDidMount () {
     this.setMap()
     this.loadData()
+  }
+
+  groupNodes () {
+    return _.groupBy(this.props.app.getData().nodes, 'coords[0]')
   }
 
   setMap() {
@@ -78,7 +85,7 @@ class Map extends React.Component {
     this.map.addControl(new controlSelect());
 
     this.map.on('mouseover', function (e) {
-      that.onMarkerOut()
+      that.props.app.deOver(true)
     })
 
     this.markers.addTo(this.map)
@@ -105,26 +112,16 @@ class Map extends React.Component {
       that.map.once('click', function (e) {
         that.map.off('mousemove', changeSelectingRectangle)
         that.selectNodes(that.getSelectedNodesByRectangle(bounds))
-
         that.selectingRectangle.setBounds([[0,0], [0,0]])
       })
     })
   }
 
   getSelectedNodesByRectangle (bounds) {
-    var minX = bounds[0][0]
-    var maxX = bounds[1][0]
-    if (minX > maxX){
-      minX = bounds[1][0]
-      maxX = bounds[0][0]
-    }
-
-    var minY = bounds[0][1]
-    var maxY = bounds[1][1]
-    if (minY > maxY){
-      minY = bounds[1][1]
-      maxY = bounds[0][1]
-    }
+    var minX = _.min([bounds[0][0], bounds[1][0]])
+    var maxX = _.max([bounds[0][0], bounds[1][0]])
+    var minY = _.min([bounds[0][1], bounds[1][1]])
+    var maxY = _.max([bounds[0][1], bounds[1][1]])
 
     var nodesInRectangle = []
     this.props.app.getData().nodes.map(function (node, index) {
@@ -141,14 +138,6 @@ class Map extends React.Component {
     this.props.app.setSelect(ids, true)
   }
 
-  onMarkerOver (id) {
-    this.props.app.setOver([id], true)
-  }
-
-  onMarkerOut () {
-    this.props.app.deOver(true)
-  }
-
   onMarkerClick (marker, e) {
     console.log('map click')
     console.log(e)
@@ -157,19 +146,29 @@ class Map extends React.Component {
   loadData () {
     this.markers.clearLayers()
     var that = this
-    this.props.app.getData().nodes.map(function (node) {
-      if (node.over){
-        that.markers.addLayer(L.circleMarker(node.coords, Styles.map.over(that.appStyle)))
+    let mapGroups = this.groupNodes()
+
+    _.forOwn(mapGroups, function(mapGroup, coord) {
+      const radius = 1500 + mapGroup.length * 50
+
+      let firstNode = mapGroup[0]
+      if (_.filter(mapGroup, function(node){ return node.over}).length > 0){
+        let overMarker = L.circle(firstNode.coords, radius + 1000, Styles.map.over(that.appStyle))
+        that.markers.addLayer(overMarker)
       }
 
-      var style = Styles.map.default(that.appStyle)
-      if (node.selected){ style = Styles.map.selected(that.appStyle)}
-      style.fillColor = that.props.app.getGroupColor(node)
-      style.id = node.id
+      let style = Styles.map.default(that.appStyle)
+      if (_.filter(mapGroup, function(node){ return node.selected}).length > 0){
+        style = Styles.map.selected(that.appStyle)
+      }
 
-      var marker = L.circleMarker(node.coords, style)
+      style.fillColor = that.props.app.getGroupColor(mapGroup)
+      style.id = coord
+
+      var marker = L.circle(firstNode.coords, radius, style)
       that.markers.addLayer(marker)
     })
+
   }
 
   render() {

@@ -71,7 +71,7 @@ class Timeline extends React.Component {
         x={x(tgroup) + lm - usedBorder}
         width={bw + 2*usedBorder}
         y={y(freq) + um - usedBorder}
-        height={h - y(freq) + usedBorder}
+        height={h - y(freq)}
         onmouseover={that.onBarOver.bind(that, tgroup, mouseEvents)}
         onmouseout={that.onBarOut.bind(that, false)}
         style={style}
@@ -118,11 +118,12 @@ class Timeline extends React.Component {
           y={that.props.h() - that.bm}
           style={Styles.timeline.text(that.appStyle)}
           >
-          <tspan x={labelX} dy='1em' >{interval[0] + '-'}</tspan>
-          <tspan x={labelX} dy='1em' >{interval[1]}</tspan>
+          <tspan x={labelX} dy='1.3em' >{interval[0] + '-'}</tspan>
+          <tspan x={labelX} dy='1.3em' >{interval[1]}</tspan>
         </text>
       )
     })
+
     return labels
   }
 

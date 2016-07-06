@@ -6,7 +6,7 @@ var Styles = {
       default: function(appStyle) {
         return _.clone({
           "stroke-width": appStyle.defaultNodes.strokeWidth,
-          "strokeOpacity": appStyle.defaultNodes.strokeOpacity,
+          "opacity": appStyle.defaultNodes.strokeOpacity,
           "stroke": appStyle.defaultNodes.strokeColor,
         })
       },
@@ -15,15 +15,14 @@ var Styles = {
         return _.clone(_.assign(defaultStyle, {
           "stroke-width": appStyle.overNodes.strokeWidth,
           "fill": appStyle.overColor,
-          "fillOpacity": appStyle.overNodes.fillOpacity
+          "opacity": appStyle.overNodes.fillOpacity
         }))
       },
       selected: function(appStyle) {
         let defaultStyle = this.default(appStyle)
         return _.clone(_.assign(defaultStyle, {
           "stroke-width": appStyle.selectedNodes.strokeWidth,
-          "strokeOpacity": appStyle.selectedNodes.strokeOpacity,
-          "fillOpacity": appStyle.selectedNodes.fillOpacity
+          "opacity": appStyle.selectedNodes.strokeOpacity
         }))
       }
     },
@@ -31,13 +30,13 @@ var Styles = {
       default: function(appStyle) {
         return _.clone({
           "strokeWidth": appStyle.defaultLinks.strokeWidth,
-          "strokeOpacity": appStyle.defaultLinks.strokeOpacity
+          "opacity": appStyle.defaultLinks.strokeOpacity
         })
       },
       over: function(appStyle) {
         const defaultStyle = this.default(appStyle)
         return _.clone(_.assign(defaultStyle, {
-          "strokeOpacity": appStyle.overLinks.strokeOpacity,
+          "opacity": appStyle.overLinks.strokeOpacity,
           "strokeWidth": appStyle.overLinks.strokeWidth,
           "stroke": appStyle.overColor
         }))
@@ -46,7 +45,7 @@ var Styles = {
         const defaultStyle = this.default(appStyle)
         return _.clone(_.assign(defaultStyle, {
           "strokeWidth": appStyle.selectedLinks.strokeWidth,
-          "strokeOpacity": appStyle.selectedLinks.strokeOpacity
+          "opacity": appStyle.selectedLinks.strokeOpacity
         }))
       }
     }
@@ -54,7 +53,6 @@ var Styles = {
   map: {
     default: function(appStyle) {
       return _.clone({
-        radius: appStyle.defaultNodes.radius,
         color: appStyle.defaultNodes.strokeColor,
         opacity: appStyle.defaultNodes.strokeOpacity,
         fillOpacity: appStyle.defaultNodes.fillOpacity,
@@ -67,7 +65,6 @@ var Styles = {
         fillOpacity: appStyle.overNodes.fillOpacity,
         fillColor: appStyle.overColor,
         weight: appStyle.overNodes.fillOpacity,
-        radius: appStyle.overNodes.radius,
       }))
     },
     selected: function(appStyle) {
@@ -90,8 +87,9 @@ var Styles = {
     over: function(appStyle) {
       let defaultStyle = this.default(appStyle)
       return _.clone(_.assign(defaultStyle, {
-        "opacity": appStyle.overNodes.strokeOpacity,
+        "opacity": appStyle.overNodes.fillOpacity,
         "strokeWidth": appStyle.timeline.overStrokeWidth,
+        "fill": appStyle.overColor,
         "stroke": appStyle.overColor,
         "strokeLocation": appStyle.timeline.strokeLocation
       }))

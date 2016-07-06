@@ -117,6 +117,7 @@ class App extends React.Component {
           overNodes: {
             strokeWidth: 0,
             fillOpacity: .3,
+            strokeOpacity: .3,
             radius: 10
           },
           selectedNodes: {
@@ -126,11 +127,11 @@ class App extends React.Component {
           },
 
           defaultLinks: {
-            strokeWidth: '1px',
+            strokeWidth: '2px',
             strokeOpacity: .5
           },
           overLinks: {
-            strokeWidth: '3px',
+            strokeWidth: '6px',
             strokeOpacity: .4,
           },
           selectedLinks: {
@@ -305,10 +306,10 @@ class App extends React.Component {
 
     if (nodesMode){
       _.forEach(this.getData().nodes, function(n){
-        if (_.includes(ids, n.id)){
+        if (ids.indexOf(n.id) > -1){
           n.over = true
-          that.getLinksForNodeId(n.id).map(function(node){
-            node.over = true
+          that.getLinksForNodeId(n.id).map(function(link){
+            link.over = true
           })
         }
       })
@@ -363,15 +364,26 @@ class App extends React.Component {
     return this.state.data
   }
 
-  getGroupColor (node) {
-    let group = node.group()
-
-    return this.state.config.groupColors[group]
+  getGroupColor (nodes) {
+    if (_.isArray(nodes)){
+      let groups = _.map(nodes, function(node){return node.group()})
+      let mostFrequent = Base.mode(groups)
+      return this.state.config.groupColors[groups[0]]
+    }else{
+      let group = nodes.group()
+      return this.state.config.groupColors[group]
+    }
   }
 
-  getTypeColor (link) {
-    let type = link.type()
-    return this.state.config.typeColors[type]
+  getTypeColor (links) {
+    if (_.isArray(links)){
+      let types = _.map(links, function(link){return link.type()})
+      let mostFrequent = Base.mode(types)
+      return this.state.config.typeColors[types[0]]
+    }else{
+      let type = links[0].type()
+      return this.state.config.typeColors[type]
+    }
   }
 
   findComponent (componentId) {
