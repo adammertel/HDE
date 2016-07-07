@@ -15,6 +15,7 @@ class Panel extends React.Component {
       backgroundColor: this.props.app.colors[2],
       borderRadius: '0px',
       color: this.props.app.colors[4],
+      minHeight: '35px'
     }
   }
 
@@ -31,6 +32,7 @@ class Panel extends React.Component {
           {
             React.cloneElement(this.props.children, {
               app: that.props.app,
+              component: that.props.component,
               w: that.width.bind(that),
               h: that.height.bind(that)
             })

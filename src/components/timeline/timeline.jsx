@@ -185,8 +185,11 @@ class Timeline extends React.Component {
   }
 
   doSelection () {
-    let minX = _.min([this.state.selectionX1, this.state.selectionX2])
-    let maxX = _.max([this.state.selectionX1, this.state.selectionX2])
+    const minX = _.min([this.state.selectionX1, this.state.selectionX2])
+    const maxX = _.max([this.state.selectionX1, this.state.selectionX2])
+    console.log(maxX)
+    console.log(minX)
+    console.log(this.barXs)
 
     let selectedTimeIntervals = []
 
@@ -195,10 +198,11 @@ class Timeline extends React.Component {
         selectedTimeIntervals.push(bar.group)
       }
     })
+    console.log('selected intervals', selectedTimeIntervals)
 
     let linksInRectangle = []
     this.props.app.getData().links.map(function (link, l) {
-      if (_.includes(selectedTimeIntervals, link.timeInterval.value)) {
+      if (_.includes(selectedTimeIntervals, link.timeInterval)) {
         linksInRectangle.push(link.id)
       }
     })

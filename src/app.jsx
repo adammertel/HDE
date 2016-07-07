@@ -68,26 +68,36 @@ class App extends React.Component {
           {
             id: 3,
             type: 'TIMELINE',
-            w: 7,
+            w: 5,
             h: 3,
             x: 0,
             y: 7
           },
-          {
-            id: 4,
-            type: 'MENU',
-            w: 2,
-            h: 5,
-            x: 10,
-            y: 0
-          },
+          // {
+          //   id: 4,
+          //   type: 'MENU',
+          //   w: 2,
+          //   h: 5,
+          //   x: 10,
+          //   y: 0
+          // },
           {
             id: 5,
             type: 'DETAIL',
             w: 5,
             h: 3,
-            x: 8,
-            y: 7
+            x: 0,
+            y: 7,
+            mode: 'links'
+          },
+          {
+            id: 6,
+            type: 'DETAIL',
+            w: 5,
+            h: 7,
+            x: 10,
+            y: 4,
+            mode: 'nodes'
           }
         ],
         'config': {
@@ -99,7 +109,7 @@ class App extends React.Component {
         'style': {
           overColor: that.colors['5'],
           timeline: {
-            fillColor: '#19e',
+            fillColor: that.colors['2'],
             overStrokeWidth: '6px',
             strokeLocation: 'outside',
             labelSize: '9px',
@@ -134,7 +144,6 @@ class App extends React.Component {
             strokeOpacity: 1,
             fillOpacity: 1
           },
-
           defaultLinks: {
             strokeWidth: '2px',
             strokeOpacity: .5
@@ -471,6 +480,7 @@ class App extends React.Component {
                 id: component.id,
                 label: componentType.label,
                 app: that,
+                component: component,
                 w: grid.w * that.layout.colw,
                 h: grid.h * that.layout.colh
               }

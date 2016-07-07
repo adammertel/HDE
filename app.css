@@ -3,6 +3,10 @@ body{
   height: 100%;
 }
 
+*:not(.fa) {
+  font-family: 'Signika Negative', sans-serif !important;
+}
+
 .react-resizable-handle{
   z-index: 999999999
 }

@@ -63,10 +63,12 @@ class Map extends React.Component {
       'Satellite': wms('http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?', 'GR_ORTFOTORGB'),
       'Base map 1:10 000': wms('http://geoportal.cuzk.cz/WMS_ZM10_PUB/WMService.aspx?', 'GR_ZM10'),
       'LIDAR': wms('http://geoportal.cuzk.cz/WMS_TEREN/WMService.aspx', 'GR_TEREN'),
+      '3vm': wms('http://geoportal.gov.cz/ArcGIS/services/CENIA/cenia_rt_III_vojenske_mapovani/MapServer/WMSServer?', '3VM'),
     }
 
-    var map = this.map = L.map(mapEl, {layers: osm}).setView([49, 17], 8);
-    L.control.layers(baseMaps, null, {position: 'topleft'}).addTo(this.map);
+    var map = this.map = L.map(mapEl, {layers: osm, zoomControl: false}).setView([49, 17], 8);
+    L.control.zoom({position:'topright'}).addTo(map);
+    L.control.layers(baseMaps, null, {position: 'topright'}).addTo(this.map);
 
     var controlSelect = L.Control.extend({
       options: { position: 'topleft' },
