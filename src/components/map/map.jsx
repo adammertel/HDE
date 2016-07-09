@@ -2,6 +2,7 @@ import React from 'react';
 import L from 'leaflet';
 import _ from 'lodash'
 import Styles from '../../enums/styles'
+import PiechartMarker from 'github:sashakavun/leaflet-piechart@0.1.2'
 
 class Map extends React.Component {
 
@@ -63,7 +64,7 @@ class Map extends React.Component {
       'Satellite': wms('http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?', 'GR_ORTFOTORGB'),
       'Base map 1:10 000': wms('http://geoportal.cuzk.cz/WMS_ZM10_PUB/WMService.aspx?', 'GR_ZM10'),
       'LIDAR': wms('http://geoportal.cuzk.cz/WMS_TEREN/WMService.aspx', 'GR_TEREN'),
-      '3vm': wms('http://geoportal.gov.cz/ArcGIS/services/CENIA/cenia_rt_III_vojenske_mapovani/MapServer/WMSServer?', '3VM'),
+      'Third military mapping': wms('http://geoportal.gov.cz/ArcGIS/services/CENIA/cenia_rt_III_vojenske_mapovani/MapServer/WMSServer?', '0'),
     }
 
     var map = this.map = L.map(mapEl, {layers: osm, zoomControl: false}).setView([49, 17], 8);
@@ -143,6 +144,10 @@ class Map extends React.Component {
   onMarkerClick (marker, e) {
     console.log('map click')
     console.log(e)
+  }
+
+  createPieChart(coords, data, radius) {
+    return new L.PiechartMarker(coords, {radius: radius, data: data })
   }
 
   loadData () {

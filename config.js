@@ -223,6 +223,8 @@ System.config({
       "npm:d3@3.5.17.js",
       "npm:d3@3.5.17/d3.js",
       "src/components/map/map.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
+      "github:sashakavun/leaflet-piechart@0.1.2.js",
+      "github:sashakavun/leaflet-piechart@0.1.2/leaflet-piechart.js",
       "github:Leaflet/Leaflet@0.7.7.js",
       "github:Leaflet/Leaflet@0.7.7/dist/leaflet-src.js",
       "src/components/graph/graph.jsx!github:floatdrop/plugin-jsx@1.1.0.js",
@@ -266,6 +268,7 @@ System.config({
     "css": "github:systemjs/plugin-css@0.1.21",
     "d3": "npm:d3@3.5.17",
     "font-awesome": "npm:font-awesome@4.6.1",
+    "jieter/Leaflet-semicircle": "github:jieter/Leaflet-semicircle@1.0.5",
     "jquery": "npm:jquery@2.2.4",
     "jsx": "github:floatdrop/plugin-jsx@1.1.0",
     "leaflet": "github:Leaflet/Leaflet@0.7.7",
@@ -273,6 +276,7 @@ System.config({
     "react": "npm:react@15.1.0",
     "react-dom": "npm:react-dom@15.1.0",
     "react-grid-layout": "npm:react-grid-layout@0.12.6",
+    "sashakavun/leaflet-piechart": "github:sashakavun/leaflet-piechart@0.1.2",
     "strml/react-grid-layout": "github:strml/react-grid-layout@0.12.6",
     "github:floatdrop/plugin-jsx@1.1.0": {
       "react-tools": "npm:react-tools@0.13.3"

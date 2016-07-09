@@ -167,10 +167,10 @@ class Graph extends React.Component {
   }
 
   doSelection () {
-    let minX = _.min([this.state.selectionX1, this.state.selectionX2])
-    let minY = _.min([this.state.selectionY1, this.state.selectionY2])
-    let maxX = _.max([this.state.selectionX1, this.state.selectionX2])
-    let maxY = _.max([this.state.selectionY1, this.state.selectionY2])
+    let minX = _.min([this.state.selectionX1, this.state.selectionX2]) / this.state.zoom
+    let minY = _.min([this.state.selectionY1, this.state.selectionY2]) / this.state.zoom
+    let maxX = _.max([this.state.selectionX1, this.state.selectionX2]) / this.state.zoom
+    let maxY = _.max([this.state.selectionY1, this.state.selectionY2]) / this.state.zoom
 
     let nodesInRectangle = []
     this.props.app.getData().nodes.map(function (node, index) {

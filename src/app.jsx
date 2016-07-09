@@ -60,7 +60,7 @@ class App extends React.Component {
           {
             id: 2,
             type: 'GRAPH',
-            w: 4,
+            w: 6,
             h: 5,
             x: 6,
             y: 0
@@ -68,7 +68,7 @@ class App extends React.Component {
           {
             id: 3,
             type: 'TIMELINE',
-            w: 5,
+            w: 7,
             h: 3,
             x: 0,
             y: 7
@@ -84,8 +84,8 @@ class App extends React.Component {
           {
             id: 5,
             type: 'DETAIL',
-            w: 5,
-            h: 3,
+            w: 7,
+            h: 4,
             x: 0,
             y: 7,
             mode: 'links'
@@ -95,14 +95,14 @@ class App extends React.Component {
             type: 'DETAIL',
             w: 5,
             h: 7,
-            x: 10,
+            x: 8,
             y: 4,
             mode: 'nodes'
           }
         ],
         'config': {
-          groupColors: ['#8dd3c7','#ffffb3','#bebada','#fb8072','#80b1d3','#fdb462','#b3de69','#fccde5','#d9d9d9','#bc80bd','#ccebc5','#ffed6f'],
-          typeColors: ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf'],
+          groupColors: ['#4daf4a', '#e41a1c','#377eb8','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf'],
+          typeColors: ['#1b9e77','#d95f02','#7570b3','#e7298a','#66a61e','#e6ab02','#a6761d','#666666'],
           timeGranularity: 10,
           timeUnit: 'year',
         },
@@ -170,6 +170,8 @@ class App extends React.Component {
       this.setState(
         {
         'data': {
+          "legend": inputData.legend,
+          "defaultProps": inputData.defaultProps,
           "nodes": that.prepareNodes(inputData.nodes),
           "links": that.prepareLinks(inputData.links)
           }
@@ -179,6 +181,7 @@ class App extends React.Component {
     })
   }
 
+  // data management
   nodeName (node) {
     return node.props[this.state.props.nodes.name]
   }
@@ -230,6 +233,22 @@ class App extends React.Component {
       that.timeIntervals[value] = [min + value * cellValue, min + value * (cellValue + 1)]
     })
     return links
+  }
+
+  getLegendValue (mode, propName, value) {
+    try {
+      return this.getData().legend[mode][propName].values[value]
+    } catch (e) {
+      return false
+    }
+  }
+
+  getLegendProp (mode, propName) {
+    try {
+      return this.getData().legend[mode][propName].label
+    } catch (e) {
+      return false
+    }
   }
 
   getComponentById (id) {
