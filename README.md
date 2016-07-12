@@ -23,7 +23,8 @@ In the theory of data exploration there are various **techniques** that are succ
  - highlighting
  - ..
 
- In our application prototype, three **states of data** are implemented:
+
+Application prototype has implemented three **states of data**:
  - default state
  - over state - mouse is over particular element in map/graph/timeline
  - selected state - brushed subset of data
@@ -51,7 +52,12 @@ There are still lot of features that should be implemented in the future:
  - new forms of display
  - ...
 
+#### Test data - Case Study of Moravian dowries in (1348 - 1420)
+Dowries and dowers of high nobility in  Moravia before the Hussite revolution  (15th c.) are a good example of historical  dataset that combines persons, time and place, while individuals and the places may have more connections among themselves. Time range depends on the state of sources - Charters for 13th and 14th centuries are preserved only very fragmentary. Qualitative change brought the year of 1348, when Land tables (and real estates registry) were reformed. Suddenly, we can explore the world of minor trades and speculations of the high and lower nobility that had been selling fields and part of villages (courts, mills, taverns and ponds).
+Some of the entries is related to a controversial property or unlawful occupancy of villages or their parts, which shows us how much uncertain the property law was. However, accusations about bandit behavior (siege of castles and strongholds, conquering villages, robbery and capturing of subjects) are very rare. Number of these social links compared to previous era grew exponentially. On the other hand, the Hussite revolution is a milestone in the research of social, economic and cultural relations.
+
 ---
+
 #### Similar projects
 There are another ongoing projects that are years ahead. We want to mention some of them:
  - [nodegoat](https://nodegoat.net/)
