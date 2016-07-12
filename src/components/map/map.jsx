@@ -53,7 +53,7 @@ class Map extends React.Component {
     var that = this
 
     var wms = function(url, layer) {
-      return L.tileLayer.wms(url, {layers: layer, format: 'image/png', transparent: true, version: '1.3.0', opacity: 0.2})
+      return L.tileLayer.wms(url, {layers: layer, format: 'image/png', transparent: true, version: '1.3.0', opacity: 0.3})
     }
 
     var mapEl = this.refs.map
@@ -74,7 +74,7 @@ class Map extends React.Component {
     var controlSelect = L.Control.extend({
       options: { position: 'topleft' },
       onAdd: function (map) {
-        var container = L.DomUtil.create('div', 'selection-button fa fa-hand-o-down fa-2x leaflet-bar leaflet-control leaflet-control-custom');
+        var container = L.DomUtil.create('div', 'selection-button fa '+ that.props.app.selectionIconClass + ' fa-2x leaflet-bar leaflet-control leaflet-control-custom');
 
         container.onclick = function(){
           setTimeout(function(){

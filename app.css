@@ -55,17 +55,14 @@ body{
   height: 100%;
 }
 
+.button {
+  cursor: pointer;
+}
+
 .selection-button {
   width: 30px;
-  height: 30px;
+  height: 32px;
   cursor: pointer;
   padding: 3px;
   background-color: white;
-}
-
-.selection-button-graph {
-
-  top: 50px;
-  left: 10px;
-  position: absolute
 }

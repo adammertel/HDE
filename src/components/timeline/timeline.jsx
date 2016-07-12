@@ -25,6 +25,16 @@ class Timeline extends React.Component {
     this.appStyle = this.props.app.state.style
   }
 
+  selectionButtonsStyle () {
+    return (
+      {
+        top: '50px',
+        left: '10px',
+        position: 'absolute'
+      }
+    )
+  }
+
   onBarOut (active, e) {
     if (active) {
       this.props.app.deOver(true)
@@ -227,7 +237,8 @@ class Timeline extends React.Component {
     return (
       <div className="component component-graph">
         <div
-          className="selection-button-graph selection-button fa fa-hand-o-down fa-2x leaflet-bar leaflet-control leaflet-control-custom"
+          style={that.selectionButtonsStyle()}
+          className={"selection-button-graph selection-button fa " + that.props.app.selectionIconClass + " fa-2x leaflet-bar leaflet-control leaflet-control-custom"}
           onClick={this.activateSelection.bind(that)}>
         </div>
         <svg

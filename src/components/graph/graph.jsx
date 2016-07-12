@@ -19,6 +19,9 @@ class Graph extends React.Component {
       selectionX2: 0,
       selectionY2: 0,
     }
+
+    this.zoomLLimits = [0.5, 3]
+
     this.dragging = false
     this.dragOriginX = 0
     this.dragOriginY = 0
@@ -26,6 +29,26 @@ class Graph extends React.Component {
     this.selectionOngoing = false
 
     this.appStyle = this.props.app.state.style
+  }
+
+  selectionButtonsStyle () {
+    return (
+      {
+        top: '50px',
+        left: '10px',
+        position: 'absolute',
+        cursor: 'pointer'
+      }
+    )
+  }
+
+  zoomButtonsStyle () {
+    return (
+      {
+        top: '40px',
+        cursor: 'pointer'
+      }
+    )
   }
 
   componentWillMount () {
@@ -257,17 +280,38 @@ class Graph extends React.Component {
   }
 
   handleScroll (e) {
-    var zoom = this.state.zoom
+    var newZoom = this.state.zoom
     if (e.deltaY < 0) {
-      zoom += 0.1
+      newZoom += 0.1
     }else{
-      zoom -= 0.1
+      newZoom -= 0.1
     }
-    this.setState({zoom: zoom})
+    newzoom = clampZoom(newzoom)
+
+    this.setState({zoom: newZoom})
+  }
+
+  clampZoom (zoom) {
+    if (zoom < this.zoomLLimits[0]) {
+      zoom = this.zoomLLimits[0]
+    }else if (zoom > this.zoomLLimits[1]) {
+      zoom = this.zoomLLimits[1]
+    }
+    return zoom
   }
 
   activateSelection () {
     this.selectionActivated = !this.selecting
+  }
+
+  zoomIn () {
+    let newZoom = this.clampZoom(this.state.zoom + 0.2)
+    this.setState({zoom: newZoom})
+  }
+
+  zoomOut () {
+    let newZoom = this.clampZoom(this.state.zoom - 0.2)
+    this.setState({zoom: newZoom})
   }
 
   render () {
@@ -278,8 +322,17 @@ class Graph extends React.Component {
     return (
       <div className="component component-graph" >
         <div
-          className="selection-button-graph selection-button fa fa-hand-o-down fa-2x leaflet-bar leaflet-control leaflet-control-custom"
-          onClick={this.activateSelection.bind(that)}></div>
+          style={this.selectionButtonsStyle()}
+          className={"selection-button-graph selection-button fa " + that.props.app.selectionIconClass + " fa-2x leaflet-bar leaflet-control leaflet-control-custom"}
+          onClick={this.activateSelection.bind(that)}
+        >
+        </div>
+        <div className="leaflet-top leaflet-right zoom-buttons-graph" style={that.zoomButtonsStyle()}>
+          <div className="leaflet-control-zoom leaflet-bar leaflet-control button">
+            <a className="leaflet-control-zoom-in" title="Zoom in" onClick={that.zoomIn.bind(that)}>+</a>
+            <a className="leaflet-control-zoom-out" title="Zoom out" onClick={that.zoomOut.bind(that)}>-</a>
+          </div>
+        </div>
         <svg
           ref="graph"
           width={this.width}

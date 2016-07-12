@@ -25,6 +25,8 @@ class App extends React.Component {
 
   constructor (props) {
     super(props)
+
+    this.selectionIconClass = 'fa-crosshairs'
     this.state = {
       loading: true
     }
@@ -56,6 +58,14 @@ class App extends React.Component {
             h: 5,
             x: 0,
             y: 0
+          },
+          {
+            id: 11,
+            type: 'MAP',
+            w: 6,
+            h: 5,
+            x: 5,
+            y: 5
           },
           {
             id: 2,
