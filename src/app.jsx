@@ -486,7 +486,7 @@ class App extends React.Component {
 
       return (
         <div>
-          <AppHeader />
+          <AppHeader app={this}/>
           <ResponsiveReactGridLayout
           onResizeStop={this.handleLayoutResize.bind(this)}
           className="layout"
