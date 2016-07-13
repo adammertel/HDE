@@ -9,6 +9,7 @@
 
 Application is currently hosted by our university and could be found [here](hde.geogr.muni.cz). It is only an experimental version of application tested only on chrome. It's purpose is to present the idea of **linking forms of display for exploratory analysis of historical data**. Application is presented at the [dh2016 conference](http://dh2016.adho.org/), pdf of that particular poster [here](https://www.academia.edu/26925717/Linking_Graph_with_Map_for_the_Purpose_of_Historical_Research._Analysis_of_Moravian_Dowries_1348-1420_Case_Study).
 
+![Screen](http://hde.geogr.muni.cz/screen.png)
 
 ---
 #### Motivation

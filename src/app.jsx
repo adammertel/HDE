@@ -240,8 +240,13 @@ class App extends React.Component {
     _.forEach(links, function(l){
       let value = _.floor((l.time() - min)/cellValue)
       l.timeInterval = value
-      that.timeIntervals[value] = [min + value * cellValue, min + value * (cellValue + 1)]
+      let minInterval = min + value * cellValue
+      let maxInterval = min + (value + 1) * cellValue
+      console.log('min: ', minInterval, ' max: ', maxInterval)
+      that.timeIntervals[value] = [minInterval, maxInterval]
     })
+
+    console.log(that.timeIntervals)
     return links
   }
 
